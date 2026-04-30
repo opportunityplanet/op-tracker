@@ -1,0 +1,24 @@
+{
+  "name": "OP Japan Tracker",
+  "short_name": "OP Tracker",
+  "description": "Your complete Japan ALT relocation accountability system by Opportunity Planet",
+  "start_url": "/op-tracker/",
+  "display": "standalone",
+  "background_color": "#0A2350",
+  "theme_color": "#0A2350",
+  "orientation": "portrait",
+  "icons": [
+    {
+      "src": "icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}
