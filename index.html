@@ -233,17 +233,95 @@ body{font-family:var(--sans);background:var(--off);color:var(--text);font-size:1
 
 @media print{#welcome,.nav-wrap,.prog-wrap,.btn,.btn-row,.footer{display:none!important;}.page{display:block!important;max-width:100%;padding:10px;}.card.closed .card-b{display:block!important;}}
 </style>
-
-  <link rel="manifest" href="manifest.json">
-  <meta name="theme-color" content="#0A2350">
-  <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-  <meta name="apple-mobile-web-app-title" content="OP Japan Tracker">
-  <link rel="apple-touch-icon" href="icon-192.png">
 </head>
 <body>
 
 <!-- WELCOME SCREEN -->
+
+<!-- PASSWORD SCREEN -->
+<div id="pwd-screen" style="position:fixed;top:0;left:0;width:100%;height:100%;background:#0A2350;z-index:99999;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:24px;text-align:center;">
+  <div style="max-width:340px;width:100%;">
+    
+    <!-- Logo -->
+    <div style="width:100px;height:100px;border-radius:50%;border:3px solid #C9A032;overflow:hidden;margin:0 auto 20px;background:white;">
+      <img src="icon-192.png" style="width:100%;height:100%;object-fit:cover;" onerror="this.style.display='none'">
+    </div>
+
+    <h1 style="font-family:Georgia,serif;color:#C9A032;font-size:26px;margin-bottom:6px;font-weight:700;">OP Japan Tracker</h1>
+    <p style="font-size:13px;color:rgba(255,255,255,0.5);margin-bottom:30px;">by Opportunity Planet</p>
+
+    <div style="background:rgba(255,255,255,0.07);border-radius:16px;padding:24px;margin-bottom:20px;">
+      <p style="font-size:13px;color:rgba(255,255,255,0.7);margin-bottom:16px;line-height:1.6;">Enter your access password to unlock your tracker. Your password was sent to you after purchase.</p>
+      
+      <input 
+        type="password" 
+        id="pwd-input"
+        placeholder="Enter your password"
+        style="width:100%;background:rgba(255,255,255,0.1);border:1.5px solid rgba(201,160,50,0.4);border-radius:12px;padding:14px 16px;font-size:16px;color:white;font-family:sans-serif;outline:none;margin-bottom:12px;text-align:center;letter-spacing:2px;-webkit-appearance:none;"
+        onkeydown="if(event.key==='Enter')checkPwd()"
+      >
+      
+      <div id="pwd-error" style="display:none;color:#ff6b6b;font-size:12px;margin-bottom:10px;">
+        Incorrect password. Please check your purchase confirmation email.
+      </div>
+
+      <button 
+        onclick="checkPwd()" 
+        style="width:100%;background:#C9A032;color:#0A2350;border:none;border-radius:12px;padding:16px;font-size:16px;font-weight:700;font-family:sans-serif;cursor:pointer;touch-action:manipulation;min-height:52px;"
+      >
+        Unlock My Tracker &#8594;
+      </button>
+    </div>
+
+    <div style="background:rgba(201,160,50,0.1);border:1px solid rgba(201,160,50,0.25);border-radius:12px;padding:14px;">
+      <p style="font-size:12px;color:#E8D5A3;line-height:1.6;">&#128274; Did not receive your password? Email us at<br><strong style="color:#C9A032;">opportunityplanet.info@gmail.com</strong></p>
+    </div>
+
+    <p style="font-size:11px;color:rgba(255,255,255,0.2);margin-top:16px;">Purchase at selar.com/m/opportunityplanet</p>
+  </div>
+</div>
+
+<script>
+const VALID_PASSWORD = 'ALTJAPAN2026';
+
+function checkPwd() {
+  const input = document.getElementById('pwd-input').value.trim().toUpperCase();
+  const error = document.getElementById('pwd-error');
+  
+  if (input === VALID_PASSWORD) {
+    try { localStorage.setItem('op_auth', btoa(VALID_PASSWORD + '_' + new Date().getFullYear())); } catch(e) {}
+    document.getElementById('pwd-screen').style.display = 'none';
+    error.style.display = 'none';
+  } else {
+    error.style.display = 'block';
+    document.getElementById('pwd-input').style.borderColor = '#ff6b6b';
+    setTimeout(() => {
+      document.getElementById('pwd-input').style.borderColor = 'rgba(201,160,50,0.4)';
+    }, 2000);
+  }
+}
+
+// Check if already authenticated
+window.addEventListener('load', function() {
+  try {
+    const auth = localStorage.getItem('op_auth');
+    const expected = btoa(VALID_PASSWORD + '_' + new Date().getFullYear());
+    if (auth === expected) {
+      document.getElementById('pwd-screen').style.display = 'none';
+    }
+  } catch(e) {}
+});
+
+// Also handle welcome screen after password
+const origStart = document.getElementById('start-btn');
+if(origStart) {
+  origStart.addEventListener('click', function() {
+    try { localStorage.setItem('op_welcomed','1'); } catch(e) {}
+    document.getElementById('welcome').style.display = 'none';
+  });
+}
+</script>
+
 <div id="welcome">
   <div class="w-logo">&#127988;</div>
   <div class="w-title">Japan ALT Premium Tracker</div>
@@ -265,11 +343,7 @@ body{font-family:var(--sans);background:var(--off);color:var(--text);font-size:1
     </div>
     <div class="w-step">
       <div class="w-num">4</div>
-      <div class="w-step-text">Once open, tap the <strong>Share icon</strong> (iPhone) or <strong>three dots</strong> (Android) and choose <strong>"Add to Home Screen"</strong> — it installs like a real app with its own icon.</div>
-    </div>
-    <div class="w-step">
-      <div class="w-num">5</div>
-      <div class="w-step-text">Tap the <strong>OP Japan Tracker icon</strong> on your home screen anytime to open it. Works offline too.</div>
+      <div class="w-step-text">Once open in your browser, tap the <strong>share icon</strong> and choose <strong>"Add to Home Screen"</strong> so you can return anytime like an app.</div>
     </div>
   </div>
 
@@ -896,18 +970,6 @@ buildDocs();
 buildCVAudit();
 updateProg();
 updateShare(0,50,0);
-</script>
-
-<script>
-if('serviceWorker' in navigator){
-  window.addEventListener('load', function(){
-    navigator.serviceWorker.register('sw.js').then(function(reg){
-      console.log('SW registered');
-    }).catch(function(err){
-      console.log('SW failed:', err);
-    });
-  });
-}
 </script>
 </body>
 </html>
