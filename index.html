@@ -6,1154 +6,1752 @@
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<title>Japan ALT Premium Tracker | Opportunity Planet</title>
+<meta name="apple-mobile-web-app-title" content="OP Japan Tracker">
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#0A1628">
+<link rel="apple-touch-icon" href="icon-192.png">
+<title>OP Japan Tracker | Opportunity Planet</title>
 <style>
-/* ALL FONTS SYSTEM — NO EXTERNAL LOADING */
 :root {
-  --navy: #0A2350;
-  --navy2: #1a3a6b;
+  --bg: #0A1628;
+  --bg2: #111f3a;
+  --card: #162035;
+  --card2: #1c2a45;
   --gold: #C9A032;
-  --gold-light: #E8D5A3;
-  --gold-pale: #FAF5E8;
+  --gold2: #e8c560;
+  --gold-dim: rgba(201,160,50,0.15);
+  --gold-border: rgba(201,160,50,0.25);
   --white: #ffffff;
-  --off: #F8F6F1;
-  --text: #1A1A1A;
-  --muted: #777;
-  --border: #E0DDD6;
-  --green: #2D7D4F;
-  --green-bg: #EAF5EE;
-  --red: #C0392B;
-  --red-bg: #FDECEA;
-  --amber: #B8860B;
-  --amber-bg: #FEF9E7;
-  --blue-bg: #EBF4FB;
-  --blue: #1a6fa8;
-  --serif: Georgia, 'Times New Roman', serif;
-  --sans: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+  --text: #e8edf5;
+  --muted: #8895aa;
+  --border: rgba(255,255,255,0.08);
+  --green: #34c77b;
+  --green-bg: rgba(52,199,123,0.12);
+  --red: #ff5757;
+  --red-bg: rgba(255,87,87,0.12);
+  --amber: #f5a623;
+  --amber-bg: rgba(245,166,35,0.12);
+  --blue: #4a9eff;
+  --blue-bg: rgba(74,158,255,0.12);
+  --sans: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Segoe UI', sans-serif;
+  --serif: 'Georgia', 'Times New Roman', serif;
+  --sidebar-w: 280px;
+  --header-h: 60px;
 }
-*{margin:0;padding:0;box-sizing:border-box;-webkit-text-size-adjust:100%;}
-html{height:100%;}
-body{font-family:var(--sans);background:var(--off);color:var(--text);font-size:15px;line-height:1.6;min-height:100%;overflow-x:hidden;}
 
-/* WELCOME OVERLAY */
-#welcome{position:fixed;top:0;left:0;width:100%;height:100%;background:var(--navy);z-index:9999;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:20px;text-align:center;overflow-y:auto;}
-.w-logo{font-size:48px;margin-bottom:16px;}
-.w-title{font-family:var(--serif);font-size:28px;color:var(--gold);margin-bottom:6px;font-weight:700;}
-.w-sub{font-size:13px;color:rgba(255,255,255,0.5);margin-bottom:24px;}
-.w-box{background:rgba(255,255,255,0.07);border-radius:16px;padding:20px;margin-bottom:16px;text-align:left;max-width:360px;width:100%;}
-.w-box-title{font-size:11px;color:var(--gold-light);font-weight:600;text-transform:uppercase;letter-spacing:1.5px;margin-bottom:14px;}
-.w-step{display:flex;gap:10px;align-items:flex-start;margin-bottom:12px;}
-.w-step:last-child{margin-bottom:0;}
-.w-num{background:var(--gold);color:var(--navy);font-size:11px;font-weight:700;width:22px;height:22px;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px;}
-.w-step-text{font-size:13px;color:rgba(255,255,255,0.85);line-height:1.5;}
-.w-step-text strong{color:var(--gold);}
-.w-tip{background:rgba(201,160,50,0.12);border:1px solid rgba(201,160,50,0.25);border-radius:12px;padding:12px 16px;margin-bottom:20px;max-width:360px;width:100%;}
-.w-tip p{font-size:12px;color:var(--gold-light);line-height:1.6;}
-.w-btn{background:var(--gold);color:var(--navy);border:none;border-radius:16px;padding:18px 40px;font-size:16px;font-weight:700;font-family:var(--sans);cursor:pointer;width:100%;max-width:360px;touch-action:manipulation;min-height:56px;-webkit-tap-highlight-color:transparent;}
-.w-btn:active{opacity:0.85;}
-.w-privacy{font-size:11px;color:rgba(255,255,255,0.25);margin-top:14px;max-width:300px;}
+* { margin:0; padding:0; box-sizing:border-box; -webkit-text-size-adjust:100%; -webkit-tap-highlight-color:transparent; }
+html, body { height:100%; overflow:hidden; }
+body { font-family:var(--sans); background:var(--bg); color:var(--text); font-size:15px; }
 
-/* HERO */
-.hero{background:var(--navy);padding:28px 20px 22px;text-align:center;}
-.hero-badge{display:inline-block;background:rgba(201,160,50,0.18);color:var(--gold-light);font-size:10px;letter-spacing:2.5px;text-transform:uppercase;padding:5px 14px;border-radius:20px;border:1px solid rgba(201,160,50,0.28);margin-bottom:12px;}
-.hero h1{font-family:var(--serif);font-size:clamp(20px,5vw,30px);color:var(--white);margin-bottom:6px;line-height:1.2;font-weight:700;}
-.hero h1 span{color:var(--gold);}
-.hero p{font-size:12px;color:rgba(255,255,255,0.45);max-width:380px;margin:0 auto;}
+/* ═══════════ AUTH SCREENS ═══════════ */
+.auth-screen {
+  position:fixed; top:0; left:0; width:100%; height:100%;
+  background:var(--bg); z-index:9999;
+  display:flex; flex-direction:column; align-items:center; justify-content:center;
+  padding:24px; overflow-y:auto;
+}
+.auth-screen.hidden { display:none; }
 
-/* NAV — 2 ROWS OF 4 */
-.nav-wrap{background:var(--navy);position:sticky;top:0;z-index:100;border-bottom:1px solid rgba(255,255,255,0.08);}
-.nav-row{display:grid;grid-template-columns:repeat(4,1fr);}
-.nav-row + .nav-row{border-top:1px solid rgba(255,255,255,0.07);}
-.ntab{background:transparent;border:none;border-bottom:3px solid transparent;padding:10px 4px;font-size:10px;font-weight:600;color:rgba(255,255,255,0.5);cursor:pointer;text-align:center;min-height:50px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;line-height:1.2;touch-action:manipulation;-webkit-tap-highlight-color:transparent;font-family:var(--sans);width:100%;letter-spacing:0.2px;}
-.ntab .nt-icon{font-size:16px;line-height:1;}
-.ntab.active{color:var(--gold);border-bottom-color:var(--gold);}
-.ntab:active{color:var(--white);}
+.auth-logo {
+  width:80px; height:80px; border-radius:20px; overflow:hidden;
+  border:2px solid var(--gold-border); margin:0 auto 16px;
+  background:var(--card); display:flex; align-items:center; justify-content:center;
+  box-shadow: 0 8px 32px rgba(201,160,50,0.2);
+}
+.auth-logo img { width:100%; height:100%; object-fit:cover; }
+.auth-title { font-family:var(--serif); font-size:26px; color:var(--gold); font-weight:700; text-align:center; margin-bottom:4px; }
+.auth-sub { font-size:12px; color:var(--muted); text-align:center; margin-bottom:28px; }
+.auth-card { background:var(--card); border:1px solid var(--border); border-radius:20px; padding:24px; width:100%; max-width:360px; margin-bottom:14px; }
+.auth-card-title { font-size:15px; font-weight:600; color:var(--white); margin-bottom:4px; }
+.auth-card-sub { font-size:12px; color:var(--muted); margin-bottom:18px; line-height:1.5; }
+.auth-input {
+  width:100%; background:var(--bg2); border:1.5px solid var(--border);
+  border-radius:12px; padding:13px 16px; font-size:15px; color:var(--white);
+  font-family:var(--sans); outline:none; margin-bottom:10px;
+  -webkit-appearance:none; transition:border-color 0.2s;
+}
+.auth-input:focus { border-color:var(--gold); }
+.auth-input::placeholder { color:var(--muted); }
+.auth-error { display:none; color:var(--red); font-size:12px; margin-bottom:8px; padding:8px 12px; background:var(--red-bg); border-radius:8px; }
+.auth-btn {
+  width:100%; background:var(--gold); color:#0A1628; border:none; border-radius:12px;
+  padding:15px; font-size:15px; font-weight:700; font-family:var(--sans);
+  cursor:pointer; touch-action:manipulation; min-height:52px; margin-top:4px;
+  transition:opacity 0.2s;
+}
+.auth-btn:active { opacity:0.85; }
+.auth-btn-outline {
+  width:100%; background:transparent; color:var(--gold); border:1.5px solid var(--gold-border);
+  border-radius:12px; padding:13px; font-size:13px; font-weight:600; font-family:var(--sans);
+  cursor:pointer; touch-action:manipulation; min-height:48px; margin-top:8px;
+  transition:all 0.2s;
+}
+.auth-btn-outline:active { background:var(--gold-dim); }
+.auth-note { background:var(--gold-dim); border:1px solid var(--gold-border); border-radius:12px; padding:12px 14px; width:100%; max-width:360px; }
+.auth-note p { font-size:11px; color:var(--gold2); line-height:1.6; }
+.auth-success { background:var(--green-bg); border:1px solid rgba(52,199,123,0.3); border-radius:12px; padding:12px 14px; margin-bottom:14px; width:100%; max-width:360px; }
+.auth-success p { font-size:13px; color:var(--green); }
+.auth-link { background:transparent; border:none; color:var(--muted); font-size:12px; cursor:pointer; font-family:var(--sans); touch-action:manipulation; padding:10px; text-decoration:underline; text-underline-offset:3px; }
+.auth-divider { display:flex; align-items:center; gap:10px; margin:8px 0; }
+.auth-divider-line { flex:1; height:1px; background:var(--border); }
+.auth-divider span { font-size:11px; color:var(--muted); }
+.auth-switch { font-size:13px; color:var(--muted); text-align:center; margin-top:8px; }
+.auth-switch button { background:none; border:none; color:var(--gold); font-size:13px; font-weight:600; cursor:pointer; font-family:var(--sans); touch-action:manipulation; }
 
-/* PROGRESS BAR */
-.prog-wrap{background:var(--white);padding:12px 16px;border-bottom:1px solid var(--border);}
-.prog-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;}
-.prog-label{font-size:11px;font-weight:600;color:var(--navy);text-transform:uppercase;letter-spacing:1px;}
-.prog-pct{font-size:18px;font-weight:700;color:var(--navy);}
-.prog-track{background:var(--off);border-radius:6px;height:8px;overflow:hidden;}
-.prog-fill{background:linear-gradient(90deg,var(--navy),var(--gold));height:100%;border-radius:6px;transition:width 0.5s ease;width:0%;}
-.prog-sub{font-size:11px;color:var(--muted);margin-top:4px;}
+/* ═══════════ APP SHELL ═══════════ */
+#app { height:100vh; display:flex; flex-direction:column; overflow:hidden; }
 
-/* PAGES */
-.page{display:none;max-width:760px;margin:0 auto;padding:16px 14px 80px;}
-.page.active{display:block;}
+/* ═══════════ HEADER ═══════════ */
+.app-header {
+  height:var(--header-h); background:var(--bg2);
+  border-bottom:1px solid var(--border);
+  display:flex; align-items:center; padding:0 16px; gap:12px;
+  flex-shrink:0; position:relative; z-index:50;
+}
+.hamburger {
+  width:40px; height:40px; border-radius:10px; background:var(--card);
+  border:none; display:flex; flex-direction:column; align-items:center; justify-content:center;
+  gap:5px; cursor:pointer; touch-action:manipulation; flex-shrink:0;
+}
+.hamburger span { width:18px; height:2px; background:var(--text); border-radius:2px; transition:all 0.3s; display:block; }
+.header-title { flex:1; font-size:16px; font-weight:600; color:var(--white); }
+.header-progress { display:flex; align-items:center; gap:8px; }
+.header-pct { font-size:13px; font-weight:700; color:var(--gold); }
+.header-bar-wrap { width:60px; height:4px; background:var(--border); border-radius:2px; overflow:hidden; }
+.header-bar { height:100%; background:var(--gold); border-radius:2px; transition:width 0.4s; width:0%; }
+.header-avatar {
+  width:36px; height:36px; border-radius:10px; background:var(--gold-dim);
+  border:1.5px solid var(--gold-border); display:flex; align-items:center; justify-content:center;
+  font-size:14px; font-weight:700; color:var(--gold); cursor:pointer; touch-action:manipulation; flex-shrink:0;
+}
 
-/* SECTION HEADINGS */
-.sec-h{font-family:var(--serif);font-size:20px;color:var(--navy);margin:20px 0 6px;font-weight:700;}
-.sec-p{font-size:13px;color:var(--muted);margin-bottom:16px;line-height:1.5;}
+/* ═══════════ SIDEBAR ═══════════ */
+.sidebar-overlay {
+  position:fixed; top:0; left:0; width:100%; height:100%;
+  background:rgba(0,0,0,0.6); z-index:200; opacity:0;
+  pointer-events:none; transition:opacity 0.3s;
+  backdrop-filter:blur(2px);
+}
+.sidebar-overlay.show { opacity:1; pointer-events:all; }
 
-/* CARDS */
-.card{background:var(--white);border-radius:14px;border:1px solid var(--border);margin-bottom:12px;overflow:hidden;}
-.card-h{background:var(--navy);padding:13px 16px;display:flex;justify-content:space-between;align-items:center;cursor:pointer;touch-action:manipulation;-webkit-tap-highlight-color:transparent;min-height:50px;border:none;width:100%;font-family:var(--sans);text-align:left;}
-.card-h h2{font-size:12px;font-weight:600;color:var(--white);letter-spacing:0.5px;text-transform:uppercase;}
-.card-h-plain{background:var(--navy);padding:13px 16px;display:flex;justify-content:space-between;align-items:center;min-height:50px;}
-.card-h-plain h2{font-size:12px;font-weight:600;color:var(--white);letter-spacing:0.5px;text-transform:uppercase;}
-.card-meta{display:flex;align-items:center;gap:8px;}
-.card-count{font-size:11px;color:var(--gold-light);}
-.chev{color:var(--gold);font-size:13px;transition:transform 0.2s;display:inline-block;}
-.card.closed .chev{transform:rotate(-90deg);}
-.card.closed .card-b{display:none;}
-.card-b{padding:4px 0;}
+.sidebar {
+  position:fixed; top:0; left:0; width:var(--sidebar-w); height:100%;
+  background:var(--bg2); z-index:300; transform:translateX(-100%);
+  transition:transform 0.32s cubic-bezier(0.4,0,0.2,1);
+  display:flex; flex-direction:column; overflow:hidden;
+  border-right:1px solid var(--border);
+}
+.sidebar.open { transform:translateX(0); }
 
-/* CHECKLIST ITEMS */
-.ci{display:flex;align-items:flex-start;gap:14px;padding:14px 16px;border-bottom:1px solid var(--off);touch-action:manipulation;-webkit-tap-highlight-color:transparent;cursor:pointer;min-height:54px;user-select:none;-webkit-user-select:none;}
-.ci:last-of-type{border-bottom:none;}
-.ci:active{background:rgba(0,0,0,0.03);}
-.ci.done{background:var(--green-bg);}
-.ci-box{width:26px;height:26px;min-width:26px;border:2px solid var(--border);border-radius:6px;display:flex;align-items:center;justify-content:center;transition:all 0.2s;background:var(--white);margin-top:1px;}
-.ci.done .ci-box{background:var(--green);border-color:var(--green);}
-.ci-tick{display:none;color:white;font-size:14px;font-weight:700;line-height:1;}
-.ci.done .ci-tick{display:block;}
-.ci-text{font-size:14px;color:var(--text);flex:1;line-height:1.55;}
-.ci.done .ci-text{color:var(--green);text-decoration:line-through;text-decoration-color:rgba(45,125,79,0.35);}
+.sidebar-header {
+  padding:20px 20px 16px; border-bottom:1px solid var(--border); flex-shrink:0;
+}
+.sidebar-user { display:flex; align-items:center; gap:12px; margin-bottom:14px; }
+.sidebar-avatar {
+  width:44px; height:44px; border-radius:12px; background:var(--gold-dim);
+  border:2px solid var(--gold-border); display:flex; align-items:center; justify-content:center;
+  font-size:18px; font-weight:700; color:var(--gold); flex-shrink:0;
+}
+.sidebar-name { font-size:15px; font-weight:600; color:var(--white); }
+.sidebar-email { font-size:11px; color:var(--muted); margin-top:2px; }
+.sidebar-prog-label { font-size:10px; color:var(--muted); text-transform:uppercase; letter-spacing:1px; margin-bottom:6px; }
+.sidebar-prog-bar { height:6px; background:var(--card); border-radius:3px; overflow:hidden; }
+.sidebar-prog-fill { height:100%; background:linear-gradient(90deg,var(--gold),var(--gold2)); border-radius:3px; transition:width 0.4s; width:0%; }
+.sidebar-prog-text { font-size:11px; color:var(--gold); margin-top:5px; font-weight:600; }
 
-/* CELEBRATION */
-.cel{display:none;background:var(--green-bg);border:1px solid var(--green);border-radius:10px;padding:14px 16px;margin:8px 16px;text-align:center;}
-.cel.show{display:block;}
-.cel h3{font-size:14px;font-weight:600;color:var(--green);margin-bottom:3px;}
-.cel p{font-size:12px;color:var(--green);}
+.sidebar-nav { flex:1; overflow-y:auto; padding:12px 0; }
+.sidebar-nav::-webkit-scrollbar { display:none; }
+.sidebar-section-label { font-size:10px; color:var(--muted); text-transform:uppercase; letter-spacing:1.5px; padding:8px 20px 4px; }
 
-/* STAGE NOTE */
-.sn{border-top:1px solid var(--off);padding:10px 16px;}
-.sn-label{font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:1px;margin-bottom:5px;}
-.sn textarea{width:100%;border:1px solid var(--border);border-radius:8px;padding:8px 10px;font-size:13px;font-family:var(--sans);color:var(--text);background:var(--off);resize:vertical;min-height:60px;outline:none;-webkit-appearance:none;}
-.sn textarea:focus{border-color:var(--navy);background:var(--white);}
+.nav-item {
+  display:flex; align-items:center; gap:14px; padding:13px 20px;
+  cursor:pointer; touch-action:manipulation; transition:all 0.15s;
+  border:none; background:transparent; width:100%; text-align:left;
+  font-family:var(--sans); color:var(--muted); font-size:14px; font-weight:500;
+  border-left:3px solid transparent; position:relative;
+}
+.nav-item:active { background:var(--card); }
+.nav-item.active { color:var(--gold); border-left-color:var(--gold); background:var(--gold-dim); }
+.nav-item .ni-icon { font-size:18px; width:24px; text-align:center; flex-shrink:0; }
+.nav-item .ni-label { flex:1; }
+.nav-item .ni-badge { background:var(--gold); color:#0A1628; font-size:10px; font-weight:700; padding:2px 7px; border-radius:10px; }
+.nav-item .ni-check { color:var(--green); font-size:14px; }
 
-/* STATS */
-.stat-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px;}
-.stat-card{background:var(--white);border:1px solid var(--border);border-radius:12px;padding:14px;text-align:center;}
-.stat-n{font-family:var(--serif);font-size:30px;font-weight:700;color:var(--navy);display:block;line-height:1;}
-.stat-l{font-size:10px;color:var(--muted);margin-top:4px;text-transform:uppercase;letter-spacing:1px;}
+.sidebar-footer { padding:16px 20px; border-top:1px solid var(--border); flex-shrink:0; }
+.logout-btn {
+  display:flex; align-items:center; gap:10px; padding:10px 14px;
+  background:var(--red-bg); border:1px solid rgba(255,87,87,0.2); border-radius:10px;
+  cursor:pointer; touch-action:manipulation; width:100%; font-family:var(--sans);
+  font-size:13px; color:var(--red); font-weight:500;
+}
 
-/* COUNTDOWN */
-.cd-box{background:var(--navy);border-radius:14px;padding:18px;margin-bottom:12px;text-align:center;}
-.cd-box h3{font-size:10px;color:rgba(255,255,255,0.45);text-transform:uppercase;letter-spacing:2px;margin-bottom:12px;}
-.cd-date-wrap{background:rgba(255,255,255,0.08);border-radius:10px;padding:12px 14px;margin-bottom:14px;}
-.cd-date-label{font-size:10px;color:rgba(255,255,255,0.45);text-transform:uppercase;letter-spacing:1px;display:block;margin-bottom:6px;}
-.cd-date-input{background:rgba(255,255,255,0.12);border:1px solid rgba(255,255,255,0.2);border-radius:8px;padding:10px 12px;font-size:15px;font-family:var(--sans);color:white;width:100%;outline:none;-webkit-appearance:none;min-height:44px;text-align:center;}
-.cd-nums{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;}
-.cd-unit{text-align:center;}
-.cd-n{font-family:var(--serif);font-size:32px;font-weight:700;color:var(--gold);display:block;line-height:1;}
-.cd-l{font-size:9px;color:rgba(255,255,255,0.35);text-transform:uppercase;letter-spacing:1px;margin-top:3px;}
-.cd-msg{font-size:12px;color:var(--gold-light);margin-top:12px;font-style:italic;line-height:1.5;}
+/* ═══════════ MAIN CONTENT ═══════════ */
+.main-content { flex:1; overflow-y:auto; overflow-x:hidden; -webkit-overflow-scrolling:touch; }
+.main-content::-webkit-scrollbar { display:none; }
+.page { display:none; padding:16px 14px 80px; max-width:720px; margin:0 auto; }
+.page.active { display:block; }
 
-/* TABLES */
-.tbl-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch;}
-.tbl{width:100%;border-collapse:collapse;min-width:540px;}
-.tbl th{background:var(--gold-pale);color:var(--navy);font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:1px;padding:10px;text-align:left;border-bottom:1px solid var(--border);white-space:nowrap;}
-.tbl td{padding:10px;border-bottom:1px solid var(--off);font-size:13px;vertical-align:middle;}
-.tbl tr:last-child td{border-bottom:none;}
-.tbl tr:nth-child(even) td{background:rgba(248,246,241,0.5);}
-.ti{border:1px solid var(--border);border-radius:8px;padding:9px 10px;font-size:13px;font-family:var(--sans);color:var(--text);background:var(--white);width:100%;outline:none;min-height:44px;-webkit-appearance:none;}
-.ti:focus{border-color:var(--navy);}
-.sel{border:1px solid var(--border);border-radius:8px;padding:9px 8px;font-size:12px;font-family:var(--sans);background:var(--white);color:var(--text);outline:none;cursor:pointer;width:100%;min-height:44px;-webkit-appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M0 0l5 6 5-6z' fill='%23777'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 10px center;}
+/* ═══════════ DASHBOARD ═══════════ */
+.greeting { margin-bottom:16px; }
+.greeting h2 { font-family:var(--serif); font-size:22px; color:var(--white); font-weight:700; }
+.greeting p { font-size:13px; color:var(--muted); margin-top:2px; }
 
-/* CV AUDIT */
-.audit-item{padding:14px 16px;border-bottom:1px solid var(--off);}
-.audit-item:last-child{border-bottom:none;}
-.audit-q{font-size:13px;color:var(--text);margin-bottom:10px;line-height:1.5;}
-.audit-btns{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;}
-.audit-btn{padding:10px 6px;border-radius:10px;font-size:12px;font-weight:600;cursor:pointer;border:1.5px solid var(--border);background:var(--white);color:var(--muted);touch-action:manipulation;-webkit-tap-highlight-color:transparent;font-family:var(--sans);min-height:44px;transition:all 0.15s;}
-.audit-btn:active{opacity:0.8;}
-.audit-btn.yes{background:var(--green-bg);border-color:var(--green);color:var(--green);}
-.audit-btn.needs{background:var(--amber-bg);border-color:var(--amber);color:var(--amber);}
-.audit-btn.na{background:var(--off);border-color:var(--border);color:var(--muted);}
+.dash-progress {
+  background:linear-gradient(135deg,var(--bg2),var(--card));
+  border:1px solid var(--border); border-radius:18px; padding:20px; margin-bottom:14px;
+  position:relative; overflow:hidden;
+}
+.dash-progress::before {
+  content:''; position:absolute; top:-30px; right:-30px; width:120px; height:120px;
+  background:var(--gold-dim); border-radius:50%;
+}
+.dp-top { display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:14px; }
+.dp-label { font-size:11px; color:var(--muted); text-transform:uppercase; letter-spacing:1px; }
+.dp-pct { font-family:var(--serif); font-size:36px; font-weight:700; color:var(--gold); line-height:1; }
+.dp-sub { font-size:11px; color:var(--muted); margin-top:2px; }
+.dp-bar { height:8px; background:rgba(255,255,255,0.08); border-radius:4px; overflow:hidden; margin-bottom:12px; }
+.dp-fill { height:100%; background:linear-gradient(90deg,var(--gold),var(--gold2)); border-radius:4px; transition:width 0.5s ease; width:0%; }
+.dp-stages { display:flex; gap:6px; flex-wrap:wrap; }
+.stage-dot {
+  width:28px; height:28px; border-radius:8px; display:flex; align-items:center;
+  justify-content:center; font-size:11px; font-weight:700; border:1.5px solid var(--border);
+  color:var(--muted); background:var(--card); cursor:pointer; touch-action:manipulation;
+  transition:all 0.2s;
+}
+.stage-dot.done { background:var(--green-bg); border-color:rgba(52,199,123,0.4); color:var(--green); }
+.stage-dot.partial { background:var(--gold-dim); border-color:var(--gold-border); color:var(--gold); }
 
-/* BUDGET */
-.b-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;padding:16px;}
-@media(max-width:380px){.b-grid{grid-template-columns:1fr;}}
-.b-label{font-size:11px;color:var(--muted);margin-bottom:4px;text-transform:uppercase;letter-spacing:0.5px;}
-.b-inp{border:1px solid var(--border);border-radius:10px;padding:12px;font-size:16px;font-family:var(--sans);color:var(--text);background:var(--white);width:100%;outline:none;-webkit-appearance:none;min-height:48px;}
-.b-inp:focus{border-color:var(--navy);}
-.b-result{background:var(--navy);border-radius:12px;padding:18px;margin:0 16px 14px;text-align:center;}
-.b-result-label{font-size:10px;color:rgba(255,255,255,0.5);text-transform:uppercase;letter-spacing:1px;margin-bottom:6px;}
-.b-big{font-family:var(--serif);font-size:36px;color:var(--gold);font-weight:700;display:block;}
-.b-msg{font-size:12px;color:rgba(255,255,255,0.55);margin-top:6px;line-height:1.5;}
-.b-tip{border-radius:10px;padding:12px 16px;margin:0 16px 14px;font-size:13px;line-height:1.5;}
+.stats-row { display:grid; grid-template-columns:repeat(2,1fr); gap:10px; margin-bottom:14px; }
+.stat-card {
+  background:var(--card); border:1px solid var(--border); border-radius:14px;
+  padding:14px; text-align:center;
+}
+.stat-n { font-family:var(--serif); font-size:28px; font-weight:700; color:var(--white); display:block; line-height:1; }
+.stat-n.gold { color:var(--gold); }
+.stat-l { font-size:10px; color:var(--muted); margin-top:4px; text-transform:uppercase; letter-spacing:1px; }
 
-/* RESOURCE LINKS */
-.rl{display:flex;align-items:center;gap:12px;padding:14px 16px;border-bottom:1px solid var(--off);text-decoration:none;min-height:58px;touch-action:manipulation;-webkit-tap-highlight-color:transparent;}
-.rl:last-child{border-bottom:none;}
-.rl:active{background:var(--off);}
-.rl-ic{width:36px;height:36px;min-width:36px;border-radius:10px;background:var(--navy);display:flex;align-items:center;justify-content:center;font-size:12px;color:var(--gold);font-weight:700;}
-.rl-info{flex:1;}
-.rl-info h4{font-size:13px;font-weight:600;color:var(--navy);}
-.rl-info p{font-size:11px;color:var(--muted);}
-.rl-arr{color:var(--muted);font-size:16px;flex-shrink:0;}
+.quote-card {
+  background:var(--card); border:1px solid var(--gold-border); border-radius:16px;
+  padding:16px; margin-bottom:14px; position:relative;
+}
+.quote-mark { position:absolute; top:10px; left:14px; font-size:40px; color:var(--gold-dim); font-family:var(--serif); line-height:1; }
+.quote-text { font-family:var(--serif); font-size:14px; color:var(--text); font-style:italic; line-height:1.6; padding-left:12px; margin-top:8px; }
+.quote-author { font-size:11px; color:var(--muted); margin-top:8px; padding-left:12px; }
 
-/* BUTTONS */
-.btn{padding:14px 22px;border-radius:12px;font-size:14px;font-weight:600;font-family:var(--sans);cursor:pointer;border:none;touch-action:manipulation;-webkit-tap-highlight-color:transparent;min-height:48px;display:inline-flex;align-items:center;justify-content:center;}
-.btn:active{opacity:0.85;}
-.btn-navy{background:var(--navy);color:var(--white);}
-.btn-gold{background:var(--gold);color:var(--navy);}
-.btn-outline{background:var(--white);color:var(--navy);border:1.5px solid var(--border);}
-.btn-red{background:var(--red-bg);color:var(--red);border:1px solid var(--red);}
-.btn-row{display:flex;gap:10px;flex-wrap:wrap;padding:14px 16px;}
+.quick-actions { display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-bottom:14px; }
+.qa-card {
+  background:var(--card); border:1px solid var(--border); border-radius:14px;
+  padding:14px; cursor:pointer; touch-action:manipulation; transition:all 0.2s;
+  border:none; text-align:left; font-family:var(--sans);
+}
+.qa-card:active { background:var(--card2); }
+.qa-icon { font-size:22px; margin-bottom:8px; display:block; }
+.qa-title { font-size:13px; font-weight:600; color:var(--white); }
+.qa-sub { font-size:11px; color:var(--muted); margin-top:2px; }
 
-/* INFO BOXES */
-.info{background:var(--blue-bg);border:1px solid var(--blue);border-radius:10px;padding:12px 14px;margin-bottom:12px;font-size:13px;color:var(--blue);line-height:1.5;}
-.warn{background:var(--amber-bg);border:1px solid var(--amber);border-radius:10px;padding:12px 14px;margin-bottom:12px;font-size:13px;color:var(--amber);line-height:1.5;}
-.succ{background:var(--green-bg);border:1px solid var(--green);border-radius:10px;padding:12px 14px;margin-bottom:12px;font-size:13px;color:var(--green);line-height:1.5;}
+/* ═══════════ COUNTDOWN ═══════════ */
+.countdown-card {
+  background:var(--card); border:1px solid var(--border); border-radius:16px;
+  padding:18px; margin-bottom:14px;
+}
+.countdown-label { font-size:11px; color:var(--muted); text-transform:uppercase; letter-spacing:1px; margin-bottom:12px; }
+.date-input {
+  width:100%; background:var(--bg2); border:1.5px solid var(--border); border-radius:10px;
+  padding:11px 14px; font-size:14px; color:var(--white); font-family:var(--sans);
+  outline:none; -webkit-appearance:none; margin-bottom:14px; transition:border-color 0.2s;
+}
+.date-input:focus { border-color:var(--gold); }
+.cd-nums { display:grid; grid-template-columns:repeat(3,1fr); gap:10px; }
+.cd-unit { background:var(--bg2); border-radius:12px; padding:12px; text-align:center; }
+.cd-n { font-family:var(--serif); font-size:28px; font-weight:700; color:var(--gold); display:block; line-height:1; }
+.cd-l { font-size:9px; color:var(--muted); text-transform:uppercase; letter-spacing:1px; margin-top:4px; }
+.cd-msg { font-size:12px; color:var(--muted); margin-top:12px; line-height:1.5; font-style:italic; text-align:center; }
 
-/* SHARE BOX */
-.share-text{background:var(--off);border:1px solid var(--border);border-radius:10px;padding:14px;font-size:12px;color:var(--navy);word-break:break-all;line-height:1.7;white-space:pre-wrap;font-family:var(--sans);}
+/* ═══════════ CHECKLIST ═══════════ */
+.cl-card { background:var(--card); border:1px solid var(--border); border-radius:16px; margin-bottom:10px; overflow:hidden; }
+.cl-header {
+  padding:14px 16px; display:flex; align-items:center; gap:12px;
+  cursor:pointer; touch-action:manipulation; border:none; background:transparent;
+  width:100%; text-align:left; font-family:var(--sans);
+}
+.cl-header:active { background:rgba(255,255,255,0.03); }
+.cl-stage-num {
+  width:32px; height:32px; border-radius:8px; background:var(--bg2);
+  display:flex; align-items:center; justify-content:center; font-size:12px;
+  font-weight:700; color:var(--muted); flex-shrink:0; border:1.5px solid var(--border);
+}
+.cl-stage-num.done { background:var(--green-bg); border-color:rgba(52,199,123,0.4); color:var(--green); }
+.cl-stage-num.partial { background:var(--gold-dim); border-color:var(--gold-border); color:var(--gold); }
+.cl-title { flex:1; font-size:13px; font-weight:600; color:var(--white); text-align:left; }
+.cl-count { font-size:11px; color:var(--muted); }
+.cl-chev { color:var(--muted); font-size:12px; transition:transform 0.2s; }
+.cl-card.closed .cl-chev { transform:rotate(-90deg); }
+.cl-card.closed .cl-body { display:none; }
+.cl-body { border-top:1px solid var(--border); }
 
-/* TESTIMONIALS */
-.testi{background:var(--white);border:1px solid var(--border);border-radius:12px;padding:14px 16px;margin-bottom:10px;}
-.testi p{font-size:13px;color:var(--text);font-style:italic;line-height:1.6;margin-bottom:6px;}
-.testi span{font-size:11px;color:var(--muted);font-weight:600;}
+.cl-cel {
+  display:none; background:var(--green-bg); border-bottom:1px solid rgba(52,199,123,0.2);
+  padding:10px 16px; text-align:center;
+}
+.cl-cel.show { display:block; }
+.cl-cel h4 { font-size:13px; font-weight:600; color:var(--green); }
+.cl-cel p { font-size:11px; color:rgba(52,199,123,0.8); margin-top:2px; }
 
-/* HOW TO USE */
-.htu-step{display:flex;gap:12px;align-items:flex-start;margin-bottom:12px;}
-.htu-num{background:var(--gold);color:var(--navy);font-size:11px;font-weight:700;width:24px;height:24px;min-width:24px;border-radius:50%;display:flex;align-items:center;justify-content:center;margin-top:1px;}
-.htu-text{font-size:13px;color:var(--text);line-height:1.55;flex:1;}
-.htu-text strong{color:var(--navy);}
+.ci {
+  display:flex; align-items:flex-start; gap:14px; padding:13px 16px;
+  border-bottom:1px solid rgba(255,255,255,0.04); cursor:pointer;
+  touch-action:manipulation; transition:background 0.15s;
+  user-select:none; -webkit-user-select:none;
+}
+.ci:last-of-type { border-bottom:none; }
+.ci:active { background:rgba(255,255,255,0.03); }
+.ci.done { background:rgba(52,199,123,0.05); }
+.ci-box {
+  width:24px; height:24px; min-width:24px; border:2px solid var(--border);
+  border-radius:6px; display:flex; align-items:center; justify-content:center;
+  transition:all 0.2s; background:var(--bg2); margin-top:1px;
+}
+.ci.done .ci-box { background:var(--green); border-color:var(--green); }
+.ci-tick { display:none; color:white; font-size:13px; font-weight:700; }
+.ci.done .ci-tick { display:block; }
+.ci-text { font-size:13px; color:var(--text); line-height:1.5; flex:1; }
+.ci.done .ci-text { color:var(--green); text-decoration:line-through; text-decoration-color:rgba(52,199,123,0.4); }
 
-/* NOTES */
-.notes-ta{width:100%;min-height:160px;border:1px solid var(--border);border-radius:10px;padding:12px;font-size:14px;font-family:var(--sans);color:var(--text);resize:vertical;outline:none;background:var(--off);-webkit-appearance:none;line-height:1.6;}
-.notes-ta:focus{border-color:var(--navy);background:var(--white);}
+.wait-badge {
+  display:inline-flex; align-items:center; gap:4px; background:var(--amber-bg);
+  border:1px solid rgba(245,166,35,0.3); border-radius:6px; padding:3px 8px;
+  font-size:10px; color:var(--amber); font-weight:600; margin-top:4px; white-space:nowrap;
+}
+.ready-badge {
+  display:inline-flex; align-items:center; gap:4px; background:var(--green-bg);
+  border:1px solid rgba(52,199,123,0.3); border-radius:6px; padding:3px 8px;
+  font-size:10px; color:var(--green); font-weight:600; margin-top:4px;
+}
 
-/* SAVED INDICATOR */
-.saved{font-size:12px;color:var(--green);opacity:0;transition:opacity 0.3s;margin-left:8px;}
-.saved.show{opacity:1;}
+.stage-note-wrap { padding:10px 16px; border-top:1px solid rgba(255,255,255,0.04); }
+.stage-note-label { font-size:10px; color:var(--muted); text-transform:uppercase; letter-spacing:1px; margin-bottom:6px; }
+.stage-note-ta {
+  width:100%; background:var(--bg2); border:1px solid var(--border); border-radius:10px;
+  padding:10px 12px; font-size:13px; font-family:var(--sans); color:var(--text);
+  resize:vertical; min-height:60px; outline:none; -webkit-appearance:none;
+  transition:border-color 0.2s;
+}
+.stage-note-ta:focus { border-color:var(--gold); }
+.stage-reset { background:transparent; border:1px solid var(--border); border-radius:8px; padding:6px 12px; font-size:11px; color:var(--muted); cursor:pointer; font-family:var(--sans); touch-action:manipulation; margin:0 16px 10px; }
 
-/* PRIVACY BADGE */
-.privacy-bar{background:var(--green-bg);border-bottom:1px solid var(--green);padding:8px 16px;display:flex;align-items:center;justify-content:center;gap:6px;font-size:11px;color:var(--green);font-weight:500;}
+/* ═══════════ COMPANIES ═══════════ */
+.comp-card { background:var(--card); border:1px solid var(--border); border-radius:14px; margin-bottom:10px; overflow:hidden; }
+.comp-card-header { padding:14px 16px; border-bottom:1px solid var(--border); display:flex; justify-content:space-between; align-items:center; }
+.comp-name-input {
+  background:transparent; border:none; font-size:15px; font-weight:600;
+  color:var(--white); font-family:var(--sans); outline:none; width:100%;
+  placeholder-color:var(--muted);
+}
+.comp-badge { padding:4px 10px; border-radius:8px; font-size:11px; font-weight:600; }
+.comp-badge.applied { background:var(--blue-bg); color:var(--blue); }
+.comp-badge.offered { background:var(--green-bg); color:var(--green); }
+.comp-badge.rejected { background:var(--red-bg); color:var(--red); }
+.comp-badge.waiting { background:var(--amber-bg); color:var(--amber); }
+.comp-badge.default { background:var(--card2); color:var(--muted); }
+.comp-grid { display:grid; grid-template-columns:1fr 1fr; gap:0; }
+.comp-field { padding:10px 16px; border-bottom:1px solid rgba(255,255,255,0.04); border-right:1px solid rgba(255,255,255,0.04); }
+.comp-field:nth-child(even) { border-right:none; }
+.comp-field-label { font-size:10px; color:var(--muted); text-transform:uppercase; letter-spacing:1px; margin-bottom:4px; }
+.comp-field input, .comp-field select {
+  background:transparent; border:none; font-size:13px; color:var(--text);
+  font-family:var(--sans); outline:none; width:100%; -webkit-appearance:none;
+}
 
-/* FOOTER */
-.footer{background:var(--navy);padding:28px 20px;text-align:center;}
-.footer h3{font-family:var(--serif);color:var(--white);font-size:18px;margin-bottom:6px;font-weight:700;}
-.footer p{font-size:12px;color:rgba(255,255,255,0.45);margin-bottom:10px;}
-.footer-links{display:flex;justify-content:center;gap:10px;flex-wrap:wrap;font-size:11px;color:var(--gold-light);}
-.footer-quote{font-style:italic;color:var(--gold-light);font-size:12px;max-width:360px;margin:14px auto 0;border-top:1px solid rgba(201,160,50,0.2);padding-top:14px;line-height:1.6;}
+/* ═══════════ DOCUMENTS ═══════════ */
+.doc-group-label { font-size:11px; font-weight:700; text-transform:uppercase; letter-spacing:1.5px; margin:16px 0 8px; }
+.doc-group-label.green { color:var(--green); }
+.doc-group-label.amber { color:var(--amber); }
+.doc-card { background:var(--card); border:1px solid var(--border); border-radius:14px; margin-bottom:8px; overflow:hidden; }
+.doc-row { padding:12px 16px; display:flex; align-items:center; gap:12px; border-bottom:1px solid rgba(255,255,255,0.04); }
+.doc-row:last-child { border-bottom:none; }
+.doc-icon { width:32px; height:32px; border-radius:8px; display:flex; align-items:center; justify-content:center; font-size:14px; flex-shrink:0; }
+.doc-icon.green { background:var(--green-bg); }
+.doc-icon.amber { background:var(--amber-bg); }
+.doc-info { flex:1; min-width:0; }
+.doc-name { font-size:13px; font-weight:500; color:var(--white); }
+.doc-note { font-size:11px; color:var(--muted); margin-top:2px; }
+.doc-sel {
+  background:var(--bg2); border:1px solid var(--border); border-radius:8px;
+  padding:6px 10px; font-size:11px; color:var(--text); font-family:var(--sans);
+  outline:none; -webkit-appearance:none; cursor:pointer; min-width:90px;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='8' height='5'%3E%3Cpath d='M0 0l4 5 4-5z' fill='%238895aa'/%3E%3C/svg%3E");
+  background-repeat:no-repeat; background-position:right 8px center; padding-right:22px;
+}
 
-@media print{#welcome,.nav-wrap,.prog-wrap,.btn,.btn-row,.footer{display:none!important;}.page{display:block!important;max-width:100%;padding:10px;}.card.closed .card-b{display:block!important;}}
+/* ═══════════ CV AUDIT ═══════════ */
+.cv-score-card {
+  background:linear-gradient(135deg,var(--card),var(--card2)); border:1px solid var(--border);
+  border-radius:18px; padding:20px; margin-bottom:14px; display:flex; align-items:center; gap:20px;
+}
+.cv-circle { position:relative; width:80px; height:80px; flex-shrink:0; }
+.cv-circle svg { transform:rotate(-90deg); }
+.cv-circle-text { position:absolute; top:50%; left:50%; transform:translate(-50%,-50%); text-align:center; }
+.cv-pct { font-family:var(--serif); font-size:20px; font-weight:700; color:var(--gold); display:block; line-height:1; }
+.cv-info h3 { font-size:15px; font-weight:600; color:var(--white); margin-bottom:4px; }
+.cv-info p { font-size:12px; color:var(--muted); line-height:1.5; }
+.cv-stats { display:grid; grid-template-columns:repeat(3,1fr); gap:8px; margin-bottom:14px; }
+.cv-stat { background:var(--card); border:1px solid var(--border); border-radius:12px; padding:12px; text-align:center; }
+.cv-stat-n { font-size:24px; font-weight:700; font-family:var(--serif); display:block; }
+.cv-stat-n.green { color:var(--green); }
+.cv-stat-n.amber { color:var(--amber); }
+.cv-stat-n.muted { color:var(--muted); }
+.cv-stat-l { font-size:10px; color:var(--muted); margin-top:3px; text-transform:uppercase; letter-spacing:1px; }
+.cv-section { background:var(--card); border:1px solid var(--border); border-radius:14px; margin-bottom:10px; overflow:hidden; }
+.cv-section-header { padding:13px 16px; display:flex; justify-content:space-between; align-items:center; cursor:pointer; touch-action:manipulation; border:none; background:transparent; width:100%; font-family:var(--sans); }
+.cv-section-header:active { background:rgba(255,255,255,0.03); }
+.cv-section-title { font-size:13px; font-weight:600; color:var(--white); }
+.audit-item { padding:13px 16px; border-top:1px solid rgba(255,255,255,0.04); }
+.audit-q { font-size:13px; color:var(--text); margin-bottom:10px; line-height:1.5; }
+.audit-btns { display:grid; grid-template-columns:repeat(3,1fr); gap:8px; }
+.audit-btn {
+  padding:9px 6px; border-radius:10px; font-size:12px; font-weight:600; cursor:pointer;
+  border:1.5px solid var(--border); background:var(--bg2); color:var(--muted);
+  touch-action:manipulation; font-family:var(--sans); min-height:42px; transition:all 0.15s;
+}
+.audit-btn.yes { background:var(--green-bg); border-color:rgba(52,199,123,0.4); color:var(--green); }
+.audit-btn.needs { background:var(--amber-bg); border-color:rgba(245,166,35,0.4); color:var(--amber); }
+.audit-btn.na { background:var(--card2); border-color:var(--border); color:var(--muted); }
+
+/* ═══════════ BUDGET ═══════════ */
+.budget-grid { display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-bottom:14px; }
+.budget-field { background:var(--card); border:1px solid var(--border); border-radius:14px; padding:14px; }
+.budget-label { font-size:10px; color:var(--muted); text-transform:uppercase; letter-spacing:1px; margin-bottom:6px; }
+.budget-input {
+  background:transparent; border:none; font-size:20px; font-weight:700; color:var(--white);
+  font-family:var(--serif); outline:none; width:100%; -webkit-appearance:none;
+}
+.budget-input::placeholder { color:var(--border); font-size:16px; }
+.budget-result { background:var(--card); border:1px solid var(--gold-border); border-radius:16px; padding:20px; text-align:center; margin-bottom:14px; }
+.budget-result-label { font-size:11px; color:var(--muted); text-transform:uppercase; letter-spacing:1px; margin-bottom:8px; }
+.budget-big { font-family:var(--serif); font-size:48px; color:var(--gold); font-weight:700; display:block; line-height:1; }
+.budget-msg { font-size:13px; color:var(--muted); margin-top:8px; line-height:1.5; }
+
+/* ═══════════ NOTES ═══════════ */
+.notes-ta {
+  width:100%; min-height:200px; background:var(--card); border:1px solid var(--border);
+  border-radius:16px; padding:16px; font-size:14px; font-family:var(--sans);
+  color:var(--text); resize:vertical; outline:none; -webkit-appearance:none;
+  line-height:1.6; margin-bottom:12px; transition:border-color 0.2s;
+}
+.notes-ta:focus { border-color:var(--gold); }
+.notes-ta::placeholder { color:var(--muted); }
+
+/* ═══════════ RESOURCES ═══════════ */
+.res-group { margin-bottom:6px; }
+.res-group-title { font-size:11px; color:var(--muted); text-transform:uppercase; letter-spacing:1.5px; padding:12px 0 8px; font-weight:600; }
+.res-card { background:var(--card); border:1px solid var(--border); border-radius:14px; overflow:hidden; margin-bottom:10px; }
+.res-item { display:flex; align-items:center; gap:12px; padding:14px 16px; border-bottom:1px solid rgba(255,255,255,0.04); text-decoration:none; touch-action:manipulation; }
+.res-item:last-child { border-bottom:none; }
+.res-item:active { background:rgba(255,255,255,0.03); }
+.res-ic { width:36px; height:36px; border-radius:10px; background:var(--bg2); border:1px solid var(--border); display:flex; align-items:center; justify-content:center; font-size:12px; color:var(--gold); font-weight:700; flex-shrink:0; }
+.res-info { flex:1; }
+.res-info h4 { font-size:13px; font-weight:600; color:var(--white); }
+.res-info p { font-size:11px; color:var(--muted); margin-top:1px; }
+.res-arr { color:var(--muted); font-size:14px; }
+
+/* ═══════════ BACKUP ═══════════ */
+.backup-card { background:var(--gold-dim); border:1px solid var(--gold-border); border-radius:16px; padding:18px; margin-bottom:14px; }
+.backup-card h4 { font-size:14px; font-weight:600; color:var(--gold2); margin-bottom:6px; }
+.backup-card p { font-size:12px; color:var(--muted); line-height:1.5; margin-bottom:14px; }
+
+/* ═══════════ BUTTONS ═══════════ */
+.btn { padding:12px 20px; border-radius:12px; font-size:14px; font-weight:600; font-family:var(--sans); cursor:pointer; border:none; touch-action:manipulation; min-height:48px; display:inline-flex; align-items:center; justify-content:center; gap:6px; transition:opacity 0.2s; }
+.btn:active { opacity:0.8; }
+.btn-gold { background:var(--gold); color:#0A1628; }
+.btn-navy { background:var(--card2); color:var(--white); border:1px solid var(--border); }
+.btn-red { background:var(--red-bg); color:var(--red); border:1px solid rgba(255,87,87,0.3); }
+.btn-green { background:var(--green-bg); color:var(--green); border:1px solid rgba(52,199,123,0.3); }
+.btn-row { display:flex; gap:10px; flex-wrap:wrap; }
+
+/* ═══════════ INFO BOXES ═══════════ */
+.info-box { border-radius:12px; padding:12px 14px; margin-bottom:12px; font-size:13px; line-height:1.5; }
+.info-box.blue { background:var(--blue-bg); border:1px solid rgba(74,158,255,0.25); color:var(--blue); }
+.info-box.amber { background:var(--amber-bg); border:1px solid rgba(245,166,35,0.25); color:var(--amber); }
+.info-box.green { background:var(--green-bg); border:1px solid rgba(52,199,123,0.25); color:var(--green); }
+.info-box.red { background:var(--red-bg); border:1px solid rgba(255,87,87,0.25); color:var(--red); }
+
+/* ═══════════ SAVED INDICATOR ═══════════ */
+.saved-ind { font-size:12px; color:var(--green); opacity:0; transition:opacity 0.3s; }
+.saved-ind.show { opacity:1; }
+
+/* ═══════════ SECTION HEADERS ═══════════ */
+.sec-h { font-family:var(--serif); font-size:20px; color:var(--white); margin:16px 0 6px; font-weight:700; }
+.sec-p { font-size:13px; color:var(--muted); margin-bottom:16px; line-height:1.5; }
+
+/* ═══════════ SHARE ═══════════ */
+#share-canvas { display:none; }
+.share-preview { border-radius:14px; overflow:hidden; margin-bottom:12px; border:1px solid var(--border); }
+.share-preview img { width:100%; display:block; }
+
+/* ═══════════ TABLET ═══════════ */
+@media(min-width:768px) {
+  .sidebar { position:relative; transform:none !important; border-right:1px solid var(--border); }
+  .sidebar-overlay { display:none !important; }
+  #app { flex-direction:row; }
+  .app-header .hamburger { display:none; }
+  .main-wrapper { flex:1; display:flex; flex-direction:column; overflow:hidden; }
+  .stats-row { grid-template-columns:repeat(4,1fr); }
+  .quick-actions { grid-template-columns:repeat(4,1fr); }
+  .budget-grid { grid-template-columns:repeat(4,1fr); }
+}
+
+@media(min-width:768px) {
+  #app { flex-direction:row; }
+  .app-column { display:flex; flex-direction:column; flex:1; overflow:hidden; }
+}
+
+@media print {
+  .auth-screen, .sidebar, .sidebar-overlay, .app-header, #share-canvas { display:none !important; }
+  .page { display:block !important; padding:10px; }
+  .cl-card.closed .cl-body { display:block !important; }
+}
 </style>
 </head>
 <body>
 
-<!-- WELCOME SCREEN -->
-<div id="welcome">
-  <div class="w-logo">&#127988;</div>
-  <div class="w-title">Japan ALT Premium Tracker</div>
-  <p class="w-sub">by Opportunity Planet</p>
+<!-- ═══ AUTH: WELCOME / LOGIN / REGISTER ═══ -->
 
-  <div class="w-box">
-    <div class="w-box-title">How to open this file on your phone</div>
-    <div class="w-step">
-      <div class="w-num">1</div>
-      <div class="w-step-text">Find this file in your <strong>Downloads folder</strong> or <strong>Files app.</strong></div>
-    </div>
-    <div class="w-step">
-      <div class="w-num">2</div>
-      <div class="w-step-text">Long press the file name and tap <strong>"Open with"</strong> or <strong>"Share."</strong></div>
-    </div>
-    <div class="w-step">
-      <div class="w-num">3</div>
-      <div class="w-step-text">Choose <strong>Google Chrome, Safari or Firefox.</strong> Do not open with WPS Office or document apps.</div>
-    </div>
-    <div class="w-step">
-      <div class="w-num">4</div>
-      <div class="w-step-text">Once open in your browser, tap the <strong>share icon</strong> and choose <strong>"Add to Home Screen"</strong> so you can return anytime like an app.</div>
-    </div>
+<!-- LOGIN SCREEN -->
+<div class="auth-screen" id="screen-login">
+  <div class="auth-logo">
+    <img src="icon-192.png" alt="OP" onerror="this.parentElement.innerHTML='&#127758;'">
+  </div>
+  <div class="auth-title">OP Japan Tracker</div>
+  <p class="auth-sub">by Opportunity Planet — Sign in to continue</p>
+
+  <div class="auth-card">
+    <div class="auth-card-title">Welcome back</div>
+    <div class="auth-card-sub">Enter your email and password to access your tracker.</div>
+    <input class="auth-input" type="email" id="li-email" placeholder="Email address" autocomplete="email">
+    <input class="auth-input" type="password" id="li-pwd" placeholder="Password" onkeydown="if(event.key==='Enter')doLogin()">
+    <div class="auth-error" id="li-err"></div>
+    <button class="auth-btn" onclick="doLogin()" ontouchend="event.preventDefault();doLogin();">Sign In &#8594;</button>
+    <button class="auth-btn-outline" onclick="showScreen('screen-verify')">New user? Create account</button>
   </div>
 
-  <div class="w-tip">
-    <p>&#128274; <strong style="color:var(--gold);">100% Private.</strong> This tool runs entirely on your device. No data is sent anywhere. No account needed. No one can see your information. It belongs to you completely.</p>
+  <button class="auth-link" onclick="showForgot()">Forgot your password?</button>
+</div>
+
+<!-- VERIFY PURCHASE SCREEN -->
+<div class="auth-screen hidden" id="screen-verify">
+  <div class="auth-logo">
+    <img src="icon-192.png" alt="OP" onerror="this.parentElement.innerHTML='&#127758;'">
+  </div>
+  <div class="auth-title">Verify Purchase</div>
+  <p class="auth-sub">Enter the password from your purchase email</p>
+
+  <div class="auth-card">
+    <div class="auth-card-title">Step 1 — Purchase password</div>
+    <div class="auth-card-sub">This was sent to you after buying from Selar. You only need this once to verify you are a genuine buyer.</div>
+    <input class="auth-input" type="password" id="vf-input" placeholder="Purchase password" style="text-align:center;letter-spacing:3px;" onkeydown="if(event.key==='Enter')doVerify()">
+    <div class="auth-error" id="vf-err"></div>
+    <button class="auth-btn" onclick="doVerify()" ontouchend="event.preventDefault();doVerify();">Verify Purchase &#8594;</button>
+    <button class="auth-btn-outline" onclick="showScreen('screen-login')">Already have an account? Sign in</button>
   </div>
 
-  <button class="w-btn" id="start-btn">I am ready — Open My Tracker &#8594;</button>
-  <p class="w-privacy">Your progress saves automatically in your browser on this device.</p>
-</div>
-
-<!-- PRIVACY BAR -->
-<div class="privacy-bar" id="privacy-bar">
-  &#128274; Private &amp; offline — your data never leaves your device
-  <button onclick="document.getElementById('privacy-bar').style.display='none'" style="background:transparent;border:none;color:var(--green);font-size:16px;cursor:pointer;padding:0 0 0 6px;touch-action:manipulation;">&#10005;</button>
-</div>
-
-<!-- HERO -->
-<div class="hero">
-  <div class="hero-badge">Premium Digital Tool</div>
-  <h1>Japan ALT <span>Premium Tracker</span></h1>
-  <p>Your complete accountability system — from first research to first day in Japan</p>
-</div>
-
-<!-- NAV -->
-<div class="nav-wrap">
-  <div class="nav-row">
-    <button class="ntab active" id="tab-dashboard" onclick="go('dashboard')"><span class="nt-icon">&#127968;</span>Dashboard</button>
-    <button class="ntab" id="tab-checklist" onclick="go('checklist')"><span class="nt-icon">&#9745;</span>Checklist</button>
-    <button class="ntab" id="tab-companies" onclick="go('companies')"><span class="nt-icon">&#128188;</span>Companies</button>
-    <button class="ntab" id="tab-documents" onclick="go('documents')"><span class="nt-icon">&#128196;</span>Documents</button>
-  </div>
-  <div class="nav-row">
-    <button class="ntab" id="tab-cv-audit" onclick="go('cv-audit')"><span class="nt-icon">&#128203;</span>CV Audit</button>
-    <button class="ntab" id="tab-budget" onclick="go('budget')"><span class="nt-icon">&#128176;</span>Budget</button>
-    <button class="ntab" id="tab-resources" onclick="go('resources')"><span class="nt-icon">&#128279;</span>Resources</button>
-    <button class="ntab" id="tab-notes" onclick="go('notes')"><span class="nt-icon">&#128221;</span>Notes</button>
+  <div class="auth-note">
+    <p>&#128274; No password? Email <strong style="color:var(--gold);">opportunityplanet.info@gmail.com</strong></p>
   </div>
 </div>
 
-<!-- PROGRESS BAR -->
-<div class="prog-wrap">
-  <div class="prog-top">
-    <span class="prog-label">Journey Progress</span>
-    <span class="prog-pct" id="prog-pct">0%</span>
+<!-- CREATE ACCOUNT SCREEN -->
+<div class="auth-screen hidden" id="screen-create">
+  <div class="auth-logo">
+    <img src="icon-192.png" alt="OP" onerror="this.parentElement.innerHTML='&#127758;'">
   </div>
-  <div class="prog-track"><div class="prog-fill" id="prog-fill"></div></div>
-  <div class="prog-sub" id="prog-sub">0 of 50 steps completed</div>
+  <div class="auth-title">Create Account</div>
+  <p class="auth-sub">Set up your personal tracker account</p>
+
+  <div class="auth-success" id="verify-success" style="display:none;">
+    <p>&#10003; Purchase verified! Now create your account.</p>
+  </div>
+
+  <div class="auth-card">
+    <div class="auth-card-title">Step 2 — Your account details</div>
+    <div class="auth-card-sub">Choose an email and password. You will use these every time you log in.</div>
+    <input class="auth-input" type="text" id="cr-name" placeholder="Your full name" autocomplete="name">
+    <input class="auth-input" type="email" id="cr-email" placeholder="Email address" autocomplete="email">
+    <input class="auth-input" type="password" id="cr-pwd1" placeholder="Create a password (min 6 chars)">
+    <input class="auth-input" type="password" id="cr-pwd2" placeholder="Confirm your password" onkeydown="if(event.key==='Enter')doCreate()">
+    <div class="auth-error" id="cr-err"></div>
+    <button class="auth-btn" onclick="doCreate()" ontouchend="event.preventDefault();doCreate();">Create Account &amp; Enter &#8594;</button>
+  </div>
 </div>
 
-<!-- ══════════════════ DASHBOARD ══════════════════ -->
-<div class="page active" id="page-dashboard">
-  <p class="sec-h">Welcome to your tracker</p>
-  <p class="sec-p">Everything you need to get from where you are to Japan — organised in one place.</p>
+<!-- ═══ MAIN APP ═══ -->
+<div id="app" style="display:none;">
 
+  <!-- Sidebar overlay -->
+  <div class="sidebar-overlay" id="sidebar-overlay" onclick="closeSidebar()"></div>
 
-  <!-- Daily Quote -->
-  <div style="background:linear-gradient(135deg,var(--navy),var(--navy2));border:1px solid rgba(201,160,50,0.3);border-radius:14px;padding:16px;margin-bottom:12px;text-align:center;">
-    <div id="daily-quote" style="font-family:Georgia,serif;font-size:15px;color:var(--gold-light);font-style:italic;line-height:1.6;margin-bottom:6px;">Loading your daily inspiration...</div>
-    <div id="daily-author" style="font-size:11px;color:rgba(255,255,255,0.4);text-transform:uppercase;letter-spacing:1px;"></div>
-  </div>
-  <div class="cd-box">
-    <h3>Your Japan Journey</h3>
-    <div class="cd-date-wrap">
-      <span class="cd-date-label">Enter your start date</span>
-      <input type="date" class="cd-date-input" id="start-date" onchange="updateCD()">
-    </div>
-    <div class="cd-nums">
-      <div class="cd-unit"><span class="cd-n" id="cd-d">--</span><div class="cd-l">Days</div></div>
-      <div class="cd-unit"><span class="cd-n" id="cd-w">--</span><div class="cd-l">Weeks</div></div>
-      <div class="cd-unit"><span class="cd-n" id="cd-m">--</span><div class="cd-l">Months</div></div>
-    </div>
-    <p class="cd-msg" id="cd-msg">Enter your start date above to begin tracking your journey.</p>
-  </div>
-
-  <div class="stat-grid">
-    <div class="stat-card"><span class="stat-n" id="s-done">0</span><div class="stat-l">Steps Done</div></div>
-    <div class="stat-card"><span class="stat-n" id="s-left">50</span><div class="stat-l">Steps Left</div></div>
-    <div class="stat-card"><span class="stat-n" id="s-comp">0</span><div class="stat-l">Companies Applied</div></div>
-    <div class="stat-card"><span class="stat-n" id="s-docs">0</span><div class="stat-l">Documents Ready</div></div>
-  </div>
-
-  <div class="card">
-    <div class="card-h-plain"><h2>How to use this tracker</h2></div>
-    <div class="card-b" style="padding:16px;">
-      <div class="htu-step"><div class="htu-num">1</div><p class="htu-text">Enter your <strong>start date</strong> above to track how long you have been on your journey.</p></div>
-      <div class="htu-step"><div class="htu-num">2</div><p class="htu-text">Go to <strong>Checklist</strong> and tick off each step as you complete it. Progress saves automatically.</p></div>
-      <div class="htu-step"><div class="htu-num">3</div><p class="htu-text">Track every company you apply to in <strong>Companies.</strong> Apply to at least 3 simultaneously.</p></div>
-      <div class="htu-step"><div class="htu-num">4</div><p class="htu-text">Audit your CV in <strong>CV Audit</strong> before applying. See exactly what needs fixing.</p></div>
-      <div class="htu-step"><div class="htu-num">5</div><p class="htu-text">Use the <strong>Budget Planner</strong> to know exactly when you will be financially ready.</p></div>
-      <div class="htu-step"><div class="htu-num">6</div><p class="htu-text">Open this tracker <strong>every Sunday</strong> to update progress and write a note. Consistency gets people to Japan.</p></div>
-      <div class="succ" style="margin-top:4px;margin-bottom:0;">&#9888; Always open this file in the <strong>same browser</strong> on the same device to keep your saved progress.</div>
-    </div>
-  </div>
-
-
-  <!-- Backup & Restore -->
-  <div class="card">
-    <button class="card-h" onclick="toggleCard(this)"><h2>&#128190; Backup &amp; Restore</h2><div class="card-meta"><span class="chev">&#9660;</span></div></button>
-    <div class="card-b" style="padding:16px;">
-      <div style="background:var(--gold-pale);border:1px solid var(--gold);border-radius:12px;padding:14px;margin-bottom:12px;">
-        <h4 style="font-size:13px;font-weight:600;color:var(--navy);margin-bottom:6px;">&#128274; Never lose your progress</h4>
-        <p style="font-size:12px;color:var(--muted);line-height:1.5;margin-bottom:12px;">Download a backup file regularly. If you switch phones or clear your browser, restore it here to pick up exactly where you left off.</p>
-        <div style="display:flex;gap:10px;flex-wrap:wrap;">
-          <button class="btn btn-navy" onclick="downloadBackup()">&#11015; Download Backup</button>
-          <button class="btn btn-outline" onclick="document.getElementById('restore-file').click()">&#11014; Restore Backup</button>
-          <input type="file" id="restore-file" accept=".json" style="display:none;" onchange="restoreBackup(this)">
+  <!-- Sidebar -->
+  <div class="sidebar" id="sidebar">
+    <div class="sidebar-header">
+      <div class="sidebar-user">
+        <div class="sidebar-avatar" id="sb-avatar">M</div>
+        <div>
+          <div class="sidebar-name" id="sb-name">Loading...</div>
+          <div class="sidebar-email" id="sb-email">...</div>
         </div>
       </div>
+      <div class="sidebar-prog-label">Overall Progress</div>
+      <div class="sidebar-prog-bar"><div class="sidebar-prog-fill" id="sb-prog-fill"></div></div>
+      <div class="sidebar-prog-text" id="sb-prog-text">0% complete</div>
+    </div>
+
+    <nav class="sidebar-nav">
+      <div class="sidebar-section-label">Main</div>
+      <button class="nav-item active" id="ni-dashboard" onclick="goPage('dashboard')">
+        <span class="ni-icon">&#127968;</span><span class="ni-label">Dashboard</span>
+      </button>
+      <button class="nav-item" id="ni-checklist" onclick="goPage('checklist')">
+        <span class="ni-icon">&#9745;</span><span class="ni-label">Checklist</span>
+        <span class="ni-badge" id="ni-cl-badge">50</span>
+      </button>
+
+      <div class="sidebar-section-label">Applications</div>
+      <button class="nav-item" id="ni-companies" onclick="goPage('companies')">
+        <span class="ni-icon">&#128188;</span><span class="ni-label">Companies</span>
+      </button>
+      <button class="nav-item" id="ni-documents" onclick="goPage('documents')">
+        <span class="ni-icon">&#128196;</span><span class="ni-label">Documents</span>
+      </button>
+
+      <div class="sidebar-section-label">Tools</div>
+      <button class="nav-item" id="ni-cv-audit" onclick="goPage('cv-audit')">
+        <span class="ni-icon">&#128203;</span><span class="ni-label">CV Audit</span>
+      </button>
+      <button class="nav-item" id="ni-budget" onclick="goPage('budget')">
+        <span class="ni-icon">&#128176;</span><span class="ni-label">Budget Planner</span>
+      </button>
+
+      <div class="sidebar-section-label">More</div>
+      <button class="nav-item" id="ni-resources" onclick="goPage('resources')">
+        <span class="ni-icon">&#128279;</span><span class="ni-label">Resources &amp; Links</span>
+      </button>
+      <button class="nav-item" id="ni-notes" onclick="goPage('notes')">
+        <span class="ni-icon">&#128221;</span><span class="ni-label">My Notes</span>
+      </button>
+      <button class="nav-item" id="ni-backup" onclick="goPage('backup')">
+        <span class="ni-icon">&#128190;</span><span class="ni-label">Backup &amp; Share</span>
+      </button>
+    </nav>
+
+    <div class="sidebar-footer">
+      <button class="logout-btn" onclick="doLogout()">
+        <span>&#128275;</span><span>Sign Out</span>
+      </button>
     </div>
   </div>
 
-  <!-- Share Progress -->
-  <div class="card">
-    <button class="card-h" onclick="toggleCard(this)"><h2>&#127381; Share My Progress</h2><div class="card-meta"><span class="chev">&#9660;</span></div></button>
-    <div class="card-b" style="padding:14px 16px;">
-      <p style="font-size:13px;color:var(--muted);margin-bottom:12px;">Generate a shareable image of your progress to inspire others.</p>
-      <div id="share-img-wrap" style="margin-bottom:12px;"></div>
-      <div style="display:flex;gap:10px;flex-wrap:wrap;">
-        <button class="btn btn-navy" onclick="generateShareImg()">&#127775; Generate Image</button>
-        <button class="btn btn-gold" id="dl-share" style="display:none;" onclick="downloadShareImg()">&#11015; Download</button>
+  <!-- Main wrapper -->
+  <div class="app-column">
+    <!-- Header -->
+    <div class="app-header">
+      <button class="hamburger" onclick="toggleSidebar()" id="hamburger-btn">
+        <span></span><span></span><span></span>
+      </button>
+      <div class="header-title" id="header-title">Dashboard</div>
+      <div class="header-progress">
+        <div class="header-bar-wrap"><div class="header-bar" id="header-bar"></div></div>
+        <span class="header-pct" id="header-pct">0%</span>
       </div>
+      <div class="header-avatar" id="header-avatar" onclick="toggleSidebar()">M</div>
     </div>
-  </div>
-  <canvas id="share-canvas" width="800" height="800" style="display:none;"></canvas>
-  <div class="card">
-    <button class="card-h" onclick="toggleCard(this)"><h2>Share My Progress — Old</h2><div class="card-meta"><span class="chev">&#9660;</span></div></button>
-    <div class="card-b" style="padding:14px 16px;">
-      <p style="font-size:13px;color:var(--muted);margin-bottom:10px;">Copy and share this to inspire others:</p>
-      <div class="share-text" id="share-text">Loading...</div>
-      <div class="btn-row" style="padding:10px 0 0;">
-        <button class="btn btn-navy" onclick="copyShare()">Copy to Clipboard</button>
-        <span class="saved" id="copy-saved">Copied!</span>
+
+    <!-- Pages -->
+    <div class="main-content">
+
+      <!-- DASHBOARD -->
+      <div class="page active" id="page-dashboard">
+        <div class="greeting">
+          <h2 id="greet-text">Good morning</h2>
+          <p id="greet-sub">Your Japan journey continues today.</p>
+        </div>
+
+        <div class="quote-card">
+          <div class="quote-mark">"</div>
+          <div class="quote-text" id="daily-quote">Loading your daily inspiration...</div>
+          <div class="quote-author" id="daily-author"></div>
+        </div>
+
+        <div class="dash-progress">
+          <div class="dp-top">
+            <div>
+              <div class="dp-label">Overall Progress</div>
+              <div class="dp-sub" id="dp-sub">0 of 50 steps completed</div>
+            </div>
+            <div class="dp-pct" id="dp-pct">0%</div>
+          </div>
+          <div class="dp-bar"><div class="dp-fill" id="dp-fill"></div></div>
+          <div class="dp-stages" id="dp-stages"></div>
+        </div>
+
+        <div class="stats-row">
+          <div class="stat-card"><span class="stat-n gold" id="s-done">0</span><div class="stat-l">Done</div></div>
+          <div class="stat-card"><span class="stat-n" id="s-left">50</span><div class="stat-l">Remaining</div></div>
+          <div class="stat-card"><span class="stat-n gold" id="s-comp">0</span><div class="stat-l">Companies</div></div>
+          <div class="stat-card"><span class="stat-n gold" id="s-docs">0</span><div class="stat-l">Docs Ready</div></div>
+        </div>
+
+        <div class="countdown-card">
+          <div class="countdown-label">&#128336; Your Journey Timeline</div>
+          <input type="date" class="date-input" id="start-date" placeholder="Journey start date" onchange="updateCD()">
+          <div class="cd-nums">
+            <div class="cd-unit"><span class="cd-n" id="cd-d">--</span><div class="cd-l">Days</div></div>
+            <div class="cd-unit"><span class="cd-n" id="cd-w">--</span><div class="cd-l">Weeks</div></div>
+            <div class="cd-unit"><span class="cd-n" id="cd-m">--</span><div class="cd-l">Months</div></div>
+          </div>
+          <p class="cd-msg" id="cd-msg">Enter your start date to begin tracking your journey.</p>
+        </div>
+
+        <div style="margin-bottom:14px;">
+          <div class="sec-h" style="font-size:15px;margin-bottom:10px;">Quick Actions</div>
+          <div class="quick-actions">
+            <button class="qa-card" onclick="goPage('checklist')"><span class="qa-icon">&#9745;</span><div class="qa-title">Checklist</div><div class="qa-sub">Update your steps</div></button>
+            <button class="qa-card" onclick="goPage('cv-audit')"><span class="qa-icon">&#128203;</span><div class="qa-title">CV Audit</div><div class="qa-sub">Check your score</div></button>
+            <button class="qa-card" onclick="goPage('budget')"><span class="qa-icon">&#128176;</span><div class="qa-title">Budget</div><div class="qa-sub">Track savings</div></button>
+            <button class="qa-card" onclick="goPage('backup')"><span class="qa-icon">&#128190;</span><div class="qa-title">Backup</div><div class="qa-sub">Save progress</div></button>
+          </div>
+        </div>
+
+        <div class="sec-h" style="font-size:15px;margin-bottom:10px;">From Our Community</div>
+        <div class="info-box green" style="margin-bottom:8px;">"This tracker kept me organised for 5 months. I just got my COE. Japan is actually happening." — Nigeria</div>
+        <div class="info-box blue" style="margin-bottom:8px;">"The CV audit showed me 3 things wrong immediately. Fixed them and got an interview the following week." — Ghana</div>
+        <div class="info-box amber">"The budget planner made me realise I was closer to my savings target than I thought." — Nigeria</div>
       </div>
-    </div>
-  </div>
 
-  <div class="card">
-    <button class="card-h" onclick="toggleCard(this)"><h2>Community Stories</h2><div class="card-meta"><span class="chev">&#9660;</span></div></button>
-    <div class="card-b" style="padding:14px 16px;">
-      <div class="testi"><p>"I had no idea where to start. This tracker kept me organised for 5 months straight. I just got my COE. Japan is actually happening."</p><span>Community member — Nigeria</span></div>
-      <div class="testi"><p>"The CV audit showed me three things wrong with my CV immediately. Fixed them and got an interview the following week."</p><span>Community member — Ghana</span></div>
-      <div class="testi"><p>"The budget planner made me realise I was closer to my savings target than I thought. That gave me the push I needed to apply."</p><span>Community member — Nigeria</span></div>
-    </div>
-  </div>
-
-  <div style="text-align:center;padding:8px 0 16px;">
-    <button class="btn btn-red" onclick="resetAll()">Reset All Progress</button>
-  </div>
-</div>
-
-<!-- ══════════════════ CHECKLIST ══════════════════ -->
-<div class="page" id="page-checklist">
-  <p class="sec-h">Step-by-Step Checklist</p>
-  <p class="sec-p">Tap each item to tick it off. Your progress saves automatically every time.</p>
-  <div id="cl-container"></div>
-</div>
-
-<!-- ══════════════════ COMPANIES ══════════════════ -->
-<div class="page" id="page-companies">
-  <p class="sec-h">Company Application Tracker</p>
-  <p class="sec-p">Track every company you apply to. Apply to at least 3 at the same time for best results.</p>
-  <div class="info">Apply to multiple companies simultaneously. Do not wait for one to reply before applying to the next.</div>
-  <div class="card">
-    <div class="card-b">
-      <div class="tbl-wrap">
-        <table class="tbl" id="comp-tbl">
-          <thead><tr><th>Company</th><th>Applied</th><th>Interview</th><th>Status</th><th>Offer</th><th>Notes</th></tr></thead>
-          <tbody id="comp-body"></tbody>
-        </table>
+      <!-- CHECKLIST -->
+      <div class="page" id="page-checklist">
+        <div class="sec-h">Step-by-Step Checklist</div>
+        <p class="sec-p">Tap each item to tick it off. Your progress saves automatically every time.</p>
+        <div id="cl-container"></div>
       </div>
-      <div class="btn-row"><button class="btn btn-navy" onclick="addComp()">+ Add Company</button></div>
-    </div>
-  </div>
-  <div class="warn">Silence from a company does not mean rejection. It means processing. Keep applying and stay patient.</div>
-</div>
 
-<!-- ══════════════════ DOCUMENTS ══════════════════ -->
-<div class="page" id="page-documents">
-  <p class="sec-h">Document Tracker</p>
-  <p class="sec-p">Track the status of every document. Some take weeks — start early.</p>
-  <div class="warn" style="margin-bottom:8px;">&#9203; <strong>Important timing note:</strong> Do NOT apply for your police clearance, health certificate, proof of 12 years secondary education or bank statement yet. These documents have expiry dates and must only be obtained AFTER the company requests them and provides their specific format requirements. Applying too early means they may expire before you need them.</div>
-<div class="succ" style="margin-bottom:12px;">&#10003; <strong>Prepare now:</strong> Your passport, degree certificate, university transcript, passport photographs, CV and cover letter. These have no expiry issues and should be ready before you apply.</div>
-  <div class="card">
-    <div class="card-b">
-      <div class="tbl-wrap">
-        <table class="tbl">
-          <thead><tr><th>Document</th><th>Status</th><th>Expiry Date</th><th>Notes</th></tr></thead>
-          <tbody id="doc-body"></tbody>
-        </table>
+      <!-- COMPANIES -->
+      <div class="page" id="page-companies">
+        <div class="sec-h">Company Tracker</div>
+        <p class="sec-p">Track every company you apply to. Apply to at least 3 simultaneously.</p>
+        <div class="info-box blue">Apply to multiple companies at the same time. Do not wait for one to reply before applying to the next.</div>
+        <div id="comp-container"></div>
+        <button class="btn btn-gold" onclick="addComp()" style="width:100%;margin-top:4px;">+ Add Company</button>
       </div>
-    </div>
-  </div>
-</div>
 
-<!-- ══════════════════ CV AUDIT ══════════════════ -->
-<div class="page" id="page-cv-audit">
-  <p class="sec-h">CV Audit</p>
-  <p class="sec-p">Rate your CV honestly against what ALT companies actually look for.</p>
-  <div class="stat-grid" style="grid-template-columns:repeat(3,1fr);">
-    <div class="stat-card"><span class="stat-n" id="cv-yes">0</span><div class="stat-l">Strong</div></div>
-    <div class="stat-card"><span class="stat-n" id="cv-needs">0</span><div class="stat-l">Needs Work</div></div>
-    <div class="stat-card"><span class="stat-n" id="cv-score">0%</span><div class="stat-l">CV Score</div></div>
-  </div>
-  <div id="cv-result" style="display:none;" class="info" id="cv-advice-box"></div>
-  <div id="cv-sections"></div>
-  <div class="card" style="background:var(--navy);border-color:var(--navy);">
-    <div style="padding:18px;text-align:center;">
-      <p style="font-size:13px;color:rgba(255,255,255,0.65);margin-bottom:12px;">CV needs work? Let Mercy write it for you professionally.</p>
-      <a href="mailto:opportunityplanet.info@gmail.com" style="display:inline-block;background:var(--gold);color:var(--navy);font-size:14px;font-weight:700;padding:12px 28px;border-radius:12px;text-decoration:none;touch-action:manipulation;">Get CV Help from Mercy</a>
-    </div>
-  </div>
-</div>
-
-<!-- ══════════════════ BUDGET ══════════════════ -->
-<div class="page" id="page-budget">
-  <p class="sec-h">Budget Planner</p>
-  <p class="sec-p">Know exactly when you will be financially ready to make the move.</p>
-  <div class="info">Most ALT companies recommend having $3,000 to $6,000 saved before your first paycheck in Japan.</div>
-  <div class="card">
-    <div class="card-h-plain"><h2>Your Financial Snapshot</h2></div>
-    <div class="card-b">
-      <div class="b-grid">
-        <div><div class="b-label">Current savings (USD)</div><input class="b-inp" type="number" id="b-cur" placeholder="e.g. 500" oninput="calcBudget()"></div>
-        <div><div class="b-label">Monthly savings (USD)</div><input class="b-inp" type="number" id="b-mon" placeholder="e.g. 200" oninput="calcBudget()"></div>
-        <div><div class="b-label">Savings target (USD)</div><input class="b-inp" type="number" id="b-tar" placeholder="e.g. 4000" oninput="calcBudget()"></div>
-        <div><div class="b-label">ALT salary (Yen/month)</div><input class="b-inp" type="number" id="b-sal" placeholder="e.g. 200000" oninput="calcBudget()"></div>
+      <!-- DOCUMENTS -->
+      <div class="page" id="page-documents">
+        <div class="sec-h">Document Tracker</div>
+        <p class="sec-p">Track every document you need and know exactly when to apply for each one.</p>
+        <div class="info-box amber">&#9203; Do NOT apply for police clearance, health certificate, proof of 12 years education or bank statement until the company requests them. They have expiry dates.</div>
+        <div class="info-box green">&#10003; Prepare your passport, degree, transcript, photos, CV and cover letter now — no timing issues.</div>
+        <div id="doc-container"></div>
       </div>
-      <div id="b-result" style="display:none;" class="b-result">
-        <div class="b-result-label">Months until your target</div>
-        <span class="b-big" id="b-months">--</span>
-        <p class="b-msg" id="b-msg"></p>
+
+      <!-- CV AUDIT -->
+      <div class="page" id="page-cv-audit">
+        <div class="sec-h">CV Audit</div>
+        <p class="sec-p">Rate your CV against what ALT companies actually look for. Be honest.</p>
+        <div class="cv-score-card">
+          <div class="cv-circle">
+            <svg width="80" height="80" viewBox="0 0 80 80">
+              <circle cx="40" cy="40" r="32" fill="none" stroke="rgba(255,255,255,0.08)" stroke-width="8"/>
+              <circle id="cv-circle-arc" cx="40" cy="40" r="32" fill="none" stroke="#C9A032" stroke-width="8" stroke-linecap="round" stroke-dasharray="201" stroke-dashoffset="201"/>
+            </svg>
+            <div class="cv-circle-text"><span class="cv-pct" id="cv-pct-display">0%</span></div>
+          </div>
+          <div class="cv-info">
+            <h3>Your CV Score</h3>
+            <p id="cv-advice-text">Answer the questions below to see your score and get personalised advice.</p>
+          </div>
+        </div>
+        <div class="cv-stats">
+          <div class="cv-stat"><span class="cv-stat-n green" id="cv-yes">0</span><div class="cv-stat-l">Strong</div></div>
+          <div class="cv-stat"><span class="cv-stat-n amber" id="cv-needs">0</span><div class="cv-stat-l">Needs Work</div></div>
+          <div class="cv-stat"><span class="cv-stat-n muted" id="cv-na">0</span><div class="cv-stat-l">N/A</div></div>
+        </div>
+        <div id="cv-sections"></div>
+        <div class="info-box blue" style="margin-top:14px;">CV needs work? <strong>Let Mercy write it for you.</strong> Email opportunityplanet.info@gmail.com</div>
       </div>
-      <div id="b-tip" style="display:none;" class="b-tip"></div>
-    </div>
-  </div>
-  <div class="card">
-    <button class="card-h" onclick="toggleCard(this)"><h2>Money Saving Tips</h2><div class="card-meta"><span class="chev">&#9660;</span></div></button>
-    <div class="card-b">
-      <div class="ci" style="cursor:default;min-height:auto;"><div class="ci-text">Cut one unused subscription and redirect that money to your Japan fund every month</div></div>
-      <div class="ci" style="cursor:default;min-height:auto;"><div class="ci-text">Name a separate savings account "Japan Fund" — seeing the name keeps you motivated</div></div>
-      <div class="ci" style="cursor:default;min-height:auto;"><div class="ci-text">Use Wise or Remitly for international transfers — much lower fees than traditional banks</div></div>
-      <div class="ci" style="cursor:default;min-height:auto;"><div class="ci-text">Notify your bank before travelling to Japan to avoid your card being blocked on arrival</div></div>
-      <div class="ci" style="cursor:default;min-height:auto;"><div class="ci-text">Cooking at home in Japan saves approximately ¥20,000 to ¥30,000 per month compared to eating out</div></div>
-      <div class="ci" style="cursor:default;min-height:auto;border-bottom:none;"><div class="ci-text">Many ALT companies cover commuting costs — confirm this before budgeting for transport</div></div>
-    </div>
-  </div>
-</div>
 
-<!-- ══════════════════ RESOURCES ══════════════════ -->
-<div class="page" id="page-resources">
-  <p class="sec-h">Resources &amp; Links</p>
-  <p class="sec-p">Everything you need in one place. Tap any link to open it.</p>
-
-  <div class="card">
-    <div class="card-h-plain"><h2>ALT Job Boards</h2></div>
-    <div class="card-b">
-      <a class="rl" href="https://jobs.gaijinpot.com" target="_blank" rel="noopener"><div class="rl-ic">GP</div><div class="rl-info"><h4>GaijinPot Jobs</h4><p>Most popular board for ALT jobs in Japan</p></div><span class="rl-arr">&#8599;</span></a>
-      <a class="rl" href="https://jobsinjapan.com" target="_blank" rel="noopener"><div class="rl-ic">JJ</div><div class="rl-info"><h4>Jobs in Japan</h4><p>Wide range of teaching positions</p></div><span class="rl-arr">&#8599;</span></a>
-      <a class="rl" href="https://www.daijob.com" target="_blank" rel="noopener"><div class="rl-ic">DJ</div><div class="rl-info"><h4>Daijob</h4><p>Bilingual job listings including ALT roles</p></div><span class="rl-arr">&#8599;</span></a>
-      <a class="rl" href="https://jp.indeed.com/?lang=en" target="_blank" rel="noopener"><div class="rl-ic">IN</div><div class="rl-info"><h4>Indeed Japan</h4><p>Search in English mode for ALT positions</p></div><span class="rl-arr">&#8599;</span></a>
-    </div>
-  </div>
-
-  <div class="card">
-    <div class="card-h-plain"><h2>ALT Companies</h2></div>
-    <div class="card-b">
-      <a class="rl" href="https://interacnetwork.com" target="_blank" rel="noopener"><div class="rl-ic">IN</div><div class="rl-info"><h4>Interac</h4><p>Largest ALT dispatch company in Japan</p></div><span class="rl-arr">&#8599;</span></a>
-      <a class="rl" href="https://www.borderlink.co.jp/en/" target="_blank" rel="noopener"><div class="rl-ic">BL</div><div class="rl-info"><h4>Borderlink</h4><p>Major ALT employer with nationwide placements</p></div><span class="rl-arr">&#8599;</span></a>
-      <a class="rl" href="https://www.altiacentral.com" target="_blank" rel="noopener"><div class="rl-ic">AC</div><div class="rl-info"><h4>Altia Central</h4><p>Well established dispatch company</p></div><span class="rl-arr">&#8599;</span></a>
-      <a class="rl" href="https://www.joytalk.biz/" target="_blank" rel="noopener"><div class="rl-ic">JT</div><div class="rl-info"><h4>Joy Talk</h4><p>Growing ALT company with good support</p></div><span class="rl-arr">&#8599;</span></a>
-      <a class="rl" href="https://www.westgatejapan.com/" target="_blank" rel="noopener"><div class="rl-ic">WG</div><div class="rl-info"><h4>Westgate Corporation</h4><p>Reputable ALT placement company</p></div><span class="rl-arr">&#8599;</span></a>
-    </div>
-  </div>
-
-  <div class="card">
-    <div class="card-h-plain"><h2>Free TEFL Certificates</h2></div>
-    <div class="card-b">
-      <a class="rl" href="https://teacherrecord.com/tefl-certificate" target="_blank" rel="noopener"><div class="rl-ic">TR</div><div class="rl-info"><h4>TeacherRecord</h4><p>Free TEFL certificate — add to your CV immediately</p></div><span class="rl-arr">&#8599;</span></a>
-      <a class="rl" href="https://alison.com/courses?query=tefl%20certificate" target="_blank" rel="noopener"><div class="rl-ic">AL</div><div class="rl-info"><h4>Alison</h4><p>Free online TEFL courses with certificates</p></div><span class="rl-arr">&#8599;</span></a>
-    </div>
-  </div>
-
-  <div class="card">
-    <div class="card-h-plain"><h2>Opportunity Planet Services</h2></div>
-    <div class="card-b">
-      <a class="rl" href="https://selar.com/m/opportunityplanet" target="_blank" rel="noopener"><div class="rl-ic">OP</div><div class="rl-info"><h4>Full ALT Relocation Guide</h4><p>Complete step-by-step ebook — $27</p></div><span class="rl-arr">&#8599;</span></a>
-      <a class="rl" href="https://selar.com/m/opportunityplanet" target="_blank" rel="noopener"><div class="rl-ic">CV</div><div class="rl-info"><h4>Professional CV Writing</h4><p>ALT-tailored CV and cover letter service</p></div><span class="rl-arr">&#8599;</span></a>
-      <a class="rl" href="https://selar.com/m/opportunityplanet" target="_blank" rel="noopener"><div class="rl-ic">CC</div><div class="rl-info"><h4>Clarity Call with Mercy</h4><p>30 minute one-on-one guidance — $30</p></div><span class="rl-arr">&#8599;</span></a>
-      <a class="rl" href="mailto:opportunityplanet.info@gmail.com"><div class="rl-ic">@</div><div class="rl-info"><h4>Email Mercy</h4><p>opportunityplanet.info@gmail.com</p></div><span class="rl-arr">&#8599;</span></a>
-    </div>
-  </div>
-</div>
-
-<!-- ══════════════════ NOTES ══════════════════ -->
-<div class="page" id="page-notes">
-  <p class="sec-h">My Personal Notes</p>
-  <p class="sec-p">Your private space to think, plan and write anything about your journey.</p>
-  <div class="card">
-    <div class="card-b" style="padding:16px;">
-      <textarea class="notes-ta" id="notes-ta" placeholder="Write anything here — questions to ask, things to remember, how you feel about your journey, goals, fears, ideas. This is your private space."></textarea>
-      <div class="btn-row" style="padding:10px 0 0;">
-        <button class="btn btn-navy" onclick="saveNotes()">Save Notes</button>
-        <span class="saved" id="notes-saved">Saved!</span>
+      <!-- BUDGET -->
+      <div class="page" id="page-budget">
+        <div class="sec-h">Budget Planner</div>
+        <p class="sec-p">Know exactly when you will be financially ready to move to Japan.</p>
+        <div class="info-box blue" style="margin-bottom:14px;">Most ALT companies recommend having $3,000 to $6,000 saved before your first paycheck.</div>
+        <div class="budget-grid">
+          <div class="budget-field"><div class="budget-label">Current savings (USD)</div><input class="budget-input" type="number" id="b-cur" placeholder="0" oninput="calcBudget()"></div>
+          <div class="budget-field"><div class="budget-label">Monthly savings (USD)</div><input class="budget-input" type="number" id="b-mon" placeholder="0" oninput="calcBudget()"></div>
+          <div class="budget-field"><div class="budget-label">Target amount (USD)</div><input class="budget-input" type="number" id="b-tar" placeholder="4000" oninput="calcBudget()"></div>
+          <div class="budget-field"><div class="budget-label">ALT salary (Yen/mo)</div><input class="budget-input" type="number" id="b-sal" placeholder="200000" oninput="calcBudget()"></div>
+        </div>
+        <div id="b-result" style="display:none;" class="budget-result">
+          <div class="budget-result-label">Months until your target</div>
+          <span class="budget-big" id="b-months">--</span>
+          <p class="budget-msg" id="b-msg"></p>
+        </div>
+        <div id="b-tip" style="display:none;"></div>
+        <div class="sec-h" style="font-size:15px;margin-bottom:8px;">Money Saving Tips</div>
+        <div class="info-box green" style="margin-bottom:8px;">Name a savings account "Japan Fund" — seeing the name keeps you motivated every time you transfer.</div>
+        <div class="info-box green" style="margin-bottom:8px;">Use Wise or Remitly for international transfers — fees are much lower than traditional banks.</div>
+        <div class="info-box green">Cooking at home in Japan saves approximately ¥20,000 to ¥30,000 per month compared to eating out regularly.</div>
       </div>
-    </div>
-  </div>
-  <div class="btn-row" style="justify-content:center;margin-top:6px;">
-    <button class="btn btn-gold" onclick="exportPDF()">&#128196; Export as PDF</button>
-  </div>
-</div>
 
-<!-- FOOTER -->
-<div class="footer">
-  <h3>You Can Do This</h3>
-  <p>Mercy and the Opportunity Planet community are with you every step of the way.</p>
-  <div class="footer-links">
-    <span>opportunityplanet.info@gmail.com</span>
-    <span>&#183;</span>
-    <span>@opportunity.planet</span>
-    <span>&#183;</span>
-    <span>selar.com/m/opportunityplanet</span>
-  </div>
-  <p class="footer-quote">"I fled a war, lost my mother and still made it to Japan with three children. If I did it, so can you."<br><strong style="font-style:normal;color:var(--gold);">— Mercy, Opportunity Planet</strong></p>
-</div>
+      <!-- RESOURCES -->
+      <div class="page" id="page-resources">
+        <div class="sec-h">Resources &amp; Links</div>
+        <p class="sec-p">Everything you need in one place. Tap any link to open it.</p>
+        <div class="res-group">
+          <div class="res-group-title">ALT Job Boards</div>
+          <div class="res-card">
+            <a class="res-item" href="https://jobs.gaijinpot.com" target="_blank" rel="noopener"><div class="res-ic">GP</div><div class="res-info"><h4>GaijinPot Jobs</h4><p>Most popular board for ALT jobs</p></div><span class="res-arr">&#8599;</span></a>
+            <a class="res-item" href="https://jobsinjapan.com" target="_blank" rel="noopener"><div class="res-ic">JJ</div><div class="res-info"><h4>Jobs in Japan</h4><p>Wide range of teaching positions</p></div><span class="res-arr">&#8599;</span></a>
+            <a class="res-item" href="https://jp.indeed.com/?lang=en" target="_blank" rel="noopener"><div class="res-ic">IN</div><div class="res-info"><h4>Indeed Japan</h4><p>Search in English for ALT positions</p></div><span class="res-arr">&#8599;</span></a>
+          </div>
+        </div>
+        <div class="res-group">
+          <div class="res-group-title">ALT Companies</div>
+          <div class="res-card">
+            <a class="res-item" href="https://interacnetwork.com" target="_blank" rel="noopener"><div class="res-ic">IN</div><div class="res-info"><h4>Interac</h4><p>Largest ALT dispatch company</p></div><span class="res-arr">&#8599;</span></a>
+            <a class="res-item" href="https://www.borderlink.co.jp/en/" target="_blank" rel="noopener"><div class="res-ic">BL</div><div class="res-info"><h4>Borderlink</h4><p>Major ALT employer nationwide</p></div><span class="res-arr">&#8599;</span></a>
+            <a class="res-item" href="https://www.altiacentral.com" target="_blank" rel="noopener"><div class="res-ic">AC</div><div class="res-info"><h4>Altia Central</h4><p>Well established dispatch company</p></div><span class="res-arr">&#8599;</span></a>
+            <a class="res-item" href="https://www.joytalk.biz/" target="_blank" rel="noopener"><div class="res-ic">JT</div><div class="res-info"><h4>Joy Talk</h4><p>Growing ALT company</p></div><span class="res-arr">&#8599;</span></a>
+            <a class="res-item" href="https://www.westgatejapan.com/" target="_blank" rel="noopener"><div class="res-ic">WG</div><div class="res-info"><h4>Westgate Corporation</h4><p>Reputable ALT placement</p></div><span class="res-arr">&#8599;</span></a>
+          </div>
+        </div>
+        <div class="res-group">
+          <div class="res-group-title">Free TEFL Certificates</div>
+          <div class="res-card">
+            <a class="res-item" href="https://teacherrecord.com/tefl-certificate" target="_blank" rel="noopener"><div class="res-ic">TR</div><div class="res-info"><h4>TeacherRecord</h4><p>Free TEFL certificate — add to CV now</p></div><span class="res-arr">&#8599;</span></a>
+            <a class="res-item" href="https://alison.com/courses?query=tefl" target="_blank" rel="noopener"><div class="res-ic">AL</div><div class="res-info"><h4>Alison</h4><p>Free online TEFL courses</p></div><span class="res-arr">&#8599;</span></a>
+          </div>
+        </div>
+        <div class="res-group">
+          <div class="res-group-title">Opportunity Planet</div>
+          <div class="res-card">
+            <a class="res-item" href="https://selar.com/m/opportunityplanet" target="_blank" rel="noopener"><div class="res-ic">OP</div><div class="res-info"><h4>Full ALT Relocation Guide</h4><p>Complete step-by-step ebook</p></div><span class="res-arr">&#8599;</span></a>
+            <a class="res-item" href="https://selar.com/m/opportunityplanet" target="_blank" rel="noopener"><div class="res-ic">CV</div><div class="res-info"><h4>Professional CV Writing</h4><p>ALT-tailored CV service</p></div><span class="res-arr">&#8599;</span></a>
+            <a class="res-item" href="mailto:opportunityplanet.info@gmail.com"><div class="res-ic">@</div><div class="res-info"><h4>Email Mercy</h4><p>opportunityplanet.info@gmail.com</p></div><span class="res-arr">&#8599;</span></a>
+          </div>
+        </div>
+      </div>
+
+      <!-- NOTES -->
+      <div class="page" id="page-notes">
+        <div class="sec-h">My Notes</div>
+        <p class="sec-p">Your private space to think, plan and write anything about your journey.</p>
+        <textarea class="notes-ta" id="notes-ta" placeholder="Write anything here — questions, reminders, goals, fears, ideas. This is completely private."></textarea>
+        <div class="btn-row">
+          <button class="btn btn-gold" onclick="saveNotes()">Save Notes</button>
+          <span class="saved-ind" id="notes-saved">Saved!</span>
+        </div>
+      </div>
+
+      <!-- BACKUP & SHARE -->
+      <div class="page" id="page-backup">
+        <div class="sec-h">Backup &amp; Share</div>
+        <p class="sec-p">Protect your progress and share your journey.</p>
+
+        <div class="backup-card">
+          <h4>&#128274; Never Lose Your Progress</h4>
+          <p>Download a backup regularly. If you switch phones or clear your browser restore it here to pick up exactly where you left off. Save your backup to Google Drive or WhatsApp Saved Messages.</p>
+          <div class="btn-row">
+            <button class="btn btn-gold" onclick="downloadBackup()">&#11015; Download Backup</button>
+            <button class="btn btn-navy" onclick="document.getElementById('restore-file').click()">&#11014; Restore</button>
+            <input type="file" id="restore-file" accept=".json" style="display:none;" onchange="restoreBackup(this)">
+          </div>
+        </div>
+
+        <div class="sec-h" style="font-size:15px;margin-bottom:10px;">Share Your Progress</div>
+        <p class="sec-p" style="margin-top:-6px;">Generate a shareable image to inspire others on the same journey.</p>
+        <div id="share-preview-wrap"></div>
+        <div class="btn-row" style="margin-bottom:14px;">
+          <button class="btn btn-gold" onclick="generateShare()">&#127775; Generate Image</button>
+          <button class="btn btn-navy" id="dl-share-btn" style="display:none;" onclick="downloadShare()">&#11015; Download</button>
+        </div>
+        <canvas id="share-canvas" width="800" height="800"></canvas>
+
+        <div class="sec-h" style="font-size:15px;margin-bottom:10px;">Export</div>
+        <button class="btn btn-navy" onclick="window.print()" style="width:100%;">&#128196; Print / Save as PDF</button>
+      </div>
+
+    </div><!-- end main-content -->
+  </div><!-- end app-column -->
+</div><!-- end app -->
 
 <script>
-/* ══════════════════ DATA ══════════════════ */
-const STAGES=[
-  {t:"STAGE 1 — RESEARCH & PREPARATION",msg:"Stage 1 complete! You have done your research. Most people never get this far. Keep going.",items:["I understand what an ALT job is and what the daily role involves","I have confirmed I meet the basic eligibility requirements","I have a Bachelor's degree in any field","I speak clear natural English","I have researched at least three ALT dispatch companies","I know the two main hiring seasons — October to January and April to June","I understand the salary range and basic cost of living in Japan","I have read the full Opportunity Planet ALT guide"]},
-  {t:"STAGE 2 — DOCUMENTS TO PREPARE",msg:"Documents organised! You know exactly what you need and when. You are more prepared than most applicants.",items:["International passport — valid for at least 18 months","Bachelor's degree certificate — get this certified and ready","Official university transcript — request from your university now","Passport photographs — professional and recent","Professional CV tailored specifically for ALT applications","Cover letter written for ALT roles","Police clearance certificate — WAIT for company request before applying (has expiry date)","Health certificate — WAIT for company request before applying (has expiry date)","Proof of 12 years secondary education — WAIT for company format before applying","Bank statement (proof of funds) — WAIT for company to confirm required amount"]},
-  {t:"STAGE 3 — THE APPLICATION",msg:"Applications submitted! You are officially in the running. Check your email and stay patient.",items:["I have created accounts on ALT job boards — Gaijinpot, Jobs in Japan","I have applied to at least three ALT companies simultaneously","I have submitted a tailored CV and cover letter to each company","I have followed up on my applications where appropriate","I have added a free TEFL certificate to my CV"]},
-  {t:"STAGE 4 — INTERVIEW PREPARATION",msg:"Interview ready! You have done the work. Walk in knowing you deserve to be there.",items:["I have practised my self introduction","I have prepared answers to common ALT interview questions","I have planned and practised my demo lesson","I know what to wear — professional and neat even for online interviews","I have tested my internet connection and camera","I have chosen a quiet well lit space for my interview","I have researched the company I am interviewing with"]},
-  {t:"STAGE 5 — AFTER THE JOB OFFER",msg:"Job offer secured! This is a massive milestone. Now get the post-offer documents done quickly.",items:["I have received and reviewed my employment contract carefully","I have confirmed with the company exactly which documents they need","I have applied for my police clearance certificate — company has requested it","I have completed my health certificate — company has requested it","I have obtained proof of 12 years secondary education in the company format","I have prepared my bank statement with the amount confirmed by the company","I have submitted all required post-offer documents to the company","My company has begun the Certificate of Eligibility application","I understand the COE takes four to twelve weeks to process","I have received my COE from my company"]},
-  {t:"STAGE 6 — VISA APPLICATION",msg:"Visa in hand! Japan is no longer a dream. It is a confirmed destination.",items:["I have visited the Japanese embassy or consulate in my country","I have submitted my passport, COE, visa form and photographs","I have received my work visa","I have confirmed my flight and travel dates with my company"]},
-  {t:"STAGE 7 — BEFORE YOU TRAVEL",msg:"Everything packed and ready! In days your entire life changes. You earned this.",items:["I have booked my flight to Japan","I have informed my company of my arrival date and time","I have packed original documents — passport, COE, degree, contract","I have arranged Japanese yen for arrival","I have downloaded useful apps — Google Translate, Google Maps, Hyperdia","I have researched basic Japanese etiquette and workplace culture","I have saved my company contact and emergency numbers"]},
-  {t:"STAGE 8 — ARRIVAL IN JAPAN",msg:"You are in Japan! You did it. Every step of this journey led to this moment. Welcome to your new life.",items:["I have collected my residence card at the airport","I have registered at my local city hall within 14 days","I have joined the national health insurance system","I have enrolled in the pension system","I have opened a Japanese bank account for my salary","I have attended my company orientation and training","I have introduced myself to my school principal and teaching staff"]},
-];
-const DOCS=[
-  {name:"International passport", timing:"prepare_now", note:"Valid for at least 18 months. Prepare now."},
-  {name:"Bachelor's degree certificate", timing:"prepare_now", note:"Get certified copy ready now."},
-  {name:"University transcript", timing:"prepare_now", note:"Request from your university now."},
-  {name:"Passport photographs", timing:"prepare_now", note:"Professional headshots. Prepare now."},
-  {name:"Professional CV", timing:"prepare_now", note:"Tailor for ALT roles. Prepare now."},
-  {name:"Cover letter", timing:"prepare_now", note:"Written for ALT roles. Prepare now."},
-  {name:"Police clearance certificate", timing:"wait", note:"WAIT — apply only when company requests. Has expiry date."},
-  {name:"Health certificate", timing:"wait", note:"WAIT — apply only when company requests. Has expiry date."},
-  {name:"Proof of 12 years secondary education", timing:"wait", note:"WAIT — company provides their required format. Do not apply yet."},
-  {name:"Bank statement (proof of funds)", timing:"wait", note:"WAIT — company confirms required amount. Do not prepare yet."},
-  {name:"Completed visa application form", timing:"wait", note:"WAIT — only needed after job offer and COE received."},
-  {name:"Employment contract", timing:"wait", note:"WAIT — provided by company after job offer."},
-];
-const CV_SECTIONS=[
-  {t:"Structure & Format",q:["My CV is 1 to 2 pages maximum","My CV has a clear personal statement at the top","I have included a professional photograph","My formatting is clean and consistent throughout","My contact details are clearly visible","My CV has no spelling or grammar errors"]},
-  {t:"Content & Experience",q:["All teaching experience is listed including informal roles","My experience descriptions are specific not vague","I have listed any international living or working experience","My education section clearly shows my Bachelor's degree","I have listed relevant skills including languages","Any employment gaps are accounted for"]},
-  {t:"ALT Specific Requirements",q:["My personal statement mentions Japan and teaching English","I have mentioned TPR — Total Physical Response — methodology","My cover letter is tailored to the ALT role not generic","I mention cultural adaptability or international experience","My cover letter is under one page with a confident closing line","I have added a free TEFL certificate from TeacherRecord or Alison"]},
+/* ════════════════════════════════════════
+   DATA
+════════════════════════════════════════ */
+const MASTER = 'ALTJAPAN2026';
+const ACCT_KEY = 'op_account_v2';
+
+const STAGES = [
+  {t:"Stage 1 — Research & Preparation", msg:"Stage 1 complete! You have done your research. Most people never get this far.", items:[
+    {text:"I understand what an ALT job is and what the daily role involves"},
+    {text:"I have confirmed I meet the basic eligibility requirements"},
+    {text:"I have a Bachelor's degree in any field"},
+    {text:"I speak clear natural English"},
+    {text:"I have researched at least three ALT dispatch companies"},
+    {text:"I know the two main hiring seasons — October to January and April to June"},
+    {text:"I understand the salary range and basic cost of living in Japan"},
+    {text:"I have read the full Opportunity Planet ALT guide"},
+  ]},
+  {t:"Stage 2 — Documents to Prepare Now", msg:"Documents ready! You are more prepared than most applicants.", items:[
+    {text:"International passport — valid for at least 18 months", tag:"now"},
+    {text:"Bachelor's degree certificate — get a certified copy ready", tag:"now"},
+    {text:"Official university transcript — request from your university now", tag:"now"},
+    {text:"Passport photographs — professional and recent", tag:"now"},
+    {text:"Professional CV tailored specifically for ALT applications", tag:"now"},
+    {text:"Cover letter written for ALT roles", tag:"now"},
+    {text:"Police clearance certificate — WAIT until company requests (has expiry date)", tag:"wait"},
+    {text:"Health certificate — WAIT until company requests (has expiry date)", tag:"wait"},
+    {text:"Proof of 12 years secondary education — WAIT for company format", tag:"wait"},
+    {text:"Bank statement — WAIT until company confirms required amount", tag:"wait"},
+  ]},
+  {t:"Stage 3 — The Application", msg:"Applications submitted! You are officially in the running.", items:[
+    {text:"I have created accounts on ALT job boards — Gaijinpot, Jobs in Japan"},
+    {text:"I have applied to at least three ALT companies simultaneously"},
+    {text:"I have submitted a tailored CV and cover letter to each company"},
+    {text:"I have followed up on my applications where appropriate"},
+    {text:"I have added a free TEFL certificate to my CV from TeacherRecord or Alison"},
+  ]},
+  {t:"Stage 4 — Interview Preparation", msg:"Interview ready! Walk in knowing you deserve to be there.", items:[
+    {text:"I have practised my self introduction"},
+    {text:"I have prepared answers to common ALT interview questions"},
+    {text:"I have planned and practised my demo lesson"},
+    {text:"I know what to wear — professional even for online interviews"},
+    {text:"I have tested my internet connection and camera"},
+    {text:"I have chosen a quiet well lit space for my interview"},
+    {text:"I have researched the company I am interviewing with"},
+  ]},
+  {t:"Stage 5 — After the Job Offer", msg:"Job offer secured! Now collect the documents the company requested.", items:[
+    {text:"I have received and reviewed my employment contract carefully"},
+    {text:"I have confirmed with the company exactly which documents they need"},
+    {text:"I have applied for my police clearance — company has now requested it"},
+    {text:"I have completed my health certificate — company has now requested it"},
+    {text:"I have obtained proof of 12 years secondary education in the company format"},
+    {text:"I have prepared my bank statement with the amount confirmed by the company"},
+    {text:"I have submitted all required post-offer documents to the company"},
+    {text:"My company has begun the Certificate of Eligibility application"},
+    {text:"I understand the COE takes four to twelve weeks to process"},
+    {text:"I have received my COE from my company"},
+  ]},
+  {t:"Stage 6 — Visa Application", msg:"Visa in hand! Japan is no longer a dream. It is confirmed.", items:[
+    {text:"I have visited the Japanese embassy or consulate in my country"},
+    {text:"I have submitted my passport, COE, visa form and photographs"},
+    {text:"I have received my work visa"},
+    {text:"I have confirmed my flight and travel dates with my company"},
+  ]},
+  {t:"Stage 7 — Before You Travel", msg:"Everything ready! Your life changes in days. You earned this.", items:[
+    {text:"I have booked my flight to Japan"},
+    {text:"I have informed my company of my arrival date and time"},
+    {text:"I have packed original documents — passport, COE, degree, contract"},
+    {text:"I have arranged Japanese yen for arrival"},
+    {text:"I have downloaded Google Translate, Google Maps and Hyperdia"},
+    {text:"I have researched basic Japanese etiquette and workplace culture"},
+    {text:"I have saved my company contact details and emergency numbers"},
+  ]},
+  {t:"Stage 8 — Arrival in Japan", msg:"You are in Japan! You did it. Welcome to your new life.", items:[
+    {text:"I have collected my residence card at the airport"},
+    {text:"I have registered at my local city hall within 14 days"},
+    {text:"I have joined the national health insurance system"},
+    {text:"I have enrolled in the pension system"},
+    {text:"I have opened a Japanese bank account for my salary"},
+    {text:"I have attended my company orientation and training"},
+    {text:"I have introduced myself to my school principal and teaching staff"},
+  ]},
 ];
 
-/* ══════════════════ STATE ══════════════════ */
-let checked={},compData=[],docData={},cvData={},stageNotes={},startDate='';
-let totalItems=0;
+const DOCS = [
+  {name:"International passport", timing:"now", note:"Valid 18+ months. Prepare now.", status:["Not started","In progress","Ready"]},
+  {name:"Bachelor's degree certificate", timing:"now", note:"Get certified copy. Prepare now.", status:["Not started","In progress","Ready"]},
+  {name:"University transcript", timing:"now", note:"Request from your university now.", status:["Not started","In progress","Ready"]},
+  {name:"Passport photographs", timing:"now", note:"Professional headshots. Prepare now.", status:["Not started","In progress","Ready"]},
+  {name:"Professional CV", timing:"now", note:"Tailor for ALT roles. Prepare now.", status:["Not started","In progress","Ready"]},
+  {name:"Cover letter", timing:"now", note:"Written for ALT roles. Prepare now.", status:["Not started","In progress","Ready"]},
+  {name:"Police clearance certificate", timing:"wait", note:"Apply ONLY after company requests. Has expiry date.", status:["Not yet requested","Company requested","In progress","Obtained","Expired"]},
+  {name:"Health certificate", timing:"wait", note:"Apply ONLY after company requests. Has expiry date.", status:["Not yet requested","Company requested","In progress","Obtained","Expired"]},
+  {name:"Proof of 12 years secondary education", timing:"wait", note:"Wait for company to provide their required format.", status:["Not yet requested","Company provided format","In progress","Obtained"]},
+  {name:"Bank statement (proof of funds)", timing:"wait", note:"Wait for company to confirm required amount.", status:["Not yet requested","Amount confirmed","In progress","Ready"]},
+  {name:"Completed visa application form", timing:"wait", note:"Only needed after COE received.", status:["Not yet needed","In progress","Submitted"]},
+  {name:"Employment contract", timing:"wait", note:"Provided by company after job offer.", status:["Not yet received","Received","Signed"]},
+];
 
-function save(){try{localStorage.setItem('op_c',JSON.stringify(checked));localStorage.setItem('op_comp',JSON.stringify(compData));localStorage.setItem('op_d',JSON.stringify(docData));localStorage.setItem('op_cv',JSON.stringify(cvData));localStorage.setItem('op_sn',JSON.stringify(stageNotes));}catch(e){}}
+const CV_SECTIONS = [
+  {t:"Structure & Format", q:["My CV is 1 to 2 pages maximum","My CV has a clear professional personal statement at the top","I have included a professional photograph","My formatting is clean and consistent throughout","My contact details are clearly visible at the top","My CV has no spelling or grammar errors"]},
+  {t:"Content & Experience", q:["All teaching experience is listed including informal roles","My descriptions are specific not vague","I have listed any international living or working experience","My education section clearly shows my Bachelor's degree","I have listed relevant skills including languages","Any employment gaps are accounted for"]},
+  {t:"ALT Specific Requirements", q:["My personal statement mentions Japan and teaching English specifically","I have mentioned TPR — Total Physical Response — methodology","My cover letter is tailored to ALT not generic","I mention cultural adaptability or international experience","My cover letter is under one page with a confident closing","I have added a free TEFL certificate from TeacherRecord or Alison"]},
+];
 
-function load(){
-  try{
-    const c=localStorage.getItem('op_c');if(c)checked=JSON.parse(c);
-    const co=localStorage.getItem('op_comp');if(co)compData=JSON.parse(co);
-    const d=localStorage.getItem('op_d');if(d)docData=JSON.parse(d);
-    const cv=localStorage.getItem('op_cv');if(cv)cvData=JSON.parse(cv);
-    const sn=localStorage.getItem('op_sn');if(sn)stageNotes=JSON.parse(sn);
-    const sd=localStorage.getItem('op_sd');if(sd){startDate=sd;const el=document.getElementById('start-date');if(el)el.value=sd;updateCD();}
-    const n=localStorage.getItem('op_notes');if(n){const el=document.getElementById('notes-ta');if(el)el.value=n;}
-    const w=localStorage.getItem('op_welcomed');if(w==='1')document.getElementById('welcome').style.display='none';
-  }catch(e){document.getElementById('welcome').style.display='none';}
+const QUOTES = [
+  {q:"The journey of a thousand miles begins with a single step.", a:"Lao Tzu"},
+  {q:"You do not have to be great to start, but you have to start to be great.", a:"Zig Ziglar"},
+  {q:"The best time to plant a tree was twenty years ago. The second best time is now.", a:"Chinese Proverb"},
+  {q:"It always seems impossible until it is done.", a:"Nelson Mandela"},
+  {q:"Opportunities do not happen. You create them.", a:"Chris Grosser"},
+  {q:"Fall seven times, stand up eight.", a:"Japanese Proverb"},
+  {q:"A year from now you may wish you had started today.", a:"Karen Lamb"},
+  {q:"Dream big. Start small. Act now.", a:"Robin Sharma"},
+  {q:"Japan is closer than it feels. Keep going.", a:"Opportunity Planet"},
+  {q:"Silence from companies does not mean rejection. It means processing.", a:"Opportunity Planet"},
+  {q:"You relocated your mindset first. Japan is next.", a:"Opportunity Planet"},
+  {q:"Hard work beats talent when talent does not work hard.", a:"Tim Notke"},
+  {q:"Push yourself because no one else is going to do it for you.", a:"Unknown"},
+  {q:"Great things never come from comfort zones.", a:"Unknown"},
+];
+
+/* ════════════════════════════════════════
+   STATE
+════════════════════════════════════════ */
+let currentUser = null;
+let checked = {}, compData = [], docData = {}, cvData = {}, stageNotes = {}, startDate = '';
+let totalItems = 0;
+
+function getUserKey(k) { return currentUser ? 'op_' + btoa(currentUser.email).slice(0,8) + '_' + k : 'op_' + k; }
+
+function saveData() {
+  if (!currentUser) return;
+  try {
+    localStorage.setItem(getUserKey('c'), JSON.stringify(checked));
+    localStorage.setItem(getUserKey('comp'), JSON.stringify(compData));
+    localStorage.setItem(getUserKey('d'), JSON.stringify(docData));
+    localStorage.setItem(getUserKey('cv'), JSON.stringify(cvData));
+    localStorage.setItem(getUserKey('sn'), JSON.stringify(stageNotes));
+  } catch(e) {}
 }
 
-/* ══════════════════ NAVIGATION ══════════════════ */
-function go(id){
-  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
-  document.querySelectorAll('.ntab').forEach(t=>t.classList.remove('active'));
-  const pg=document.getElementById('page-'+id);
-  if(pg)pg.classList.add('active');
-  const tb=document.getElementById('tab-'+id);
-  if(tb)tb.classList.add('active');
-  window.scrollTo({top:0,behavior:'smooth'});
+function loadData() {
+  if (!currentUser) return;
+  try {
+    const c = localStorage.getItem(getUserKey('c')); if (c) checked = JSON.parse(c);
+    const co = localStorage.getItem(getUserKey('comp')); if (co) compData = JSON.parse(co);
+    const d = localStorage.getItem(getUserKey('d')); if (d) docData = JSON.parse(d);
+    const cv = localStorage.getItem(getUserKey('cv')); if (cv) cvData = JSON.parse(cv);
+    const sn = localStorage.getItem(getUserKey('sn')); if (sn) stageNotes = JSON.parse(sn);
+    const sd = localStorage.getItem(getUserKey('sd')); if (sd) { startDate = sd; const el = document.getElementById('start-date'); if(el) el.value = sd; updateCD(); }
+    const n = localStorage.getItem(getUserKey('notes')); if (n) { const el = document.getElementById('notes-ta'); if(el) el.value = n; }
+  } catch(e) {}
 }
 
-/* ══════════════════ WELCOME ══════════════════ */
-document.getElementById('start-btn').addEventListener('click',function(){
-  document.getElementById('welcome').style.display='none';
-  try{localStorage.setItem('op_welcomed','1');}catch(e){}
-});
-document.getElementById('start-btn').addEventListener('touchend',function(e){
-  e.preventDefault();
-  document.getElementById('welcome').style.display='none';
-  try{localStorage.setItem('op_welcomed','1');}catch(e){}
-});
+/* ════════════════════════════════════════
+   AUTH
+════════════════════════════════════════ */
+function getAccounts() {
+  try { const a = localStorage.getItem(ACCT_KEY); return a ? JSON.parse(a) : {}; } catch(e) { return {}; }
+}
+function saveAccounts(accounts) {
+  try { localStorage.setItem(ACCT_KEY, JSON.stringify(accounts)); } catch(e) {}
+}
 
-/* ══════════════════ CARD TOGGLE ══════════════════ */
-function toggleCard(btn){btn.parentElement.classList.toggle('closed');}
+function showScreen(id) {
+  document.querySelectorAll('.auth-screen').forEach(s => s.classList.add('hidden'));
+  const el = document.getElementById(id);
+  if (el) el.classList.remove('hidden');
+}
 
-/* ══════════════════ CHECKLIST ══════════════════ */
-function buildChecklist(){
-  const con=document.getElementById('cl-container');
-  totalItems=0;
-  STAGES.forEach((stage,si)=>{
-    totalItems+=stage.items.length;
-    const done=stage.items.filter((_,ii)=>checked[si+'-'+ii]).length;
-    const block=document.createElement('div');
-    block.className='card';
-    block.id='st-'+si;
+function doVerify() {
+  const val = document.getElementById('vf-input').value.trim().toUpperCase();
+  const err = document.getElementById('vf-err');
+  if (val === MASTER) {
+    err.style.display = 'none';
+    showScreen('screen-create');
+    document.getElementById('verify-success').style.display = 'block';
+  } else {
+    err.textContent = 'Incorrect password. Check your purchase email.';
+    err.style.display = 'block';
+  }
+}
 
-    const btn=document.createElement('button');
-    btn.className='card-h';
-    btn.innerHTML='<h2>'+stage.t+'</h2><div class="card-meta"><span class="card-count" id="sc-'+si+'">'+done+'/'+stage.items.length+'</span><span class="chev">&#9660;</span></div>';
-    btn.onclick=function(){block.classList.toggle('closed');};
-    btn.ontouchend=function(e){e.preventDefault();block.classList.toggle('closed');};
+function doCreate() {
+  const name = document.getElementById('cr-name').value.trim();
+  const email = document.getElementById('cr-email').value.trim().toLowerCase();
+  const p1 = document.getElementById('cr-pwd1').value;
+  const p2 = document.getElementById('cr-pwd2').value;
+  const err = document.getElementById('cr-err');
 
-    const body=document.createElement('div');
-    body.className='card-b';
+  if (!name) { err.textContent = 'Please enter your name.'; err.style.display = 'block'; return; }
+  if (!email || !email.includes('@')) { err.textContent = 'Please enter a valid email address.'; err.style.display = 'block'; return; }
+  if (p1.length < 6) { err.textContent = 'Password must be at least 6 characters.'; err.style.display = 'block'; return; }
+  if (p1 !== p2) { err.textContent = 'Passwords do not match.'; err.style.display = 'block'; return; }
 
-    const cel=document.createElement('div');
-    cel.className='cel'+(done===stage.items.length?' show':'');
-    cel.id='cel-'+si;
-    cel.innerHTML='<h3>Stage '+(si+1)+' Complete!</h3><p>'+stage.msg+'</p>';
-    body.appendChild(cel);
+  const accounts = getAccounts();
+  if (accounts[email]) { err.textContent = 'An account with this email already exists. Please sign in.'; err.style.display = 'block'; return; }
 
-    stage.items.forEach((item,ii)=>{
-      const key=si+'-'+ii;
-      const div=document.createElement('div');
-      div.className='ci'+(checked[key]?' done':'');
-      div.innerHTML='<div class="ci-box"><span class="ci-tick">&#10003;</span></div><span class="ci-text">'+item+'</span>';
+  accounts[email] = { name, email, pwd: btoa(p1), created: new Date().toISOString() };
+  saveAccounts(accounts);
 
-      function toggle(e){
-        if(e&&e.preventDefault)e.preventDefault();
-        checked[key]=!checked[key];
-        div.classList.toggle('done',!!checked[key]);
-        save();
-        updateProg();
-        updateCel(si);
-      }
-      div.addEventListener('click',toggle);
-      div.addEventListener('touchend',toggle,{passive:false});
-      body.appendChild(div);
+  currentUser = accounts[email];
+  enterApp();
+}
+
+function doLogin() {
+  const email = document.getElementById('li-email').value.trim().toLowerCase();
+  const pwd = document.getElementById('li-pwd').value;
+  const err = document.getElementById('li-err');
+
+  const accounts = getAccounts();
+  const acct = accounts[email];
+
+  if (!acct || btoa(pwd) !== acct.pwd) {
+    err.textContent = 'Incorrect email or password. Please try again.';
+    err.style.display = 'block';
+    return;
+  }
+
+  err.style.display = 'none';
+  currentUser = acct;
+  enterApp();
+}
+
+function doLogout() {
+  if (confirm('Sign out? Your progress is saved and will be here when you return.')) {
+    currentUser = null;
+    checked = {}; compData = []; docData = {}; cvData = {}; stageNotes = {}; startDate = '';
+    document.getElementById('app').style.display = 'none';
+    showScreen('screen-login');
+    document.getElementById('li-email').value = '';
+    document.getElementById('li-pwd').value = '';
+  }
+}
+
+function showForgot() {
+  alert('To reset your password contact Mercy at opportunityplanet.info@gmail.com with the email you used to register.');
+}
+
+function enterApp() {
+  document.querySelectorAll('.auth-screen').forEach(s => s.classList.add('hidden'));
+  document.getElementById('app').style.display = 'flex';
+  loadData();
+  initApp();
+}
+
+/* ════════════════════════════════════════
+   NAVIGATION
+════════════════════════════════════════ */
+const PAGE_TITLES = {
+  dashboard:'Dashboard', checklist:'Checklist', companies:'Company Tracker',
+  documents:'Documents', 'cv-audit':'CV Audit', budget:'Budget Planner',
+  resources:'Resources', notes:'My Notes', backup:'Backup & Share'
+};
+
+function goPage(id) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+  const pg = document.getElementById('page-' + id);
+  if (pg) pg.classList.add('active');
+  const ni = document.getElementById('ni-' + id);
+  if (ni) ni.classList.add('active');
+  document.getElementById('header-title').textContent = PAGE_TITLES[id] || id;
+  closeSidebar();
+  window.scrollTo(0,0);
+  const mc = document.querySelector('.main-content');
+  if (mc) mc.scrollTop = 0;
+}
+
+function toggleSidebar() {
+  const sb = document.getElementById('sidebar');
+  const ov = document.getElementById('sidebar-overlay');
+  sb.classList.toggle('open');
+  ov.classList.toggle('show');
+}
+
+function closeSidebar() {
+  document.getElementById('sidebar').classList.remove('open');
+  document.getElementById('sidebar-overlay').classList.remove('show');
+}
+
+/* ════════════════════════════════════════
+   DAILY QUOTE
+════════════════════════════════════════ */
+function showDailyQuote() {
+  const q = QUOTES[new Date().getDate() % QUOTES.length];
+  const el = document.getElementById('daily-quote');
+  const al = document.getElementById('daily-author');
+  if (el) el.textContent = q.q;
+  if (al) al.textContent = '— ' + q.a;
+}
+
+/* ════════════════════════════════════════
+   GREETING
+════════════════════════════════════════ */
+function updateGreeting() {
+  const h = new Date().getHours();
+  const g = h < 12 ? 'Good morning' : h < 17 ? 'Good afternoon' : 'Good evening';
+  const name = currentUser ? currentUser.name.split(' ')[0] : '';
+  const el = document.getElementById('greet-text');
+  if (el) el.textContent = g + (name ? ', ' + name : '') + ' 👋';
+}
+
+/* ════════════════════════════════════════
+   SIDEBAR USER INFO
+════════════════════════════════════════ */
+function updateSidebarUser() {
+  if (!currentUser) return;
+  const initial = currentUser.name ? currentUser.name[0].toUpperCase() : '?';
+  document.getElementById('sb-avatar').textContent = initial;
+  document.getElementById('sb-name').textContent = currentUser.name;
+  document.getElementById('sb-email').textContent = currentUser.email;
+  document.getElementById('header-avatar').textContent = initial;
+}
+
+/* ════════════════════════════════════════
+   PROGRESS
+════════════════════════════════════════ */
+function updateProgress() {
+  const total = totalItems;
+  const done = Object.values(checked).filter(Boolean).length;
+  const pct = total > 0 ? Math.round((done / total) * 100) : 0;
+
+  // Header
+  document.getElementById('header-bar').style.width = pct + '%';
+  document.getElementById('header-pct').textContent = pct + '%';
+
+  // Dashboard
+  document.getElementById('dp-pct').textContent = pct + '%';
+  document.getElementById('dp-fill').style.width = pct + '%';
+  document.getElementById('dp-sub').textContent = done + ' of ' + total + ' steps completed';
+
+  // Sidebar
+  document.getElementById('sb-prog-fill').style.width = pct + '%';
+  document.getElementById('sb-prog-text').textContent = pct + '% complete';
+
+  // Stats
+  document.getElementById('s-done').textContent = done;
+  document.getElementById('s-left').textContent = total - done;
+
+  // Stage dots
+  const dotsEl = document.getElementById('dp-stages');
+  if (dotsEl) {
+    dotsEl.innerHTML = '';
+    STAGES.forEach((stage, si) => {
+      const stageDone = stage.items.filter((_, ii) => checked[si + '-' + ii]).length;
+      const dot = document.createElement('div');
+      dot.className = 'stage-dot' + (stageDone === stage.items.length ? ' done' : stageDone > 0 ? ' partial' : '');
+      dot.textContent = si + 1;
+      dot.title = stage.t;
+      dot.onclick = () => goPage('checklist');
+      dotsEl.appendChild(dot);
     });
+  }
 
-    const sn=document.createElement('div');
-    sn.className='sn';
-    sn.innerHTML='<div class="sn-label">Stage Notes</div><textarea placeholder="Add notes for this stage...">'+(stageNotes[si]||'')+'</textarea>';
-    sn.querySelector('textarea').addEventListener('input',function(){stageNotes[si]=this.value;try{localStorage.setItem('op_sn',JSON.stringify(stageNotes));}catch(ex){}});
-    body.appendChild(sn);
-
-    block.appendChild(btn);
-    block.appendChild(body);
-    con.appendChild(block);
+  // Checklist stage counts
+  STAGES.forEach((stage, si) => {
+    const stageDone = stage.items.filter((_, ii) => checked[si + '-' + ii]).length;
+    const el = document.getElementById('sc-' + si);
+    if (el) el.textContent = stageDone + '/' + stage.items.length;
+    const numEl = document.getElementById('sn-' + si);
+    if (numEl) {
+      numEl.className = 'cl-stage-num' + (stageDone === stage.items.length ? ' done' : stageDone > 0 ? ' partial' : '');
+    }
   });
-}
 
-function updateCel(si){
-  const done=STAGES[si].items.filter((_,ii)=>checked[si+'-'+ii]).length;
-  const el=document.getElementById('cel-'+si);
-  if(el)el.classList.toggle('show',done===STAGES[si].items.length);
-}
+  // Badge
+  const badge = document.getElementById('ni-cl-badge');
+  if (badge) badge.textContent = total - done;
 
-function updateProg(){
-  const total=totalItems;
-  const done=Object.values(checked).filter(Boolean).length;
-  const pct=total>0?Math.round((done/total)*100):0;
-  document.getElementById('prog-fill').style.width=pct+'%';
-  document.getElementById('prog-pct').textContent=pct+'%';
-  document.getElementById('prog-sub').textContent=done+' of '+total+' steps completed';
-  document.getElementById('s-done').textContent=done;
-  document.getElementById('s-left').textContent=total-done;
-  STAGES.forEach((stage,si)=>{
-    const sd=stage.items.filter((_,ii)=>checked[si+'-'+ii]).length;
-    const el=document.getElementById('sc-'+si);
-    if(el)el.textContent=sd+'/'+stage.items.length;
-  });
-  updateShare(done,total,pct);
-}
-
-/* ══════════════════ COMPANIES ══════════════════ */
-function buildCompanies(){
-  if(compData.length===0){for(let i=0;i<5;i++)compData.push({n:'',a:'',i:'',s:'Not applied',o:'No',notes:''});}
-  renderComps();
-}
-
-function renderComps(){
-  const tb=document.getElementById('comp-body');
-  tb.innerHTML='';
-  compData.forEach((c,i)=>{
-    const tr=document.createElement('tr');
-    tr.innerHTML='<td><input class="ti" type="text" value="'+(c.n||'')+'" placeholder="e.g. Borderlink" onchange="compData['+i+'].n=this.value;save();updateDocStats();"></td>'+
-      '<td><input class="ti" type="date" value="'+(c.a||'')+'" onchange="compData['+i+'].a=this.value;save();updateDocStats();"></td>'+
-      '<td><input class="ti" type="date" value="'+(c.i||'')+'" onchange="compData['+i+'].i=this.value;save();"></td>'+
-      '<td><select class="sel" onchange="compData['+i+'].s=this.value;save();">'+['Not applied','Applied','Interview scheduled','Interviewed','Waiting','Offered','Rejected'].map(s=>'<option value="'+s+'"'+(c.s===s?' selected':'')+'>'+s+'</option>').join('')+'</select></td>'+
-      '<td><select class="sel" onchange="compData['+i+'].o=this.value;save();">'+['No','Yes','Pending'].map(s=>'<option value="'+s+'"'+(c.o===s?' selected':'')+'>'+s+'</option>').join('')+'</select></td>'+
-      '<td><input class="ti" type="text" value="'+(c.notes||'')+'" placeholder="Notes..." onchange="compData['+i+'].notes=this.value;save();"></td>';
-    tb.appendChild(tr);
-  });
   updateDocStats();
 }
 
-function addComp(){compData.push({n:'',a:'',i:'',s:'Not applied',o:'No',notes:''});renderComps();save();}
+/* ════════════════════════════════════════
+   CHECKLIST
+════════════════════════════════════════ */
+function buildChecklist() {
+  const con = document.getElementById('cl-container');
+  totalItems = 0;
 
-/* ══════════════════ DOCUMENTS ══════════════════ */
-function buildDocs(){
-  const tb=document.getElementById('doc-body');
-  DOCS.forEach((doc,i)=>{
-    const d=docData[i]||{s:'Not started',e:'',n:''};
-    const isWait=doc.timing==='wait';
-    const rowBg=isWait?'background:rgba(254,249,231,0.5);':'';
-    const tr=document.createElement('tr');
-    tr.style.cssText=rowBg;
-    const nameCell=isWait
-      ?'<td style="font-size:12px;min-width:140px;"><span style="font-weight:600;color:var(--navy);">'+doc.name+'</span><br><span style="font-size:10px;color:var(--amber);font-weight:600;">&#9203; Wait for company request</span></td>'
-      :'<td style="font-size:12px;min-width:140px;"><span style="font-weight:600;color:var(--navy);">'+doc.name+'</span><br><span style="font-size:10px;color:var(--green);font-weight:600;">&#10003; Prepare now</span></td>';
-    const statusOptions=isWait
-      ?['Not yet requested','Company requested','In progress','Obtained','Expired']
-      :['Not started','In progress','Obtained'];
-    tr.innerHTML=nameCell+
-      '<td><select class="sel" onchange="if(!docData['+i+'])docData['+i+']={};docData['+i+'].s=this.value;save();updateDocStats();">'+statusOptions.map(s=>'<option value="'+s+'"'+(d.s===s?' selected':'')+'>'+s+'</option>').join('')+'</select></td>'+
-      '<td><input class="ti" type="date" value="'+(d.e||'')+'" onchange="if(!docData['+i+'])docData['+i+']={};docData['+i+'].e=this.value;save();"></td>'+
-      '<td><input class="ti" type="text" value="'+(d.n||'')+'" placeholder="'+(doc.note||'Notes...')+'" onchange="if(!docData['+i+'])docData['+i+']={};docData['+i+'].n=this.value;save();"></td>';
-    tb.appendChild(tr);
-  });
-}
+  STAGES.forEach((stage, si) => {
+    totalItems += stage.items.length;
+    const done = stage.items.filter((_, ii) => checked[si + '-' + ii]).length;
 
-function updateDocStats(){
-  const dr=Object.values(docData).filter(d=>d&&d.s==='Obtained').length;
-  document.getElementById('s-docs').textContent=dr;
-  const ap=compData.filter(c=>c.a&&c.a!=='').length;
-  document.getElementById('s-comp').textContent=ap;
-}
+    const card = document.createElement('div');
+    card.className = 'cl-card';
+    card.id = 'st-' + si;
 
-/* ══════════════════ CV AUDIT ══════════════════ */
-function buildCVAudit(){
-  const con=document.getElementById('cv-sections');
-  CV_SECTIONS.forEach((sec,si)=>{
-    const card=document.createElement('div');
-    card.className='card';
-    const h=document.createElement('button');
-    h.className='card-h';
-    h.innerHTML='<h2>'+sec.t+'</h2><div class="card-meta"><span class="chev">&#9660;</span></div>';
-    h.onclick=function(){card.classList.toggle('closed');};
-    h.ontouchend=function(e){e.preventDefault();card.classList.toggle('closed');};
-    const body=document.createElement('div');
-    body.className='card-b';
-    sec.q.forEach((q,qi)=>{
-      const key='cv-'+si+'-'+qi;
-      const val=cvData[key]||'none';
-      const div=document.createElement('div');
-      div.className='audit-item';
-      div.innerHTML='<p class="audit-q">'+q+'</p><div class="audit-btns">'+
-        '<button class="audit-btn yes'+(val==='yes'?' yes':'')+'" onclick="setCV(\''+key+'\',\'yes\',this)">Yes</button>'+
-        '<button class="audit-btn needs'+(val==='needs'?' needs':'')+'" onclick="setCV(\''+key+'\',\'needs\',this)">Needs work</button>'+
-        '<button class="audit-btn na'+(val==='na'?' na':'')+'" onclick="setCV(\''+key+'\',\'na\',this)">N/A</button>'+
-        '</div>';
+    const hBtn = document.createElement('button');
+    hBtn.className = 'cl-header';
+    hBtn.innerHTML = `
+      <div class="cl-stage-num ${done===stage.items.length?'done':done>0?'partial':''}" id="sn-${si}">${si+1}</div>
+      <div class="cl-title">${stage.t}</div>
+      <span class="cl-count" id="sc-${si}">${done}/${stage.items.length}</span>
+      <span class="cl-chev">&#9660;</span>
+    `;
+    hBtn.onclick = () => card.classList.toggle('closed');
+    hBtn.ontouchend = (e) => { e.preventDefault(); card.classList.toggle('closed'); };
+
+    const body = document.createElement('div');
+    body.className = 'cl-body';
+
+    const cel = document.createElement('div');
+    cel.className = 'cl-cel' + (done === stage.items.length ? ' show' : '');
+    cel.id = 'cel-' + si;
+    cel.innerHTML = `<h4>Stage ${si+1} Complete! &#127881;</h4><p>${stage.msg}</p>`;
+    body.appendChild(cel);
+
+    stage.items.forEach((item, ii) => {
+      const key = si + '-' + ii;
+      const div = document.createElement('div');
+      div.className = 'ci' + (checked[key] ? ' done' : '');
+
+      let badge = '';
+      if (item.tag === 'wait') badge = '<span class="wait-badge">&#9203; Wait for company</span>';
+      else if (item.tag === 'now') badge = '<span class="ready-badge">&#10003; Prepare now</span>';
+
+      div.innerHTML = `<div class="ci-box"><span class="ci-tick">&#10003;</span></div><div><span class="ci-text">${item.text}</span>${badge}</div>`;
+
+      const toggle = (e) => {
+        if (e && e.preventDefault) e.preventDefault();
+        checked[key] = !checked[key];
+        div.classList.toggle('done', !!checked[key]);
+        saveData();
+        updateProgress();
+        updateCel(si);
+      };
+      div.addEventListener('click', toggle);
+      div.addEventListener('touchend', toggle, { passive: false });
       body.appendChild(div);
     });
-    card.appendChild(h);
+
+    // Stage reset
+    const resetBtn = document.createElement('button');
+    resetBtn.className = 'stage-reset';
+    resetBtn.textContent = '↺ Reset this stage';
+    resetBtn.onclick = () => {
+      if (confirm('Reset Stage ' + (si+1) + '? This will untick all items in this stage.')) {
+        stage.items.forEach((_, ii) => { checked[si + '-' + ii] = false; });
+        body.querySelectorAll('.ci').forEach(ci => ci.classList.remove('done'));
+        saveData(); updateProgress(); updateCel(si);
+      }
+    };
+    body.appendChild(resetBtn);
+
+    // Stage notes
+    const noteWrap = document.createElement('div');
+    noteWrap.className = 'stage-note-wrap';
+    noteWrap.innerHTML = `<div class="stage-note-label">Stage Notes</div><textarea class="stage-note-ta" placeholder="Notes for this stage...">${stageNotes[si]||''}</textarea>`;
+    noteWrap.querySelector('textarea').addEventListener('input', function() {
+      stageNotes[si] = this.value;
+      try { localStorage.setItem(getUserKey('sn'), JSON.stringify(stageNotes)); } catch(e) {}
+    });
+    body.appendChild(noteWrap);
+
+    card.appendChild(hBtn);
     card.appendChild(body);
     con.appendChild(card);
   });
+}
+
+function updateCel(si) {
+  const done = STAGES[si].items.filter((_, ii) => checked[si + '-' + ii]).length;
+  const el = document.getElementById('cel-' + si);
+  if (el) el.classList.toggle('show', done === STAGES[si].items.length);
+}
+
+/* ════════════════════════════════════════
+   COMPANIES
+════════════════════════════════════════ */
+function buildCompanies() {
+  if (compData.length === 0) {
+    for (let i = 0; i < 3; i++) compData.push({ n:'', a:'', iv:'', s:'Not applied', o:'No', notes:'' });
+  }
+  renderComps();
+}
+
+function getBadgeClass(status) {
+  if (status === 'Applied' || status === 'Interview scheduled' || status === 'Interviewed') return 'applied';
+  if (status === 'Offered') return 'offered';
+  if (status === 'Rejected') return 'rejected';
+  if (status === 'Waiting') return 'waiting';
+  return 'default';
+}
+
+function renderComps() {
+  const con = document.getElementById('comp-container');
+  con.innerHTML = '';
+  compData.forEach((c, i) => {
+    const card = document.createElement('div');
+    card.className = 'comp-card';
+    card.innerHTML = `
+      <div class="comp-card-header">
+        <input class="comp-name-input" type="text" value="${c.n||''}" placeholder="Company name..." onchange="compData[${i}].n=this.value;saveData();updateDocStats();">
+        <span class="comp-badge ${getBadgeClass(c.s)}">${c.s}</span>
+      </div>
+      <div class="comp-grid">
+        <div class="comp-field"><div class="comp-field-label">Date Applied</div><input type="date" value="${c.a||''}" onchange="compData[${i}].a=this.value;saveData();updateDocStats();" style="background:transparent;border:none;font-size:13px;color:var(--text);font-family:var(--sans);outline:none;width:100%;-webkit-appearance:none;"></div>
+        <div class="comp-field"><div class="comp-field-label">Interview Date</div><input type="date" value="${c.iv||''}" onchange="compData[${i}].iv=this.value;saveData();" style="background:transparent;border:none;font-size:13px;color:var(--text);font-family:var(--sans);outline:none;width:100%;-webkit-appearance:none;"></div>
+        <div class="comp-field"><div class="comp-field-label">Status</div><select onchange="compData[${i}].s=this.value;saveData();this.closest('.comp-card').querySelector('.comp-badge').className='comp-badge '+getBadgeClass(this.value);this.closest('.comp-card').querySelector('.comp-badge').textContent=this.value;" style="background:transparent;border:none;font-size:13px;color:var(--text);font-family:var(--sans);outline:none;width:100%;-webkit-appearance:none;">${['Not applied','Applied','Interview scheduled','Interviewed','Waiting','Offered','Rejected'].map(s=>`<option value="${s}"${c.s===s?' selected':''}>${s}</option>`).join('')}</select></div>
+        <div class="comp-field"><div class="comp-field-label">Offer</div><select onchange="compData[${i}].o=this.value;saveData();" style="background:transparent;border:none;font-size:13px;color:var(--text);font-family:var(--sans);outline:none;width:100%;-webkit-appearance:none;">${['No','Yes','Pending'].map(s=>`<option value="${s}"${c.o===s?' selected':''}>${s}</option>`).join('')}</select></div>
+      </div>
+      <div style="padding:10px 16px;border-top:1px solid rgba(255,255,255,0.04);"><input type="text" value="${c.notes||''}" placeholder="Notes..." onchange="compData[${i}].notes=this.value;saveData();" style="background:transparent;border:none;font-size:12px;color:var(--muted);font-family:var(--sans);outline:none;width:100%;"></div>
+    `;
+    con.appendChild(card);
+  });
+}
+
+function addComp() {
+  compData.push({ n:'', a:'', iv:'', s:'Not applied', o:'No', notes:'' });
+  renderComps(); saveData();
+}
+
+/* ════════════════════════════════════════
+   DOCUMENTS
+════════════════════════════════════════ */
+function buildDocs() {
+  const con = document.getElementById('doc-container');
+  con.innerHTML = '';
+
+  const nowDocs = DOCS.filter(d => d.timing === 'now');
+  const waitDocs = DOCS.filter(d => d.timing === 'wait');
+
+  const nowLabel = document.createElement('div');
+  nowLabel.className = 'doc-group-label green';
+  nowLabel.textContent = '✓ Prepare Now';
+  con.appendChild(nowLabel);
+
+  const nowCard = document.createElement('div');
+  nowCard.className = 'doc-card';
+  nowDocs.forEach((doc, i) => {
+    const idx = DOCS.indexOf(doc);
+    const d = docData[idx] || { s: doc.status[0], e: '', n: '' };
+    const row = createDocRow(doc, idx, d, 'green');
+    nowCard.appendChild(row);
+  });
+  con.appendChild(nowCard);
+
+  const waitLabel = document.createElement('div');
+  waitLabel.className = 'doc-group-label amber';
+  waitLabel.textContent = '⏱ Wait for Company Request';
+  con.appendChild(waitLabel);
+
+  const waitCard = document.createElement('div');
+  waitCard.className = 'doc-card';
+  waitDocs.forEach((doc) => {
+    const idx = DOCS.indexOf(doc);
+    const d = docData[idx] || { s: doc.status[0], e: '', n: '' };
+    const row = createDocRow(doc, idx, d, 'amber');
+    waitCard.appendChild(row);
+  });
+  con.appendChild(waitCard);
+}
+
+function createDocRow(doc, idx, d, color) {
+  const row = document.createElement('div');
+  row.className = 'doc-row';
+  row.innerHTML = `
+    <div class="doc-icon ${color}">${color==='green'?'📄':'⏱'}</div>
+    <div class="doc-info">
+      <div class="doc-name">${doc.name}</div>
+      <div class="doc-note">${doc.note}</div>
+    </div>
+    <select class="doc-sel" onchange="if(!docData[${idx}])docData[${idx}]={};docData[${idx}].s=this.value;saveData();updateDocStats();">
+      ${doc.status.map(s => `<option value="${s}"${d.s===s?' selected':''}>${s}</option>`).join('')}
+    </select>
+  `;
+  return row;
+}
+
+function updateDocStats() {
+  const dr = Object.values(docData).filter(d => d && (d.s==='Ready'||d.s==='Obtained'||d.s==='Signed')).length;
+  document.getElementById('s-docs').textContent = dr;
+  const ap = compData.filter(c => c.a && c.a !== '').length;
+  document.getElementById('s-comp').textContent = ap;
+}
+
+/* ════════════════════════════════════════
+   CV AUDIT
+════════════════════════════════════════ */
+function buildCVAudit() {
+  const con = document.getElementById('cv-sections');
+  CV_SECTIONS.forEach((sec, si) => {
+    const card = document.createElement('div');
+    card.className = 'cv-section';
+    const h = document.createElement('button');
+    h.className = 'cv-section-header';
+    h.innerHTML = `<span class="cv-section-title">${sec.t}</span><span style="color:var(--muted);font-size:12px;">&#9660;</span>`;
+    h.onclick = () => card.classList.toggle('closed');
+    h.ontouchend = (e) => { e.preventDefault(); card.classList.toggle('closed'); };
+
+    const body = document.createElement('div');
+    sec.q.forEach((q, qi) => {
+      const key = 'cv-' + si + '-' + qi;
+      const val = cvData[key] || 'none';
+      const item = document.createElement('div');
+      item.className = 'audit-item';
+      item.innerHTML = `<p class="audit-q">${q}</p><div class="audit-btns">
+        <button class="audit-btn${val==='yes'?' yes':''}" onclick="setCV('${key}','yes',this)">Yes</button>
+        <button class="audit-btn${val==='needs'?' needs':''}" onclick="setCV('${key}','needs',this)">Needs work</button>
+        <button class="audit-btn${val==='na'?' na':''}" onclick="setCV('${key}','na',this)">N/A</button>
+      </div>`;
+      body.appendChild(item);
+    });
+    card.appendChild(h); card.appendChild(body); con.appendChild(card);
+  });
   updateCVScore();
 }
 
-function setCV(key,val,btn){
-  cvData[key]=val;
-  btn.closest('.audit-btns').querySelectorAll('.audit-btn').forEach(b=>{b.className='audit-btn';});
+function setCV(key, val, btn) {
+  cvData[key] = val;
+  btn.closest('.audit-btns').querySelectorAll('.audit-btn').forEach(b => { b.className = 'audit-btn'; });
   btn.classList.add(val);
-  save();
-  updateCVScore();
+  saveData(); updateCVScore();
 }
 
-function updateCVScore(){
-  const vals=Object.values(cvData);
-  const yes=vals.filter(v=>v==='yes').length;
-  const needs=vals.filter(v=>v==='needs').length;
-  const total=vals.filter(v=>v==='yes'||v==='needs').length;
-  const score=total>0?Math.round((yes/total)*100):0;
-  document.getElementById('cv-yes').textContent=yes;
-  document.getElementById('cv-needs').textContent=needs;
-  document.getElementById('cv-score').textContent=score+'%';
-  const box=document.getElementById('cv-result');
-  if(total>0){
-    box.style.display='block';
-    if(score>=80){box.className='succ';box.textContent='Your CV looks strong! Address any remaining Needs Work items before submitting.';}
-    else if(score>=50){box.className='warn';box.textContent='Your CV needs work in key areas. Focus on the Needs Work items before applying. A professional CV review would help significantly.';}
-    else{box.className='info';box.style.background='var(--red-bg)';box.style.borderColor='var(--red)';box.style.color='var(--red)';box.textContent='Your CV needs significant improvements. Contact Mercy for professional CV writing support — it will dramatically increase your chances.';}
+function updateCVScore() {
+  const vals = Object.values(cvData);
+  const yes = vals.filter(v => v === 'yes').length;
+  const needs = vals.filter(v => v === 'needs').length;
+  const na = vals.filter(v => v === 'na').length;
+  const total = vals.filter(v => v === 'yes' || v === 'needs').length;
+  const score = total > 0 ? Math.round((yes / total) * 100) : 0;
+
+  document.getElementById('cv-yes').textContent = yes;
+  document.getElementById('cv-needs').textContent = needs;
+  document.getElementById('cv-na').textContent = na;
+  document.getElementById('cv-pct-display').textContent = score + '%';
+
+  const circumference = 201;
+  const offset = circumference - (circumference * score / 100);
+  const arc = document.getElementById('cv-circle-arc');
+  if (arc) arc.style.strokeDashoffset = offset;
+
+  const advice = document.getElementById('cv-advice-text');
+  if (advice && total > 0) {
+    if (score >= 80) advice.textContent = 'Your CV looks strong! Address any remaining Needs Work items before applying.';
+    else if (score >= 50) advice.textContent = 'Your CV needs work in some areas. Focus on the Needs Work items before applying.';
+    else advice.textContent = 'Your CV needs significant improvements. Consider Mercy\'s professional CV writing service.';
   }
 }
 
-/* ══════════════════ BUDGET ══════════════════ */
-function calcBudget(){
-  const cur=parseFloat(document.getElementById('b-cur').value)||0;
-  const mon=parseFloat(document.getElementById('b-mon').value)||0;
-  const tar=parseFloat(document.getElementById('b-tar').value)||0;
-  const sal=parseFloat(document.getElementById('b-sal').value)||0;
-  if(tar===0)return;
-  const res=document.getElementById('b-result');
-  const tip=document.getElementById('b-tip');
-  res.style.display='block';
-  if(cur>=tar){
-    document.getElementById('b-months').textContent='Ready!';
-    document.getElementById('b-msg').textContent='You have hit your savings target. You are financially ready to make the move.';
-    tip.style.display='block';tip.className='b-tip succ';tip.textContent='You are ready! Focus on completing your application now. Do not wait for more savings.';
-  }else if(mon<=0){
-    document.getElementById('b-months').textContent='?';
-    document.getElementById('b-msg').textContent='Enter your monthly savings amount to calculate your timeline.';
-    tip.style.display='none';
-  }else{
-    const months=Math.ceil((tar-cur)/mon);
-    document.getElementById('b-months').textContent=months;
-    document.getElementById('b-msg').textContent='Save $'+Math.round(mon).toLocaleString()+' per month and you will hit your $'+Math.round(tar).toLocaleString()+' target in '+months+' month'+(months===1?'':'s')+'.';
-    tip.style.display='block';
-    if(sal>0){const usd=Math.round(sal/150);tip.className='b-tip info';tip.textContent='Once in Japan your ALT salary of ¥'+Math.round(sal).toLocaleString()+' (approx $'+usd.toLocaleString()+' USD) covers living costs comfortably. This savings target is just for your first weeks before your first paycheck.';}
-    else{tip.className='b-tip info';tip.textContent='The typical ALT salary covers living costs comfortably. This target is just to bridge the gap before your first paycheck arrives.';}
+/* ════════════════════════════════════════
+   BUDGET
+════════════════════════════════════════ */
+function calcBudget() {
+  const cur = parseFloat(document.getElementById('b-cur').value) || 0;
+  const mon = parseFloat(document.getElementById('b-mon').value) || 0;
+  const tar = parseFloat(document.getElementById('b-tar').value) || 0;
+  const sal = parseFloat(document.getElementById('b-sal').value) || 0;
+  if (tar === 0) return;
+
+  const res = document.getElementById('b-result');
+  const tip = document.getElementById('b-tip');
+  res.style.display = 'block';
+
+  if (cur >= tar) {
+    document.getElementById('b-months').textContent = '🎉 Ready!';
+    document.getElementById('b-msg').textContent = 'You have hit your savings target. You are financially ready to make the move.';
+    tip.style.display = 'block';
+    tip.innerHTML = '<div class="info-box green">You are ready! Focus on completing your application now. Do not wait for more savings.</div>';
+  } else if (mon <= 0) {
+    document.getElementById('b-months').textContent = '?';
+    document.getElementById('b-msg').textContent = 'Enter your monthly savings amount to calculate your timeline.';
+    tip.style.display = 'none';
+  } else {
+    const months = Math.ceil((tar - cur) / mon);
+    document.getElementById('b-months').textContent = months;
+    document.getElementById('b-msg').textContent = `Save $${Math.round(mon).toLocaleString()}/month and hit your $${Math.round(tar).toLocaleString()} target in ${months} month${months===1?'':'s'}.`;
+    tip.style.display = 'block';
+    const salNote = sal > 0 ? ` Your ALT salary of ¥${Math.round(sal).toLocaleString()} (≈ $${Math.round(sal/150).toLocaleString()}) covers living costs comfortably.` : '';
+    tip.innerHTML = `<div class="info-box blue">This savings target is just to bridge the gap before your first paycheck.${salNote}</div>`;
   }
 }
 
-/* ══════════════════ COUNTDOWN ══════════════════ */
-function updateCD(){
-  const sd=document.getElementById('start-date').value;
-  if(!sd)return;
-  startDate=sd;
-  try{localStorage.setItem('op_sd',sd);}catch(e){}
-  const diff=Math.floor((new Date()-new Date(sd))/(86400000));
-  if(diff<0){document.getElementById('cd-d').textContent='0';document.getElementById('cd-w').textContent='0';document.getElementById('cd-m').textContent='0';document.getElementById('cd-msg').textContent='Your journey starts the moment you take your first step.';return;}
-  document.getElementById('cd-d').textContent=diff;
-  document.getElementById('cd-w').textContent=Math.floor(diff/7);
-  document.getElementById('cd-m').textContent=Math.floor(diff/30);
-  const rem=180-diff;
-  if(rem>0)document.getElementById('cd-msg').textContent=diff+' days into your journey. Based on the typical timeline you could be in Japan in approximately '+Math.ceil(rem/30)+' more month'+(Math.ceil(rem/30)===1?'':'s')+'. Keep going.';
-  else document.getElementById('cd-msg').textContent='You have been on this journey for '+Math.floor(diff/30)+' months. Every day of preparation counts. Japan is waiting for you.';
-}
-
-/* ══════════════════ SHARE ══════════════════ */
-function updateShare(done,total,pct){
-  const el=document.getElementById('share-text');
-  if(el)el.textContent='I am '+pct+'% through my Japan ALT application journey!\n\n'+done+' of '+total+' steps completed on the Opportunity Planet roadmap.\n\nUsing the step-by-step system from @opportunity.planet to relocate to Japan as an ALT teacher.\n\nIf you are thinking about making the move — the door is open.\nselar.com/m/opportunityplanet';
-}
-
-function copyShare(){
-  const el=document.getElementById('share-text');
-  try{
-    navigator.clipboard.writeText(el.textContent).then(()=>{showSaved('copy-saved');});
-  }catch(e){
-    const ta=document.createElement('textarea');
-    ta.value=el.textContent;ta.style.position='fixed';ta.style.opacity='0';
-    document.body.appendChild(ta);ta.focus();ta.select();
-    document.execCommand('copy');document.body.removeChild(ta);
-    showSaved('copy-saved');
+/* ════════════════════════════════════════
+   COUNTDOWN
+════════════════════════════════════════ */
+function updateCD() {
+  const sd = document.getElementById('start-date').value;
+  if (!sd) return;
+  startDate = sd;
+  try { localStorage.setItem(getUserKey('sd'), sd); } catch(e) {}
+  const diff = Math.floor((new Date() - new Date(sd)) / 86400000);
+  if (diff < 0) {
+    ['cd-d','cd-w','cd-m'].forEach(id => { const el=document.getElementById(id); if(el) el.textContent='0'; });
+    const msg = document.getElementById('cd-msg');
+    if (msg) msg.textContent = 'Your journey starts the moment you take your first step.';
+    return;
+  }
+  document.getElementById('cd-d').textContent = diff;
+  document.getElementById('cd-w').textContent = Math.floor(diff / 7);
+  document.getElementById('cd-m').textContent = Math.floor(diff / 30);
+  const rem = 180 - diff;
+  const msg = document.getElementById('cd-msg');
+  if (msg) {
+    if (rem > 0) msg.textContent = `${diff} days into your journey. You could be in Japan in approximately ${Math.ceil(rem/30)} more month${Math.ceil(rem/30)===1?'':'s'}. Keep going.`;
+    else msg.textContent = `You have been on this journey for ${Math.floor(diff/30)} months. Japan is waiting.`;
   }
 }
 
-/* ══════════════════ NOTES ══════════════════ */
-function saveNotes(){
-  try{localStorage.setItem('op_notes',document.getElementById('notes-ta').value);}catch(e){}
-  showSaved('notes-saved');
+/* ════════════════════════════════════════
+   NOTES
+════════════════════════════════════════ */
+function saveNotes() {
+  try { localStorage.setItem(getUserKey('notes'), document.getElementById('notes-ta').value); } catch(e) {}
+  const el = document.getElementById('notes-saved');
+  if (el) { el.classList.add('show'); setTimeout(() => el.classList.remove('show'), 2000); }
 }
-document.getElementById('notes-ta').addEventListener('input',function(){
-  clearTimeout(this._t);
-  this._t=setTimeout(()=>{try{localStorage.setItem('op_notes',this.value);}catch(e){}},1000);
-});
-
-/* ══════════════════ UTILS ══════════════════ */
-function showSaved(id){const el=document.getElementById(id);if(el){el.classList.add('show');setTimeout(()=>el.classList.remove('show'),2000);}}
-
-function resetAll(){
-  if(confirm('Reset all your progress? This cannot be undone.')){
-    ['op_c','op_comp','op_d','op_cv','op_sn','op_notes','op_sd','op_welcomed'].forEach(k=>{try{localStorage.removeItem(k);}catch(e){}});
-    location.reload();
-  }
+const notesTA = document.getElementById('notes-ta');
+if (notesTA) {
+  notesTA.addEventListener('input', function() {
+    clearTimeout(this._t);
+    this._t = setTimeout(() => { try { localStorage.setItem(getUserKey('notes'), this.value); } catch(e) {} }, 1000);
+  });
 }
 
-/* ══════════════════ INIT ══════════════════ */
-load();
-buildChecklist();
-buildCompanies();
-buildDocs();
-buildCVAudit();
-updateProg();
-updateShare(0,50,0);
-</script>
-
-<button id="theme-btn" onclick="toggleTheme()" style="position:fixed;bottom:20px;right:16px;background:var(--navy);border:2px solid var(--gold);border-radius:50%;width:48px;height:48px;display:flex;align-items:center;justify-content:center;font-size:20px;cursor:pointer;z-index:200;touch-action:manipulation;box-shadow:0 2px 8px rgba(0,0,0,0.3);-webkit-tap-highlight-color:transparent;">&#127769;</button>
-
-<script>
-/* === DAILY QUOTES === */
-const QUOTES=[
-  {q:"The journey of a thousand miles begins with a single step.",a:"Lao Tzu"},
-  {q:"You do not have to be great to start, but you have to start to be great.",a:"Zig Ziglar"},
-  {q:"The best time to plant a tree was twenty years ago. The second best time is now.",a:"Chinese Proverb"},
-  {q:"Success is the sum of small efforts repeated day in and day out.",a:"Robert Collier"},
-  {q:"Believe you can and you are halfway there.",a:"Theodore Roosevelt"},
-  {q:"Dream big. Start small. Act now.",a:"Robin Sharma"},
-  {q:"It always seems impossible until it is done.",a:"Nelson Mandela"},
-  {q:"Opportunities do not happen. You create them.",a:"Chris Grosser"},
-  {q:"Fall seven times, stand up eight.",a:"Japanese Proverb"},
-  {q:"The secret of getting ahead is getting started.",a:"Mark Twain"},
-  {q:"Japan is closer than it feels. Keep going.",a:"Opportunity Planet"},
-  {q:"Silence from companies does not mean rejection. It means processing.",a:"Opportunity Planet"},
-  {q:"Your future is created by what you do today, not tomorrow.",a:"Robert Kiyosaki"},
-  {q:"A year from now you may wish you had started today.",a:"Karen Lamb"},
-  {q:"Push yourself because no one else is going to do it for you.",a:"Unknown"},
-];
-
-function showDailyQuote(){
-  const idx=new Date().getDate()%QUOTES.length;
-  const q=QUOTES[idx];
-  const el=document.getElementById('daily-quote');
-  const ael=document.getElementById('daily-author');
-  if(el)el.textContent='"'+q.q+'"';
-  if(ael)ael.textContent='— '+q.a;
-}
-
-/* === BACKUP === */
-function downloadBackup(){
-  const notes=document.getElementById('notes-ta')?document.getElementById('notes-ta').value:'';
-  const data={checked,compData,docData,cvData,stageNotes,startDate,notes,timestamp:new Date().toISOString(),version:'2.0'};
-  const blob=new Blob([JSON.stringify(data,null,2)],{type:'application/json'});
-  const url=URL.createObjectURL(blob);
-  const a=document.createElement('a');
-  a.href=url;a.download='op-tracker-backup-'+new Date().toISOString().split('T')[0]+'.json';
-  document.body.appendChild(a);a.click();document.body.removeChild(a);
+/* ════════════════════════════════════════
+   BACKUP & RESTORE
+════════════════════════════════════════ */
+function downloadBackup() {
+  const data = {
+    checked, compData, docData, cvData, stageNotes, startDate,
+    notes: document.getElementById('notes-ta') ? document.getElementById('notes-ta').value : '',
+    user: currentUser ? currentUser.email : '',
+    timestamp: new Date().toISOString(), version: '3.0'
+  };
+  const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url; a.download = 'op-tracker-backup-' + new Date().toISOString().split('T')[0] + '.json';
+  document.body.appendChild(a); a.click(); document.body.removeChild(a);
   URL.revokeObjectURL(url);
-  alert('Backup downloaded! Save this file somewhere safe like Google Drive or WhatsApp Saved Messages.');
+  alert('Backup downloaded! Save it to Google Drive or WhatsApp Saved Messages for safe keeping.');
 }
 
-function restoreBackup(input){
-  const file=input.files[0];if(!file)return;
-  const reader=new FileReader();
-  reader.onload=function(e){
-    try{
-      const data=JSON.parse(e.target.result);
-      if(data.checked)checked=data.checked;
-      if(data.compData)compData=data.compData;
-      if(data.docData)docData=data.docData;
-      if(data.cvData)cvData=data.cvData;
-      if(data.stageNotes)stageNotes=data.stageNotes;
-      if(data.startDate){startDate=data.startDate;try{localStorage.setItem('op_sd',data.startDate);}catch(ex){}}
-      if(data.notes){try{localStorage.setItem('op_notes',data.notes);}catch(ex){}}
-      save();
-      alert('Backup restored! Reloading your tracker now.');
+function restoreBackup(input) {
+  const file = input.files[0]; if (!file) return;
+  const reader = new FileReader();
+  reader.onload = function(e) {
+    try {
+      const data = JSON.parse(e.target.result);
+      if (data.checked) checked = data.checked;
+      if (data.compData) compData = data.compData;
+      if (data.docData) docData = data.docData;
+      if (data.cvData) cvData = data.cvData;
+      if (data.stageNotes) stageNotes = data.stageNotes;
+      if (data.startDate) { startDate = data.startDate; try { localStorage.setItem(getUserKey('sd'), data.startDate); } catch(ex) {} }
+      if (data.notes) { try { localStorage.setItem(getUserKey('notes'), data.notes); } catch(ex) {} }
+      saveData();
+      alert('Backup restored! Reloading now.');
       location.reload();
-    }catch(err){alert('Could not restore. Make sure you are using a valid backup file.');}
+    } catch(err) { alert('Could not restore. Please use a valid backup file.'); }
   };
   reader.readAsText(file);
 }
 
-/* === SHARE IMAGE === */
-function generateShareImg(){
-  const total=totalItems;
-  const done=Object.values(checked).filter(Boolean).length;
-  const pct=total>0?Math.round((done/total)*100):0;
-  const stagesComplete=STAGES.filter((s,si)=>s.items.every((_,ii)=>checked[si+'-'+ii])).length;
+/* ════════════════════════════════════════
+   SHARE IMAGE
+════════════════════════════════════════ */
+function generateShare() {
+  const total = totalItems;
+  const done = Object.values(checked).filter(Boolean).length;
+  const pct = total > 0 ? Math.round((done / total) * 100) : 0;
+  const stages = STAGES.filter((s, si) => s.items.every((_, ii) => checked[si + '-' + ii])).length;
 
-  const canvas=document.getElementById('share-canvas');
-  if(!canvas)return;
-  const ctx=canvas.getContext('2d');
-  const W=800,H=800;
+  const canvas = document.getElementById('share-canvas');
+  const ctx = canvas.getContext('2d');
+  const W = 800, H = 800;
 
-  // Background gradient
-  const grad=ctx.createLinearGradient(0,0,W,H);
-  grad.addColorStop(0,'#0A2350');grad.addColorStop(1,'#1a3a6b');
-  ctx.fillStyle=grad;ctx.fillRect(0,0,W,H);
+  const grad = ctx.createLinearGradient(0, 0, W, H);
+  grad.addColorStop(0, '#0A1628'); grad.addColorStop(1, '#111f3a');
+  ctx.fillStyle = grad; ctx.fillRect(0, 0, W, H);
 
-  // Decorative circles
-  ctx.strokeStyle='rgba(201,160,50,0.15)';ctx.lineWidth=2;
-  ctx.beginPath();ctx.arc(680,100,220,0,Math.PI*2);ctx.stroke();
-  ctx.beginPath();ctx.arc(100,700,160,0,Math.PI*2);ctx.stroke();
+  ctx.strokeStyle = 'rgba(201,160,50,0.15)'; ctx.lineWidth = 1.5;
+  ctx.beginPath(); ctx.arc(650, 150, 200, 0, Math.PI*2); ctx.stroke();
+  ctx.beginPath(); ctx.arc(150, 650, 150, 0, Math.PI*2); ctx.stroke();
 
-  // Title
-  ctx.fillStyle='#C9A032';ctx.font='bold 44px Georgia,serif';ctx.textAlign='center';
-  ctx.fillText('OP JAPAN TRACKER',W/2,90);
-  ctx.fillStyle='rgba(255,255,255,0.45)';ctx.font='18px Arial';
-  ctx.fillText('by Opportunity Planet',W/2,122);
+  ctx.fillStyle = '#C9A032'; ctx.font = 'bold 40px Georgia,serif'; ctx.textAlign = 'center';
+  ctx.fillText('OP JAPAN TRACKER', W/2, 80);
+  ctx.fillStyle = 'rgba(255,255,255,0.4)'; ctx.font = '18px Arial';
+  ctx.fillText('by Opportunity Planet', W/2, 108);
 
-  // Progress circle
-  const cx=W/2,cy=310,r=150;
-  ctx.strokeStyle='rgba(255,255,255,0.08)';ctx.lineWidth=18;
-  ctx.beginPath();ctx.arc(cx,cy,r,0,Math.PI*2);ctx.stroke();
-  ctx.strokeStyle='#C9A032';ctx.lineWidth=18;ctx.lineCap='round';
-  ctx.beginPath();ctx.arc(cx,cy,r,-Math.PI/2,(-Math.PI/2)+(Math.PI*2*(pct/100)));ctx.stroke();
+  const cx = W/2, cy = 320, r = 140;
+  ctx.strokeStyle = 'rgba(255,255,255,0.06)'; ctx.lineWidth = 16;
+  ctx.beginPath(); ctx.arc(cx, cy, r, 0, Math.PI*2); ctx.stroke();
+  ctx.strokeStyle = '#C9A032'; ctx.lineWidth = 16; ctx.lineCap = 'round';
+  ctx.beginPath(); ctx.arc(cx, cy, r, -Math.PI/2, -Math.PI/2 + (Math.PI*2*(pct/100))); ctx.stroke();
 
-  ctx.fillStyle='#C9A032';ctx.font='bold 88px Georgia,serif';ctx.textAlign='center';
-  ctx.fillText(pct+'%',cx,cy+26);
-  ctx.fillStyle='rgba(255,255,255,0.55)';ctx.font='24px Arial';
-  ctx.fillText('Complete',cx,cy+66);
+  ctx.fillStyle = '#C9A032'; ctx.font = 'bold 80px Georgia,serif'; ctx.textAlign = 'center';
+  ctx.fillText(pct + '%', cx, cy + 20);
+  ctx.fillStyle = 'rgba(255,255,255,0.5)'; ctx.font = '20px Arial';
+  ctx.fillText('Complete', cx, cy + 55);
 
-  // Stat boxes
-  function statBox(x,y,val,label){
-    ctx.fillStyle='rgba(255,255,255,0.08)';
-    ctx.beginPath();ctx.roundRect(x,y,190,90,12);ctx.fill();
-    ctx.fillStyle='#C9A032';ctx.font='bold 38px Georgia,serif';ctx.textAlign='center';
-    ctx.fillText(val,x+95,y+52);
-    ctx.fillStyle='rgba(255,255,255,0.45)';ctx.font='16px Arial';
-    ctx.fillText(label,x+95,y+76);
-  }
-  statBox(50,510,done,'Steps Done');
-  statBox(305,510,stagesComplete,'Stages Done');
-  statBox(560,510,total-done,'Steps Left');
+  const drawStat = (x, y, val, label) => {
+    ctx.fillStyle = 'rgba(255,255,255,0.06)';
+    ctx.beginPath(); ctx.roundRect(x, y, 190, 80, 12); ctx.fill();
+    ctx.fillStyle = '#C9A032'; ctx.font = 'bold 34px Georgia,serif'; ctx.textAlign = 'center';
+    ctx.fillText(val, x+95, y+46);
+    ctx.fillStyle = 'rgba(255,255,255,0.4)'; ctx.font = '14px Arial';
+    ctx.fillText(label, x+95, y+66);
+  };
+  drawStat(50, 520, done, 'Steps Done');
+  drawStat(305, 520, stages, 'Stages Done');
+  drawStat(560, 520, total-done, 'Steps Left');
 
-  // Bottom bar
-  ctx.fillStyle='#C9A032';ctx.fillRect(0,680,W,120);
-  ctx.fillStyle='#0A2350';ctx.font='bold 26px Arial';ctx.textAlign='center';
-  ctx.fillText('My Japan ALT Relocation Journey',W/2,722);
-  ctx.font='18px Arial';
-  ctx.fillText('Opportunity Planet  |  selar.com/m/opportunityplanet',W/2,756);
+  ctx.fillStyle = '#C9A032'; ctx.fillRect(0, 690, W, 110);
+  ctx.fillStyle = '#0A1628'; ctx.font = 'bold 24px Arial'; ctx.textAlign = 'center';
+  ctx.fillText('My Japan ALT Relocation Journey', W/2, 730);
+  ctx.font = '17px Arial';
+  ctx.fillText('Opportunity Planet  |  selar.com/m/opportunityplanet', W/2, 758);
 
-  const dataUrl=canvas.toDataURL('image/png');
-  const wrap=document.getElementById('share-img-wrap');
-  if(wrap)wrap.innerHTML='<img src="'+dataUrl+'" style="width:100%;border-radius:12px;border:1px solid #E0DDD6;">';
-  const dlBtn=document.getElementById('dl-share');
-  if(dlBtn)dlBtn.style.display='flex';
+  const dataUrl = canvas.toDataURL('image/png');
+  const wrap = document.getElementById('share-preview-wrap');
+  if (wrap) wrap.innerHTML = `<div class="share-preview"><img src="${dataUrl}"></div>`;
+  const btn = document.getElementById('dl-share-btn');
+  if (btn) btn.style.display = 'inline-flex';
 }
 
-function downloadShareImg(){
-  const canvas=document.getElementById('share-canvas');if(!canvas)return;
-  const a=document.createElement('a');
-  a.download='japan-alt-progress-'+new Date().toISOString().split('T')[0]+'.png';
-  a.href=canvas.toDataURL('image/png');
-  document.body.appendChild(a);a.click();document.body.removeChild(a);
+function downloadShare() {
+  const canvas = document.getElementById('share-canvas');
+  const a = document.createElement('a');
+  a.download = 'japan-alt-progress-' + new Date().toISOString().split('T')[0] + '.png';
+  a.href = canvas.toDataURL('image/png');
+  document.body.appendChild(a); a.click(); document.body.removeChild(a);
 }
 
-/* === THEME === */
-function toggleTheme(){
-  document.body.classList.toggle('light-mode');
-  const isLight=document.body.classList.contains('light-mode');
-  const btn=document.getElementById('theme-btn');
-  if(btn)btn.textContent=isLight?'\u{1F319}':'\u{2600}\uFE0F';
-  try{localStorage.setItem('op_theme',isLight?'light':'dark');}catch(e){}
+/* ════════════════════════════════════════
+   INIT APP
+════════════════════════════════════════ */
+function initApp() {
+  updateSidebarUser();
+  updateGreeting();
+  showDailyQuote();
+
+  const clCon = document.getElementById('cl-container');
+  if (clCon && clCon.children.length === 0) buildChecklist();
+
+  const compCon = document.getElementById('comp-container');
+  if (compCon && compCon.children.length === 0) buildCompanies();
+
+  const docCon = document.getElementById('doc-container');
+  if (docCon && docCon.children.length === 0) buildDocs();
+
+  const cvCon = document.getElementById('cv-sections');
+  if (cvCon && cvCon.children.length === 0) buildCVAudit();
+
+  updateProgress();
+  updateDocStats();
+
+  if (startDate) updateCD();
 }
 
-/* === STAGE RESET === */
-function resetStage(si){
-  if(confirm('Reset Stage '+(si+1)+'? This will untick all items in this stage.')){
-    STAGES[si].items.forEach((_,ii)=>{checked[si+'-'+ii]=false;});
-    // Re-render checklist
-    const con=document.getElementById('cl-container');
-    if(con){con.innerHTML='';buildChecklist();}
-    save();updateProg();
-  }
-}
+/* ════════════════════════════════════════
+   STARTUP — check if logged in
+════════════════════════════════════════ */
+window.addEventListener('load', function() {
+  // Always show login screen on fresh load
+  showScreen('screen-login');
+});
 
-/* === EXPORT PDF === */
-function exportPDF(){
-  window.print();
-}
-
-/* === NOTIFICATIONS === */
-function showNotifPrompt(){
-  if('Notification' in window&&Notification.permission==='default'){
-    if(!localStorage.getItem('op_notif')){
-      const bar=document.createElement('div');
-      bar.id='notif-bar';
-      bar.style.cssText='background:#1a3a6b;border-bottom:1px solid rgba(201,160,50,0.3);padding:10px 16px;display:flex;align-items:center;gap:10px;font-size:12px;color:#E8D5A3;position:sticky;top:0;z-index:99;';
-      bar.innerHTML='<span>&#128276; Enable reminders to stay on track</span><button onclick="reqNotif()" style="background:#C9A032;color:#0A2350;border:none;border-radius:8px;padding:6px 12px;font-size:11px;font-weight:700;cursor:pointer;font-family:sans-serif;touch-action:manipulation;">Enable</button><button onclick="this.parentElement.remove();localStorage.setItem(\'op_notif\',\'1\')" style="background:transparent;border:none;color:rgba(255,255,255,0.3);font-size:18px;cursor:pointer;margin-left:auto;padding:0 4px;touch-action:manipulation;">&#10005;</button>';
-      const nav=document.querySelector('.nav-wrap');
-      if(nav)nav.insertAdjacentElement('afterend',bar);
-    }
-  }
-}
-
-function reqNotif(){
-  Notification.requestPermission().then(p=>{
-    localStorage.setItem('op_notif','1');
-    const bar=document.getElementById('notif-bar');if(bar)bar.remove();
-    if(p==='granted'){
-      new Notification('OP Japan Tracker',{body:'Reminders enabled! We will nudge you to keep updating your tracker.',icon:'icon-192.png'});
-    }
+/* ════════════════════════════════════════
+   SERVICE WORKER
+════════════════════════════════════════ */
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('sw.js').catch(e => console.log('SW:', e));
   });
 }
-
-/* === LIGHT MODE CSS === */
-const lightCSS=document.createElement('style');
-lightCSS.textContent=`
-body.light-mode{background:#F0EDE8;color:#111;}
-body.light-mode .hero,body.light-mode .nav-wrap{background:#1a3a6b!important;}
-body.light-mode .card{background:#fff;}
-body.light-mode .prog-wrap{background:#fff;}
-body.light-mode .ci{background:#fff;}
-body.light-mode .ci.done{background:#EAF5EE;}
-`;
-document.head.appendChild(lightCSS);
-
-// Load theme
-try{if(localStorage.getItem('op_theme')==='light'){document.body.classList.add('light-mode');const btn=document.getElementById('theme-btn');if(btn)btn.textContent='\u{1F319}';}}catch(e){}
-
-// Init new features
-showDailyQuote();
-setTimeout(showNotifPrompt, 3000);
 </script>
-
 </body>
 </html>
