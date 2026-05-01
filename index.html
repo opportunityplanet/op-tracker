@@ -40,7 +40,7 @@
 }
 
 * { margin:0; padding:0; box-sizing:border-box; -webkit-text-size-adjust:100%; -webkit-tap-highlight-color:transparent; }
-html, body { height:100%; overflow:hidden; }
+html, body { height:100%; overflow:hidden; position:fixed; width:100%; }
 body { font-family:var(--sans); background:var(--bg); color:var(--text); font-size:15px; }
 
 /* ═══════════ AUTH SCREENS ═══════════ */
@@ -99,7 +99,7 @@ body { font-family:var(--sans); background:var(--bg); color:var(--text); font-si
 .auth-switch button { background:none; border:none; color:var(--gold); font-size:13px; font-weight:600; cursor:pointer; font-family:var(--sans); touch-action:manipulation; }
 
 /* ═══════════ APP SHELL ═══════════ */
-#app { height:100vh; display:flex; flex-direction:column; overflow:hidden; }
+#app { height:100%; height:100dvh; display:flex; flex-direction:column; overflow:hidden; position:absolute; top:0; left:0; right:0; bottom:0; }
 
 /* ═══════════ HEADER ═══════════ */
 .app-header {
@@ -186,10 +186,10 @@ body { font-family:var(--sans); background:var(--bg); color:var(--text); font-si
 }
 
 /* ═══════════ MAIN CONTENT ═══════════ */
-.main-content { flex:1; overflow-y:scroll; overflow-x:hidden; -webkit-overflow-scrolling:touch; overscroll-behavior-y:contain; position:relative; }
+.main-content { flex:1; overflow-y:auto; overflow-x:hidden; -webkit-overflow-scrolling:touch; overscroll-behavior-y:contain; position:relative; min-height:0; }
 .main-content::-webkit-scrollbar { display:none; }
 .page { display:none; padding:16px 14px 80px; max-width:720px; margin:0 auto; }
-.page.active { display:block; }
+.page.active { display:block; min-height:100%; }
 /* Ensure all form inputs don't cause zoom on iOS */
 input, select, textarea { font-size:16px !important; }
 @media(min-width:400px) { input, select, textarea { font-size:inherit !important; } }
@@ -303,7 +303,7 @@ input, select, textarea { font-size:16px !important; }
 .ci {
   display:flex; align-items:flex-start; gap:14px; padding:13px 16px;
   border-bottom:1px solid rgba(255,255,255,0.04); cursor:pointer;
-  touch-action:pan-y pinch-zoom; transition:background 0.15s;
+  transition:background 0.15s;
   user-select:none; -webkit-user-select:none; -webkit-tap-highlight-color:transparent;
 }
 .ci:last-of-type { border-bottom:none; }
@@ -505,7 +505,7 @@ input, select, textarea { font-size:16px !important; }
 
 @media(min-width:768px) {
   #app { flex-direction:row; }
-  .app-column { display:flex; flex-direction:column; flex:1; overflow:hidden; }
+  .app-column { display:flex; flex-direction:column; flex:1; min-height:0; overflow:hidden; }
 }
 
 /* ═══════════ LIGHT MODE ═══════════ */
@@ -1434,11 +1434,15 @@ function goPage(id) {
   if (pg) pg.classList.add('active');
   const ni = document.getElementById('ni-' + id);
   if (ni) ni.classList.add('active');
-  document.getElementById('header-title').textContent = PAGE_TITLES[id] || id;
+  const titleEl = document.getElementById('header-title');
+  if (titleEl) titleEl.textContent = PAGE_TITLES[id] || id;
   closeSidebar();
-  window.scrollTo(0,0);
+  // Scroll the main content area back to top
   const mc = document.querySelector('.main-content');
-  if (mc) mc.scrollTop = 0;
+  if (mc) {
+    mc.scrollTop = 0;
+    mc.scrollLeft = 0;
+  }
 }
 
 function toggleSidebar() {
@@ -1596,13 +1600,10 @@ function buildChecklist() {
       <span class="cl-count" id="sc-${si}">${done}/${stage.items.length}</span>
       <span class="cl-chev">&#9660;</span>
     `;
-    let _cty = 0, _cscrolled = false;
-    hBtn.addEventListener('touchstart', function(e) { _cty = e.touches[0].clientY; _cscrolled = false; }, { passive: true });
-    hBtn.addEventListener('touchmove', function(e) { if(Math.abs(e.touches[0].clientY - _cty) > 8) _cscrolled = true; }, { passive: true });
-    hBtn.addEventListener('touchend', function(e) {
-      if (_cscrolled) return;
-      e.preventDefault(); card.classList.toggle('closed');
-    }, { passive: false });
+    let _cts=0,_cty=0,_cm=false;
+    hBtn.addEventListener('pointerdown',function(e){_cts=Date.now();_cty=e.clientY;_cm=false;});
+    hBtn.addEventListener('pointermove',function(e){if(Math.abs(e.clientY-_cty)>10)_cm=true;});
+    hBtn.addEventListener('pointerup',function(e){if(!_cm&&Date.now()-_cts<500)card.classList.toggle('closed');});
 
     const body = document.createElement('div');
     body.className = 'cl-body';
@@ -1624,23 +1625,24 @@ function buildChecklist() {
 
       div.innerHTML = `<div class="ci-box"><span class="ci-tick">&#10003;</span></div><div><span class="ci-text">${item.text}</span>${badge}</div>`;
 
-      // Reliable tap vs scroll detection
-      let _ty = 0, _tx = 0, _scrolled = false;
-      div.addEventListener('touchstart', function(e) {
-        _ty = e.touches[0].clientY;
-        _tx = e.touches[0].clientX;
-        _scrolled = false;
-      }, { passive: true });
-      div.addEventListener('touchmove', function(e) {
-        if (Math.abs(e.touches[0].clientY - _ty) > 8) _scrolled = true;
-      }, { passive: true });
-      div.addEventListener('touchend', function(e) {
-        if (_scrolled) return; // Was a scroll, ignore
-        e.preventDefault();
-        checked[key] = !checked[key];
-        div.classList.toggle('done', !!checked[key]);
-        saveData(); updateProgress(); updateCel(si);
-      }, { passive: false });
+      // Clean tap detection - only fires on genuine taps not scrolls
+      let _ts = 0, _ty = 0, _moved = false;
+      div.addEventListener('pointerdown', function(e) {
+        _ts = Date.now();
+        _ty = e.clientY;
+        _moved = false;
+      });
+      div.addEventListener('pointermove', function(e) {
+        if (Math.abs(e.clientY - _ty) > 10) _moved = true;
+      });
+      div.addEventListener('pointerup', function(e) {
+        const elapsed = Date.now() - _ts;
+        if (!_moved && elapsed < 500) {
+          checked[key] = !checked[key];
+          div.classList.toggle('done', !!checked[key]);
+          saveData(); updateProgress(); updateCel(si);
+        }
+      });
       body.appendChild(div);
     });
 
@@ -1859,13 +1861,10 @@ function buildCVAudit() {
     const h = document.createElement('button');
     h.className = 'cv-section-header';
     h.innerHTML = `<span class="cv-section-title">${sec.t}</span><span style="color:var(--muted);font-size:12px;">&#9660;</span>`;
-    let _vty = 0, _vscrolled = false;
-    h.addEventListener('touchstart', function(e) { _vty = e.touches[0].clientY; _vscrolled = false; }, { passive: true });
-    h.addEventListener('touchmove', function(e) { if(Math.abs(e.touches[0].clientY - _vty) > 8) _vscrolled = true; }, { passive: true });
-    h.addEventListener('touchend', function(e) {
-      if (_vscrolled) return;
-      e.preventDefault(); card.classList.toggle('closed');
-    }, { passive: false });
+    let _vts=0,_vty=0,_vm=false;
+    h.addEventListener('pointerdown',function(e){_vts=Date.now();_vty=e.clientY;_vm=false;});
+    h.addEventListener('pointermove',function(e){if(Math.abs(e.clientY-_vty)>10)_vm=true;});
+    h.addEventListener('pointerup',function(e){if(!_vm&&Date.now()-_vts<500)card.classList.toggle('closed');});
 
     const body = document.createElement('div');
     sec.q.forEach((q, qi) => {
