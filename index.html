@@ -40,7 +40,7 @@
 }
 
 * { margin:0; padding:0; box-sizing:border-box; -webkit-text-size-adjust:100%; -webkit-tap-highlight-color:transparent; }
-html, body { height:100%; overflow:hidden; }
+html, body { height:100%; overflow:hidden; -webkit-overflow-scrolling:touch; }
 body { font-family:var(--sans); background:var(--bg); color:var(--text); font-size:15px; }
 
 /* ═══════════ AUTH SCREENS ═══════════ */
@@ -186,7 +186,7 @@ body { font-family:var(--sans); background:var(--bg); color:var(--text); font-si
 }
 
 /* ═══════════ MAIN CONTENT ═══════════ */
-.main-content { flex:1; overflow-y:auto; overflow-x:hidden; -webkit-overflow-scrolling:touch; }
+.main-content { flex:1; overflow-y:auto; overflow-x:hidden; -webkit-overflow-scrolling:touch; overscroll-behavior:contain; scroll-behavior:smooth; }
 .main-content::-webkit-scrollbar { display:none; }
 .page { display:none; padding:16px 14px 80px; max-width:720px; margin:0 auto; }
 .page.active { display:block; }
@@ -300,8 +300,8 @@ body { font-family:var(--sans); background:var(--bg); color:var(--text); font-si
 .ci {
   display:flex; align-items:flex-start; gap:14px; padding:13px 16px;
   border-bottom:1px solid rgba(255,255,255,0.04); cursor:pointer;
-  touch-action:manipulation; transition:background 0.15s;
-  user-select:none; -webkit-user-select:none;
+  touch-action:pan-y; transition:background 0.15s;
+  user-select:none; -webkit-user-select:none; -webkit-tap-highlight-color:transparent;
 }
 .ci:last-of-type { border-bottom:none; }
 .ci:active { background:rgba(255,255,255,0.03); }
@@ -505,6 +505,64 @@ body { font-family:var(--sans); background:var(--bg); color:var(--text); font-si
   .app-column { display:flex; flex-direction:column; flex:1; overflow:hidden; }
 }
 
+/* ═══════════ LIGHT MODE ═══════════ */
+body.light-mode {
+  --bg: #f0f2f7;
+  --bg2: #e4e8f0;
+  --card: #ffffff;
+  --card2: #f5f7fc;
+  --text: #1a2238;
+  --muted: #6b7a99;
+  --border: rgba(0,0,0,0.08);
+  --gold: #b8891e;
+  --gold2: #d4a429;
+  --gold-dim: rgba(184,137,30,0.1);
+  --gold-border: rgba(184,137,30,0.25);
+  --green: #1e8449;
+  --green-bg: rgba(30,132,73,0.1);
+  --red: #c0392b;
+  --red-bg: rgba(192,57,43,0.1);
+  --amber: #b7770d;
+  --amber-bg: rgba(183,119,13,0.1);
+  --blue: #1a5fa8;
+  --blue-bg: rgba(26,95,168,0.1);
+}
+body.light-mode .auth-screen { background:var(--bg); }
+body.light-mode .auth-input { background:var(--card); border-color:var(--border); color:var(--text); }
+body.light-mode .auth-card { background:var(--card); }
+body.light-mode .app-header { background:var(--card); }
+body.light-mode .sidebar { background:var(--card); }
+body.light-mode .sidebar-prog-bar { background:var(--bg2); }
+body.light-mode .cl-card { background:var(--card); }
+body.light-mode .cl-header { background:transparent; }
+body.light-mode .stat-card { background:var(--card); }
+body.light-mode .quote-card { background:var(--card); }
+body.light-mode .qa-card { background:var(--card); }
+body.light-mode .countdown-card { background:var(--card); }
+body.light-mode .date-input { background:var(--bg2); color:var(--text); }
+body.light-mode .cd-unit { background:var(--bg2); }
+body.light-mode .comp-card { background:var(--card); }
+body.light-mode .doc-card { background:var(--card); }
+body.light-mode .cv-section { background:var(--card); }
+body.light-mode .cv-score-card { background:var(--card); }
+body.light-mode .cv-stat { background:var(--card); }
+body.light-mode .budget-field { background:var(--card); }
+body.light-mode .budget-input { color:var(--text); }
+body.light-mode .budget-result { background:var(--bg2); }
+body.light-mode .notes-ta { background:var(--card); color:var(--text); }
+body.light-mode .res-card { background:var(--card); }
+body.light-mode .backup-card { background:rgba(184,137,30,0.08); }
+body.light-mode .audit-btn { background:var(--bg2); color:var(--muted); }
+body.light-mode .stage-note-ta { background:var(--bg2); color:var(--text); }
+body.light-mode .nav-item.active { background:var(--gold-dim); }
+body.light-mode .dash-progress { background:var(--card); }
+body.light-mode .stage-dot { background:var(--card); }
+body.light-mode .ci { background:transparent; }
+body.light-mode .ci.done { background:var(--green-bg); }
+body.light-mode .ci-box { background:var(--bg2); }
+body.light-mode .header-bar-wrap { background:var(--bg2); }
+body.light-mode .doc-sel { background:var(--bg2); color:var(--text); }
+
 @media print {
   .auth-screen, .sidebar, .sidebar-overlay, .app-header, #share-canvas { display:none !important; }
   .page { display:block !important; padding:10px; }
@@ -661,6 +719,7 @@ body { font-family:var(--sans); background:var(--bg); color:var(--text); font-si
         <div class="header-bar-wrap"><div class="header-bar" id="header-bar"></div></div>
         <span class="header-pct" id="header-pct">0%</span>
       </div>
+      <button id="theme-toggle-btn" onclick="toggleTheme()" style="width:36px;height:36px;border-radius:10px;background:var(--card);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:16px;cursor:pointer;touch-action:manipulation;flex-shrink:0;-webkit-tap-highlight-color:transparent;">🌙</button>
       <div class="header-avatar" id="header-avatar" onclick="toggleSidebar()">M</div>
     </div>
 
@@ -739,7 +798,7 @@ body { font-family:var(--sans); background:var(--bg); color:var(--text); font-si
         <p class="sec-p">Track every company you apply to. Apply to at least 3 simultaneously.</p>
         <div class="info-box blue">Apply to multiple companies at the same time. Do not wait for one to reply before applying to the next.</div>
         <div id="comp-container"></div>
-        <button class="btn btn-gold" onclick="addComp()" style="width:100%;margin-top:4px;">+ Add Company</button>
+        <button class="btn btn-gold" onclick="addComp()" style="width:100%;margin-top:4px;font-size:15px;">+ Add Another Company</button>
       </div>
 
       <!-- DOCUMENTS -->
@@ -780,24 +839,127 @@ body { font-family:var(--sans); background:var(--bg); color:var(--text); font-si
       <!-- BUDGET -->
       <div class="page" id="page-budget">
         <div class="sec-h">Budget Planner</div>
-        <p class="sec-p">Know exactly when you will be financially ready to move to Japan.</p>
-        <div class="info-box blue" style="margin-bottom:14px;">Most ALT companies recommend having $3,000 to $6,000 saved before your first paycheck.</div>
-        <div class="budget-grid">
-          <div class="budget-field"><div class="budget-label">Current savings (USD)</div><input class="budget-input" type="number" id="b-cur" placeholder="0" oninput="calcBudget()"></div>
-          <div class="budget-field"><div class="budget-label">Monthly savings (USD)</div><input class="budget-input" type="number" id="b-mon" placeholder="0" oninput="calcBudget()"></div>
-          <div class="budget-field"><div class="budget-label">Target amount (USD)</div><input class="budget-input" type="number" id="b-tar" placeholder="4000" oninput="calcBudget()"></div>
-          <div class="budget-field"><div class="budget-label">ALT salary (Yen/mo)</div><input class="budget-input" type="number" id="b-sal" placeholder="200000" oninput="calcBudget()"></div>
+        <p class="sec-p">Track your savings, plan your timeline and convert currencies — all in one place.</p>
+
+        <!-- CURRENCY SELECTOR -->
+        <div style="background:var(--card);border:1px solid var(--border);border-radius:16px;padding:16px;margin-bottom:14px;">
+          <div style="font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:1px;margin-bottom:10px;">Your Currency</div>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">
+            <div>
+              <div style="font-size:11px;color:var(--muted);margin-bottom:6px;">Select currency</div>
+              <select id="b-currency" onchange="updateCurrencyRates()" style="width:100%;background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:10px 12px;font-size:14px;color:var(--text);font-family:var(--sans);outline:none;-webkit-appearance:none;">
+                <option value="USD">🇺🇸 USD — US Dollar</option>
+                <option value="NGN">🇳🇬 NGN — Nigerian Naira</option>
+                <option value="GHS">🇬🇭 GHS — Ghanaian Cedi</option>
+                <option value="KES">🇰🇪 KES — Kenyan Shilling</option>
+                <option value="ZAR">🇿🇦 ZAR — South African Rand</option>
+                <option value="GBP">🇬🇧 GBP — British Pound</option>
+                <option value="EUR">🇪🇺 EUR — Euro</option>
+                <option value="JPY">🇯🇵 JPY — Japanese Yen</option>
+              </select>
+            </div>
+            <div>
+              <div style="font-size:11px;color:var(--muted);margin-bottom:6px;">Rate to USD (manual)</div>
+              <input type="number" id="b-rate" placeholder="e.g. 1600" step="0.01"
+                style="width:100%;background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:10px 12px;font-size:14px;color:var(--text);font-family:var(--sans);outline:none;-webkit-appearance:none;"
+                oninput="calcBudget()">
+            </div>
+          </div>
+          <div id="rate-info" style="font-size:11px;color:var(--muted);margin-top:8px;line-height:1.5;">
+            Enter the current exchange rate from your currency to USD. Check Google for the live rate.
+          </div>
+          <button onclick="fetchRate()" style="margin-top:10px;background:var(--gold-dim);border:1px solid var(--gold-border);border-radius:8px;padding:8px 14px;font-size:12px;color:var(--gold);cursor:pointer;font-family:var(--sans);touch-action:manipulation;">
+            🔄 Get Current Rate from Google
+          </button>
         </div>
+
+        <!-- SAVINGS INPUTS -->
+        <div style="background:var(--card);border:1px solid var(--border);border-radius:16px;padding:16px;margin-bottom:14px;">
+          <div style="font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:1px;margin-bottom:12px;">Your Savings</div>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:10px;">
+            <div style="background:var(--bg2);border-radius:12px;padding:14px;">
+              <div id="b-cur-label" style="font-size:11px;color:var(--muted);margin-bottom:4px;">Current Savings (USD)</div>
+              <input class="budget-input" type="number" id="b-cur" placeholder="0" oninput="calcBudget()">
+            </div>
+            <div style="background:var(--bg2);border-radius:12px;padding:14px;">
+              <div id="b-mon-label" style="font-size:11px;color:var(--muted);margin-bottom:4px;">Monthly Savings (USD)</div>
+              <input class="budget-input" type="number" id="b-mon" placeholder="0" oninput="calcBudget()">
+            </div>
+            <div style="background:var(--bg2);border-radius:12px;padding:14px;">
+              <div id="b-tar-label" style="font-size:11px;color:var(--muted);margin-bottom:4px;">Savings Target (USD)</div>
+              <input class="budget-input" type="number" id="b-tar" placeholder="4000" oninput="calcBudget()">
+            </div>
+            <div style="background:var(--bg2);border-radius:12px;padding:14px;">
+              <div style="font-size:11px;color:var(--muted);margin-bottom:4px;">ALT Salary (¥/month)</div>
+              <input class="budget-input" type="number" id="b-sal" placeholder="200000" oninput="calcBudget()">
+            </div>
+          </div>
+        </div>
+
+        <!-- RESULT -->
         <div id="b-result" style="display:none;" class="budget-result">
           <div class="budget-result-label">Months until your target</div>
           <span class="budget-big" id="b-months">--</span>
           <p class="budget-msg" id="b-msg"></p>
+          <div id="b-equiv" style="font-size:12px;color:var(--gold);margin-top:6px;"></div>
         </div>
+
+        <!-- PROGRESS BAR CHART -->
+        <div id="b-chart" style="display:none;background:var(--card);border:1px solid var(--border);border-radius:16px;padding:16px;margin-bottom:14px;">
+          <div style="font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:1px;margin-bottom:12px;">Savings Progress</div>
+          <div style="margin-bottom:8px;display:flex;justify-content:space-between;align-items:center;">
+            <span style="font-size:13px;color:var(--text);">Saved so far</span>
+            <span id="chart-saved-pct" style="font-size:13px;font-weight:700;color:var(--gold);">0%</span>
+          </div>
+          <div style="height:14px;background:var(--bg2);border-radius:7px;overflow:hidden;margin-bottom:12px;">
+            <div id="chart-bar" style="height:100%;background:linear-gradient(90deg,var(--gold),var(--gold2));border-radius:7px;transition:width 0.6s ease;width:0%;"></div>
+          </div>
+          <!-- Monthly breakdown -->
+          <div style="font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:1px;margin-bottom:10px;margin-top:4px;">Monthly Savings Plan</div>
+          <div id="monthly-chart" style="display:flex;align-items:flex-end;gap:4px;height:80px;"></div>
+          <div style="display:flex;justify-content:space-between;margin-top:4px;">
+            <span style="font-size:10px;color:var(--muted);">Now</span>
+            <span id="chart-target-label" style="font-size:10px;color:var(--green);">Target ✓</span>
+          </div>
+        </div>
+
+        <!-- CURRENCY CONVERTER -->
+        <div style="background:var(--card);border:1px solid var(--border);border-radius:16px;padding:16px;margin-bottom:14px;">
+          <div style="font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:1px;margin-bottom:12px;">💱 Quick Currency Converter</div>
+          <div style="display:grid;grid-template-columns:1fr auto 1fr;gap:10px;align-items:center;margin-bottom:10px;">
+            <div>
+              <input type="number" id="conv-amount" placeholder="Amount" oninput="convertCurrency()"
+                style="width:100%;background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:10px 12px;font-size:16px;color:var(--text);font-family:var(--sans);outline:none;-webkit-appearance:none;font-weight:700;">
+              <select id="conv-from" onchange="convertCurrency()" style="width:100%;background:var(--bg2);border:1px solid var(--border);border-radius:8px;padding:8px;font-size:12px;color:var(--text);font-family:var(--sans);outline:none;-webkit-appearance:none;margin-top:6px;">
+                <option value="NGN">NGN</option>
+                <option value="GHS">GHS</option>
+                <option value="KES">KES</option>
+                <option value="ZAR">ZAR</option>
+                <option value="GBP">GBP</option>
+                <option value="EUR">EUR</option>
+                <option value="USD">USD</option>
+                <option value="JPY">JPY</option>
+              </select>
+            </div>
+            <div style="text-align:center;font-size:20px;color:var(--muted);">⇄</div>
+            <div>
+              <div id="conv-result" style="background:var(--bg2);border:1px solid var(--gold-border);border-radius:10px;padding:10px 12px;font-size:16px;color:var(--gold);font-weight:700;min-height:44px;display:flex;align-items:center;">--</div>
+              <select id="conv-to" onchange="convertCurrency()" style="width:100%;background:var(--bg2);border:1px solid var(--border);border-radius:8px;padding:8px;font-size:12px;color:var(--text);font-family:var(--sans);outline:none;-webkit-appearance:none;margin-top:6px;">
+                <option value="USD">USD</option>
+                <option value="JPY">JPY</option>
+                <option value="NGN">NGN</option>
+                <option value="GHS">GHS</option>
+                <option value="GBP">GBP</option>
+                <option value="EUR">EUR</option>
+              </select>
+            </div>
+          </div>
+          <div id="conv-rate-info" style="font-size:11px;color:var(--muted);text-align:center;line-height:1.5;">Enter exchange rates in the Currency section above to enable conversion.</div>
+        </div>
+
         <div id="b-tip" style="display:none;"></div>
-        <div class="sec-h" style="font-size:15px;margin-bottom:8px;">Money Saving Tips</div>
-        <div class="info-box green" style="margin-bottom:8px;">Name a savings account "Japan Fund" — seeing the name keeps you motivated every time you transfer.</div>
-        <div class="info-box green" style="margin-bottom:8px;">Use Wise or Remitly for international transfers — fees are much lower than traditional banks.</div>
-        <div class="info-box green">Cooking at home in Japan saves approximately ¥20,000 to ¥30,000 per month compared to eating out regularly.</div>
+        <div class="info-box blue">Most ALT companies recommend $3,000 to $6,000 saved before your first paycheck. This covers rent deposit, initial groceries and transport.</div>
+        <div style="margin-top:10px;" class="info-box green">Use Wise or Remitly to transfer money internationally — much lower fees than traditional banks.</div>
       </div>
 
       <!-- RESOURCES -->
@@ -1002,6 +1164,22 @@ const QUOTES = [
   {q:"Hard work beats talent when talent does not work hard.", a:"Tim Notke"},
   {q:"Push yourself because no one else is going to do it for you.", a:"Unknown"},
   {q:"Great things never come from comfort zones.", a:"Unknown"},
+  {q:"Believe you can and you are halfway there.", a:"Theodore Roosevelt"},
+  {q:"Success is the sum of small efforts repeated day in and day out.", a:"Robert Collier"},
+  {q:"Your future is created by what you do today, not tomorrow.", a:"Robert Kiyosaki"},
+  {q:"The secret of getting ahead is getting started.", a:"Mark Twain"},
+  {q:"Do not watch the clock. Do what it does — keep going.", a:"Sam Levenson"},
+  {q:"You are braver than you believe, stronger than you seem.", a:"A. A. Milne"},
+  {q:"Every accomplishment starts with the decision to try.", a:"John F. Kennedy"},
+  {q:"The difference between ordinary and extraordinary is that little extra.", a:"Jimmy Johnson"},
+  {q:"Someone in Japan is waiting for a teacher exactly like you.", a:"Opportunity Planet"},
+  {q:"Your degree, your English, your story — they are enough. Apply.", a:"Opportunity Planet"},
+  {q:"Every document you gather is one step closer to your new life in Japan.", a:"Opportunity Planet"},
+  {q:"You survived harder things than a visa application. Keep going.", a:"Opportunity Planet"},
+  {q:"The company that says yes to you is already out there. Keep applying.", a:"Opportunity Planet"},
+  {q:"Your children will one day say their parent moved to Japan with faith and courage.", a:"Opportunity Planet"},
+  {q:"An ALT job in Japan is not luck. It is preparation meeting opportunity.", a:"Opportunity Planet"},
+  {q:"Africa produced you. Japan is just your next chapter.", a:"Opportunity Planet"},
 ];
 
 /* ════════════════════════════════════════
@@ -1127,6 +1305,46 @@ function enterApp() {
   document.getElementById('app').style.display = 'flex';
   loadData();
   initApp();
+  showLoginWelcome();
+}
+
+function showLoginWelcome() {
+  const total = totalItems || 50;
+  const done = Object.values(checked).filter(Boolean).length;
+  const pct = total > 0 ? Math.round((done / total) * 100) : 0;
+  const name = currentUser ? currentUser.name.split(' ')[0] : 'there';
+
+  const messages = [
+    { title: `Welcome back, ${name}!`, body: `You are ${pct}% through your Japan ALT journey. Every time you open this app you are proving your commitment. Keep going.` },
+    { title: `Good to see you, ${name}!`, body: `${done} steps completed out of ${total}. You are making real progress. Japan is getting closer every day.` },
+    { title: `You showed up today, ${name}!`, body: `That already puts you ahead of most people. Open your checklist and complete just one more step today.` },
+    { title: `${name}, your journey continues!`, body: `${total - done} steps remaining between you and Japan. Each one you complete is a door opening. Let us keep building.` },
+  ];
+
+  const msg = messages[Math.floor(Math.random() * messages.length)];
+
+  // Show as a toast notification
+  const toast = document.createElement('div');
+  toast.style.cssText = `
+    position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(100px);
+    background:var(--card);border:1px solid var(--gold-border);border-radius:16px;
+    padding:16px 20px;max-width:320px;width:calc(100% - 32px);z-index:1000;
+    box-shadow:0 8px 32px rgba(0,0,0,0.4);transition:transform 0.4s cubic-bezier(0.34,1.56,0.64,1);
+    text-align:center;
+  `;
+  toast.innerHTML = `
+    <div style="font-size:14px;font-weight:700;color:var(--gold);margin-bottom:6px;">${msg.title}</div>
+    <div style="font-size:12px;color:var(--muted);line-height:1.6;">${msg.body}</div>
+    <button onclick="this.parentElement.remove()" style="margin-top:10px;background:var(--gold);color:#0A1628;border:none;border-radius:8px;padding:7px 20px;font-size:12px;font-weight:700;cursor:pointer;font-family:var(--sans);touch-action:manipulation;">
+      Let's go! 🚀
+    </button>
+  `;
+  document.body.appendChild(toast);
+  setTimeout(() => { toast.style.transform = 'translateX(-50%) translateY(0)'; }, 100);
+  setTimeout(() => {
+    toast.style.transform = 'translateX(-50%) translateY(200px)';
+    setTimeout(() => { if(toast.parentElement) toast.remove(); }, 400);
+  }, 5000);
 }
 
 /* ════════════════════════════════════════
@@ -1184,6 +1402,34 @@ function updateGreeting() {
   const name = currentUser ? currentUser.name.split(' ')[0] : '';
   const el = document.getElementById('greet-text');
   if (el) el.textContent = g + (name ? ', ' + name : '') + ' 👋';
+
+  // Dynamic encouragement based on progress
+  const total = totalItems || 50;
+  const done = Object.values(checked).filter(Boolean).length;
+  const pct = total > 0 ? Math.round((done / total) * 100) : 0;
+  const subEl = document.getElementById('greet-sub');
+  if (subEl) {
+    const encouragements = [
+      'Every step you take today brings Japan closer.',
+      'Japan is not a dream. It is a plan. Keep building it.',
+      'Your consistency today creates your breakthrough tomorrow.',
+      'You are doing something most people only talk about.',
+      'One more step today. Japan is waiting.',
+      'Progress is progress — no matter how small.',
+      'The hardest part is starting. You already did that.',
+      'Your future students in Japan are waiting for you.',
+      'Keep showing up. This is how dreams become real.',
+      'Africa to Japan. You are making history.',
+    ];
+    if (pct === 0) {
+      subEl.textContent = 'Welcome! Let us start your Japan journey right here.';
+    } else if (pct === 100) {
+      subEl.textContent = 'You did it! Japan is no longer a dream — it is your life. 🎌';
+    } else {
+      const idx = (new Date().getDate() + new Date().getHours()) % encouragements.length;
+      subEl.textContent = encouragements[idx];
+    }
+  }
 }
 
 /* ════════════════════════════════════════
@@ -1279,8 +1525,15 @@ function buildChecklist() {
       <span class="cl-count" id="sc-${si}">${done}/${stage.items.length}</span>
       <span class="cl-chev">&#9660;</span>
     `;
+    let cardTouchY = 0;
+    hBtn.addEventListener('touchstart', function(e) { cardTouchY = e.touches[0].clientY; }, { passive: true });
+    hBtn.addEventListener('touchend', function(e) {
+      if (Math.abs(e.changedTouches[0].clientY - cardTouchY) < 10) {
+        e.preventDefault();
+        card.classList.toggle('closed');
+      }
+    }, { passive: false });
     hBtn.onclick = () => card.classList.toggle('closed');
-    hBtn.ontouchend = (e) => { e.preventDefault(); card.classList.toggle('closed'); };
 
     const body = document.createElement('div');
     body.className = 'cl-body';
@@ -1302,16 +1555,32 @@ function buildChecklist() {
 
       div.innerHTML = `<div class="ci-box"><span class="ci-tick">&#10003;</span></div><div><span class="ci-text">${item.text}</span>${badge}</div>`;
 
-      const toggle = (e) => {
-        if (e && e.preventDefault) e.preventDefault();
+      let touchStartY = 0;
+      let touchStartX = 0;
+      div.addEventListener('touchstart', function(e) {
+        touchStartY = e.touches[0].clientY;
+        touchStartX = e.touches[0].clientX;
+      }, { passive: true });
+      div.addEventListener('touchend', function(e) {
+        const dy = Math.abs(e.changedTouches[0].clientY - touchStartY);
+        const dx = Math.abs(e.changedTouches[0].clientX - touchStartX);
+        // Only toggle if it was a tap, not a scroll
+        if (dy < 10 && dx < 10) {
+          e.preventDefault();
+          checked[key] = !checked[key];
+          div.classList.toggle('done', !!checked[key]);
+          saveData();
+          updateProgress();
+          updateCel(si);
+        }
+      }, { passive: false });
+      div.addEventListener('click', function(e) {
         checked[key] = !checked[key];
         div.classList.toggle('done', !!checked[key]);
         saveData();
         updateProgress();
         updateCel(si);
-      };
-      div.addEventListener('click', toggle);
-      div.addEventListener('touchend', toggle, { passive: false });
+      });
       body.appendChild(div);
     });
 
@@ -1347,7 +1616,53 @@ function buildChecklist() {
 function updateCel(si) {
   const done = STAGES[si].items.filter((_, ii) => checked[si + '-' + ii]).length;
   const el = document.getElementById('cel-' + si);
-  if (el) el.classList.toggle('show', done === STAGES[si].items.length);
+  const wasComplete = el && el.classList.contains('show');
+  const nowComplete = done === STAGES[si].items.length;
+  if (el) el.classList.toggle('show', nowComplete);
+  // Show toast when stage just became complete
+  if (nowComplete && !wasComplete) {
+    showStageToast(si + 1, STAGES[si].msg);
+  }
+}
+
+function updateBackupInfo() {
+  const el = document.getElementById('last-backup-info');
+  if (!el) return;
+  try {
+    const last = localStorage.getItem(getUserKey('last_backup'));
+    if (last) {
+      const d = new Date(last);
+      el.textContent = 'Last backup: ' + d.toLocaleDateString() + ' at ' + d.toLocaleTimeString();
+    } else {
+      el.textContent = 'No backup yet. Download one now to protect your progress.';
+      el.style.color = 'var(--amber)';
+    }
+  } catch(e) {}
+}
+
+function showStageToast(stageNum, msg) {
+  const toast = document.createElement('div');
+  toast.style.cssText = `
+    position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(100px);
+    background:var(--green-bg);border:1px solid rgba(52,199,123,0.4);border-radius:16px;
+    padding:16px 20px;max-width:320px;width:calc(100% - 32px);z-index:1000;
+    box-shadow:0 8px 32px rgba(0,0,0,0.4);transition:transform 0.4s cubic-bezier(0.34,1.56,0.64,1);
+    text-align:center;
+  `;
+  toast.innerHTML = `
+    <div style="font-size:20px;margin-bottom:6px;">🎉</div>
+    <div style="font-size:14px;font-weight:700;color:var(--green);margin-bottom:6px;">Stage ${stageNum} Complete!</div>
+    <div style="font-size:12px;color:var(--muted);line-height:1.6;">${msg}</div>
+    <button onclick="this.parentElement.remove()" style="margin-top:10px;background:var(--green);color:white;border:none;border-radius:8px;padding:7px 20px;font-size:12px;font-weight:700;cursor:pointer;font-family:var(--sans);touch-action:manipulation;">
+      Keep going! ✓
+    </button>
+  `;
+  document.body.appendChild(toast);
+  setTimeout(() => { toast.style.transform = 'translateX(-50%) translateY(0)'; }, 100);
+  setTimeout(() => {
+    toast.style.transform = 'translateX(-50%) translateY(200px)';
+    setTimeout(() => { if(toast.parentElement) toast.remove(); }, 400);
+  }, 6000);
 }
 
 /* ════════════════════════════════════════
@@ -1355,7 +1670,7 @@ function updateCel(si) {
 ════════════════════════════════════════ */
 function buildCompanies() {
   if (compData.length === 0) {
-    for (let i = 0; i < 3; i++) compData.push({ n:'', a:'', iv:'', s:'Not applied', o:'No', notes:'' });
+    for (let i = 0; i < 5; i++) compData.push({ n:'', a:'', iv:'', s:'Not applied', o:'No', notes:'' });
   }
   renderComps();
 }
@@ -1375,20 +1690,33 @@ function renderComps() {
     const card = document.createElement('div');
     card.className = 'comp-card';
     card.innerHTML = `
-      <div class="comp-card-header">
-        <input class="comp-name-input" type="text" value="${c.n||''}" placeholder="Company name..." onchange="compData[${i}].n=this.value;saveData();updateDocStats();">
-        <span class="comp-badge ${getBadgeClass(c.s)}">${c.s}</span>
+      <div class="comp-card-header" style="display:flex;align-items:center;gap:8px;">
+        <input class="comp-name-input" type="text" value="${(c.n||'').replace(/"/g,'&quot;')}" placeholder="Company name e.g. Borderlink, Interac..." onchange="compData[${i}].n=this.value;saveData();updateDocStats();">
+        <span class="comp-badge ${getBadgeClass(c.s)}" style="white-space:nowrap;">${c.s}</span>
+        <button onclick="removeComp(${i})" style="background:var(--red-bg);border:none;color:var(--red);border-radius:6px;width:26px;height:26px;cursor:pointer;font-size:14px;display:flex;align-items:center;justify-content:center;flex-shrink:0;touch-action:manipulation;" title="Remove">✕</button>
       </div>
       <div class="comp-grid">
         <div class="comp-field"><div class="comp-field-label">Date Applied</div><input type="date" value="${c.a||''}" onchange="compData[${i}].a=this.value;saveData();updateDocStats();" style="background:transparent;border:none;font-size:13px;color:var(--text);font-family:var(--sans);outline:none;width:100%;-webkit-appearance:none;"></div>
         <div class="comp-field"><div class="comp-field-label">Interview Date</div><input type="date" value="${c.iv||''}" onchange="compData[${i}].iv=this.value;saveData();" style="background:transparent;border:none;font-size:13px;color:var(--text);font-family:var(--sans);outline:none;width:100%;-webkit-appearance:none;"></div>
         <div class="comp-field"><div class="comp-field-label">Status</div><select onchange="compData[${i}].s=this.value;saveData();this.closest('.comp-card').querySelector('.comp-badge').className='comp-badge '+getBadgeClass(this.value);this.closest('.comp-card').querySelector('.comp-badge').textContent=this.value;" style="background:transparent;border:none;font-size:13px;color:var(--text);font-family:var(--sans);outline:none;width:100%;-webkit-appearance:none;">${['Not applied','Applied','Interview scheduled','Interviewed','Waiting','Offered','Rejected'].map(s=>`<option value="${s}"${c.s===s?' selected':''}>${s}</option>`).join('')}</select></div>
-        <div class="comp-field"><div class="comp-field-label">Offer</div><select onchange="compData[${i}].o=this.value;saveData();" style="background:transparent;border:none;font-size:13px;color:var(--text);font-family:var(--sans);outline:none;width:100%;-webkit-appearance:none;">${['No','Yes','Pending'].map(s=>`<option value="${s}"${c.o===s?' selected':''}>${s}</option>`).join('')}</select></div>
+        <div class="comp-field"><div class="comp-field-label">Offer Received</div><select onchange="compData[${i}].o=this.value;saveData();" style="background:transparent;border:none;font-size:13px;color:var(--text);font-family:var(--sans);outline:none;width:100%;-webkit-appearance:none;">${['No','Yes','Pending'].map(s=>`<option value="${s}"${c.o===s?' selected':''}>${s}</option>`).join('')}</select></div>
       </div>
-      <div style="padding:10px 16px;border-top:1px solid rgba(255,255,255,0.04);"><input type="text" value="${c.notes||''}" placeholder="Notes..." onchange="compData[${i}].notes=this.value;saveData();" style="background:transparent;border:none;font-size:12px;color:var(--muted);font-family:var(--sans);outline:none;width:100%;"></div>
+      <div style="padding:10px 16px;border-top:1px solid rgba(255,255,255,0.04);display:flex;align-items:center;gap:8px;">
+        <span style="font-size:11px;color:var(--muted);flex-shrink:0;">Notes:</span>
+        <input type="text" value="${(c.notes||'').replace(/"/g,'&quot;')}" placeholder="Add any notes about this application..." onchange="compData[${i}].notes=this.value;saveData();" style="background:transparent;border:none;font-size:12px;color:var(--muted);font-family:var(--sans);outline:none;width:100%;">
+      </div>
     `;
     con.appendChild(card);
   });
+}
+
+function removeComp(i) {
+  if (confirm('Remove this company from your tracker?')) {
+    compData.splice(i, 1);
+    saveData();
+    renderComps();
+    updateDocStats();
+  }
 }
 
 function addComp() {
@@ -1471,8 +1799,15 @@ function buildCVAudit() {
     const h = document.createElement('button');
     h.className = 'cv-section-header';
     h.innerHTML = `<span class="cv-section-title">${sec.t}</span><span style="color:var(--muted);font-size:12px;">&#9660;</span>`;
+    let cvTouchY = 0;
+    h.addEventListener('touchstart', function(e) { cvTouchY = e.touches[0].clientY; }, { passive: true });
+    h.addEventListener('touchend', function(e) {
+      if (Math.abs(e.changedTouches[0].clientY - cvTouchY) < 10) {
+        e.preventDefault();
+        card.classList.toggle('closed');
+      }
+    }, { passive: false });
     h.onclick = () => card.classList.toggle('closed');
-    h.ontouchend = (e) => { e.preventDefault(); card.classList.toggle('closed'); };
 
     const body = document.createElement('div');
     sec.q.forEach((q, qi) => {
@@ -1526,35 +1861,216 @@ function updateCVScore() {
 }
 
 /* ════════════════════════════════════════
-   BUDGET
+   BUDGET — Full Calculator with Currency
 ════════════════════════════════════════ */
+
+// Approximate rates to USD (user can override)
+const DEFAULT_RATES = {
+  USD: 1, NGN: 1600, GHS: 15.5, KES: 130, ZAR: 18.5,
+  GBP: 0.79, EUR: 0.92, JPY: 150
+};
+
+const CURRENCY_SYMBOLS = {
+  USD:'$', NGN:'₦', GHS:'₵', KES:'KSh', ZAR:'R', GBP:'£', EUR:'€', JPY:'¥'
+};
+
+let userRates = { ...DEFAULT_RATES };
+
+function updateCurrencyRates() {
+  const cur = document.getElementById('b-currency').value;
+  const sym = CURRENCY_SYMBOLS[cur] || cur;
+  const rate = DEFAULT_RATES[cur];
+
+  // Update rate field with default
+  const rateField = document.getElementById('b-rate');
+  if (rateField && !rateField.value) rateField.value = rate !== 1 ? rate : '';
+
+  // Update labels
+  ['b-cur-label','b-mon-label','b-tar-label'].forEach((id, i) => {
+    const labels = ['Current Savings', 'Monthly Savings', 'Savings Target'];
+    const el = document.getElementById(id);
+    if (el) el.textContent = labels[i] + ' (' + cur + ')';
+  });
+
+  const rateInfo = document.getElementById('rate-info');
+  if (rateInfo) {
+    if (cur === 'USD') {
+      rateInfo.textContent = 'You are using USD. No conversion needed.';
+    } else {
+      rateInfo.textContent = `Default rate: 1 USD ≈ ${rate} ${cur}. Update the rate field with today's rate from Google for accuracy.`;
+    }
+  }
+  calcBudget();
+}
+
+function fetchRate() {
+  const cur = document.getElementById('b-currency').value;
+  if (cur === 'USD') { alert('You are already using USD. No conversion needed.'); return; }
+  const url = `https://www.google.com/search?q=1+USD+to+${cur}`;
+  window.open(url, '_blank');
+  alert(`Google will show the current rate. Come back and enter it in the "Rate to USD" field, then your numbers will update automatically.`);
+}
+
+function getRateToUSD() {
+  const cur = document.getElementById('b-currency').value;
+  const rateField = document.getElementById('b-rate');
+  const manualRate = rateField ? parseFloat(rateField.value) : 0;
+  if (manualRate > 0) return manualRate;
+  return DEFAULT_RATES[cur] || 1;
+}
+
+function toUSD(amount) {
+  const rate = getRateToUSD();
+  return amount / rate;
+}
+
+function fromUSD(usdAmount) {
+  return usdAmount * getRateToUSD();
+}
+
+function formatLocal(usdAmount) {
+  const cur = document.getElementById('b-currency').value;
+  const sym = CURRENCY_SYMBOLS[cur] || cur;
+  const local = fromUSD(usdAmount);
+  return sym + Math.round(local).toLocaleString();
+}
+
 function calcBudget() {
-  const cur = parseFloat(document.getElementById('b-cur').value) || 0;
-  const mon = parseFloat(document.getElementById('b-mon').value) || 0;
-  const tar = parseFloat(document.getElementById('b-tar').value) || 0;
+  const cur = document.getElementById('b-currency').value;
+  const sym = CURRENCY_SYMBOLS[cur] || cur;
+  const rate = getRateToUSD();
+
+  const rawCur = parseFloat(document.getElementById('b-cur').value) || 0;
+  const rawMon = parseFloat(document.getElementById('b-mon').value) || 0;
+  const rawTar = parseFloat(document.getElementById('b-tar').value) || 0;
   const sal = parseFloat(document.getElementById('b-sal').value) || 0;
-  if (tar === 0) return;
+
+  // Convert to USD for calculation
+  const curUSD = cur === 'USD' ? rawCur : rawCur / rate;
+  const monUSD = cur === 'USD' ? rawMon : rawMon / rate;
+  const tarUSD = cur === 'USD' ? rawTar : rawTar / rate;
+
+  if (rawTar === 0) return;
 
   const res = document.getElementById('b-result');
+  const chart = document.getElementById('b-chart');
   const tip = document.getElementById('b-tip');
   res.style.display = 'block';
+  chart.style.display = 'block';
 
-  if (cur >= tar) {
-    document.getElementById('b-months').textContent = '🎉 Ready!';
-    document.getElementById('b-msg').textContent = 'You have hit your savings target. You are financially ready to make the move.';
+  // Progress bar
+  const pct = Math.min(100, tarUSD > 0 ? Math.round((curUSD / tarUSD) * 100) : 0);
+  const barEl = document.getElementById('chart-bar');
+  const pctEl = document.getElementById('chart-saved-pct');
+  if (barEl) barEl.style.width = pct + '%';
+  if (pctEl) pctEl.textContent = pct + '%';
+
+  const equiv = document.getElementById('b-equiv');
+
+  if (curUSD >= tarUSD) {
+    document.getElementById('b-months').textContent = '🎉';
+    document.getElementById('b-msg').textContent = 'You have hit your savings target! You are financially ready.';
+    if (equiv) equiv.textContent = '';
     tip.style.display = 'block';
-    tip.innerHTML = '<div class="info-box green">You are ready! Focus on completing your application now. Do not wait for more savings.</div>';
-  } else if (mon <= 0) {
+    tip.innerHTML = '<div class="info-box green">You are ready! Focus on completing your application now.</div>';
+    drawMonthlyChart(0, tarUSD, monUSD, cur);
+  } else if (monUSD <= 0) {
     document.getElementById('b-months').textContent = '?';
     document.getElementById('b-msg').textContent = 'Enter your monthly savings amount to calculate your timeline.';
+    if (equiv) equiv.textContent = '';
     tip.style.display = 'none';
   } else {
-    const months = Math.ceil((tar - cur) / mon);
+    const months = Math.ceil((tarUSD - curUSD) / monUSD);
+    const needed = tarUSD - curUSD;
     document.getElementById('b-months').textContent = months;
-    document.getElementById('b-msg').textContent = `Save $${Math.round(mon).toLocaleString()}/month and hit your $${Math.round(tar).toLocaleString()} target in ${months} month${months===1?'':'s'}.`;
+
+    let msg = '';
+    if (cur !== 'USD') {
+      msg = `Save ${sym}${Math.round(rawMon).toLocaleString()}/month (≈ $${Math.round(monUSD).toLocaleString()}) and hit your target in ${months} month${months===1?'':'s'}.`;
+    } else {
+      msg = `Save $${Math.round(monUSD).toLocaleString()}/month and hit your $${Math.round(tarUSD).toLocaleString()} target in ${months} month${months===1?'':'s'}.`;
+    }
+    document.getElementById('b-msg').textContent = msg;
+
+    if (equiv && cur !== 'USD') {
+      equiv.textContent = `Still need: ${sym}${Math.round(fromUSD(needed)).toLocaleString()} ≈ $${Math.round(needed).toLocaleString()}`;
+    } else if (equiv) {
+      equiv.textContent = `Still need: $${Math.round(needed).toLocaleString()}`;
+    }
+
     tip.style.display = 'block';
-    const salNote = sal > 0 ? ` Your ALT salary of ¥${Math.round(sal).toLocaleString()} (≈ $${Math.round(sal/150).toLocaleString()}) covers living costs comfortably.` : '';
-    tip.innerHTML = `<div class="info-box blue">This savings target is just to bridge the gap before your first paycheck.${salNote}</div>`;
+    let salNote = '';
+    if (sal > 0) { const salUSD = sal / 150; salNote = ` Your ALT salary of ¥${Math.round(sal).toLocaleString()} (≈ $${Math.round(salUSD).toLocaleString()}) will cover living costs.`; }
+    tip.innerHTML = `<div class="info-box blue">This target is just to bridge the gap before your first paycheck.${salNote}</div>`;
+
+    drawMonthlyChart(curUSD, tarUSD, monUSD, cur);
+  }
+
+  convertCurrency();
+}
+
+function drawMonthlyChart(curUSD, tarUSD, monUSD, cur) {
+  const container = document.getElementById('monthly-chart');
+  if (!container) return;
+  container.innerHTML = '';
+
+  const months = monUSD > 0 ? Math.min(12, Math.ceil((tarUSD - curUSD) / monUSD) + 1) : 6;
+  const sym = CURRENCY_SYMBOLS[cur] || cur;
+  const rate = getRateToUSD();
+
+  for (let m = 0; m <= months; m++) {
+    const savedUSD = Math.min(tarUSD, curUSD + (monUSD * m));
+    const pct = tarUSD > 0 ? (savedUSD / tarUSD) * 100 : 0;
+    const isComplete = savedUSD >= tarUSD;
+
+    const bar = document.createElement('div');
+    bar.style.cssText = `flex:1;display:flex;flex-direction:column;align-items:center;gap:3px;`;
+
+    const barInner = document.createElement('div');
+    barInner.style.cssText = `width:100%;border-radius:4px 4px 0 0;transition:height 0.4s;background:${isComplete?'var(--green)':'var(--gold)'};`;
+    barInner.style.height = Math.max(4, pct * 0.7) + 'px';
+
+    const label = document.createElement('div');
+    label.style.cssText = `font-size:8px;color:var(--muted);text-align:center;`;
+    label.textContent = m === 0 ? 'Now' : 'M' + m;
+
+    bar.appendChild(barInner);
+    bar.appendChild(label);
+    container.appendChild(bar);
+  }
+
+  const targetLabel = document.getElementById('chart-target-label');
+  if (targetLabel) targetLabel.textContent = `$${Math.round(tarUSD).toLocaleString()} target ✓`;
+}
+
+function convertCurrency() {
+  const amount = parseFloat(document.getElementById('conv-amount').value) || 0;
+  const from = document.getElementById('conv-from').value;
+  const to = document.getElementById('conv-to').value;
+  const result = document.getElementById('conv-result');
+  const info = document.getElementById('conv-rate-info');
+  if (!result) return;
+
+  const fromRate = DEFAULT_RATES[from] || 1;
+  const toRate = DEFAULT_RATES[to] || 1;
+
+  // Use user's manual rate if they set it for their currency
+  const userCur = document.getElementById('b-currency').value;
+  const userRate = parseFloat(document.getElementById('b-rate').value) || 0;
+
+  let actualFromRate = fromRate;
+  let actualToRate = toRate;
+  if (userRate > 0 && from === userCur) actualFromRate = userRate;
+  if (userRate > 0 && to === userCur) actualToRate = userRate;
+
+  if (amount > 0) {
+    const usd = amount / actualFromRate;
+    const converted = usd * actualToRate;
+    const sym = CURRENCY_SYMBOLS[to] || to;
+    result.textContent = sym + converted.toLocaleString(undefined, {maximumFractionDigits:2});
+    if (info) info.textContent = `1 ${from} ≈ ${(actualToRate/actualFromRate).toFixed(4)} ${to}  (update rates above for accuracy)`;
+  } else {
+    result.textContent = '--';
   }
 }
 
@@ -1604,11 +2120,14 @@ if (notesTA) {
    BACKUP & RESTORE
 ════════════════════════════════════════ */
 function downloadBackup() {
+  const now = new Date().toISOString();
+  try { localStorage.setItem(getUserKey('last_backup'), now); } catch(e) {}
+  updateBackupInfo();
   const data = {
     checked, compData, docData, cvData, stageNotes, startDate,
     notes: document.getElementById('notes-ta') ? document.getElementById('notes-ta').value : '',
     user: currentUser ? currentUser.email : '',
-    timestamp: new Date().toISOString(), version: '3.0'
+    timestamp: now, version: '3.0'
   };
   const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
   const url = URL.createObjectURL(blob);
@@ -1714,10 +2233,7 @@ function downloadShare() {
    INIT APP
 ════════════════════════════════════════ */
 function initApp() {
-  updateSidebarUser();
-  updateGreeting();
-  showDailyQuote();
-
+  // Build checklist first so totalItems is set
   const clCon = document.getElementById('cl-container');
   if (clCon && clCon.children.length === 0) buildChecklist();
 
@@ -1732,15 +2248,40 @@ function initApp() {
 
   updateProgress();
   updateDocStats();
+  updateSidebarUser();
+  updateGreeting();
+  showDailyQuote();
 
   if (startDate) updateCD();
+  updateBackupInfo();
+}
+
+/* ════════════════════════════════════════
+   THEME
+════════════════════════════════════════ */
+function toggleTheme() {
+  const isLight = document.body.classList.toggle('light-mode');
+  const btn = document.getElementById('theme-toggle-btn');
+  if (btn) btn.textContent = isLight ? '☀️' : '🌙';
+  try { localStorage.setItem('op_theme', isLight ? 'light' : 'dark'); } catch(e) {}
+}
+
+function loadTheme() {
+  try {
+    const t = localStorage.getItem('op_theme');
+    if (t === 'light') {
+      document.body.classList.add('light-mode');
+      const btn = document.getElementById('theme-toggle-btn');
+      if (btn) btn.textContent = '☀️';
+    }
+  } catch(e) {}
 }
 
 /* ════════════════════════════════════════
    STARTUP — check if logged in
 ════════════════════════════════════════ */
 window.addEventListener('load', function() {
-  // Always show login screen on fresh load
+  loadTheme();
   showScreen('screen-login');
 });
 
