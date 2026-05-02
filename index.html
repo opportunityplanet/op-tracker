@@ -1,0 +1,1711 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="OP Tracker">
+<meta name="theme-color" content="#0A1628">
+<link rel="manifest" href="manifest.json">
+<link rel="apple-touch-icon" href="icon-192.png">
+<title>OP Japan Tracker | Opportunity Planet</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+/* ── TOKENS ── */
+:root {
+  --bg:       #0A1628;
+  --bg2:      #0f1e36;
+  --card:     #13243f;
+  --card2:    #192d4a;
+  --gold:     #C9A032;
+  --gold2:    #e8c560;
+  --gold-dim: rgba(201,160,50,0.12);
+  --gold-bdr: rgba(201,160,50,0.22);
+  --white:    #ffffff;
+  --text:     #dde4f0;
+  --muted:    #7a8da8;
+  --border:   rgba(255,255,255,0.07);
+  --green:    #2ecc82;
+  --green-bg: rgba(46,204,130,0.10);
+  --green-bdr:rgba(46,204,130,0.28);
+  --red:      #ff5c5c;
+  --red-bg:   rgba(255,92,92,0.10);
+  --amber:    #f5a623;
+  --amber-bg: rgba(245,166,35,0.10);
+  --blue:     #4a9eff;
+  --blue-bg:  rgba(74,158,255,0.10);
+  --sans: 'DM Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+  --serif: 'Playfair Display', Georgia, serif;
+  --nav-h: 64px;
+  --header-h: 58px;
+  --radius: 16px;
+  --radius-sm: 10px;
+}
+
+/* ── RESET ── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+html { height: 100%; }
+body { height: 100%; font-family: var(--sans); background: var(--bg); color: var(--text); font-size: 15px; overflow: hidden; }
+button { font-family: var(--sans); cursor: pointer; }
+input, select, textarea { font-family: var(--sans); font-size: 16px; }
+a { text-decoration: none; color: inherit; }
+
+/* ── APP SHELL ── */
+#app-shell {
+  position: fixed; inset: 0;
+  display: flex; flex-direction: column;
+}
+
+/* ── GATE SCREEN ── */
+#gate {
+  position: fixed; inset: 0; z-index: 999;
+  background: var(--bg);
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+  padding: 24px;
+  overflow-y: auto;
+}
+#gate.hidden { display: none; }
+
+.gate-logo {
+  width: 76px; height: 76px; border-radius: 20px;
+  background: var(--card); border: 1.5px solid var(--gold-bdr);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 36px; margin-bottom: 20px;
+  box-shadow: 0 0 40px rgba(201,160,50,0.15);
+}
+.gate-title {
+  font-family: var(--serif); font-size: 26px; font-weight: 900;
+  color: var(--gold); text-align: center; margin-bottom: 4px;
+}
+.gate-sub { font-size: 13px; color: var(--muted); text-align: center; margin-bottom: 32px; }
+
+.gate-card {
+  background: var(--card); border: 1px solid var(--border);
+  border-radius: var(--radius); padding: 24px;
+  width: 100%; max-width: 360px; margin-bottom: 16px;
+}
+.gate-card-title { font-size: 15px; font-weight: 600; color: var(--white); margin-bottom: 6px; }
+.gate-card-body { font-size: 13px; color: var(--muted); line-height: 1.6; margin-bottom: 18px; }
+
+.gate-input {
+  width: 100%; background: var(--bg2); border: 1.5px solid var(--border);
+  border-radius: var(--radius-sm); padding: 14px 16px;
+  font-size: 18px; color: var(--white); letter-spacing: 4px;
+  text-align: center; outline: none; margin-bottom: 12px;
+  transition: border-color 0.2s;
+}
+.gate-input:focus { border-color: var(--gold); }
+.gate-input::placeholder { letter-spacing: 0; font-size: 14px; color: var(--muted); }
+
+.gate-err {
+  display: none; background: var(--red-bg); border: 1px solid rgba(255,92,92,0.25);
+  border-radius: 8px; padding: 10px 14px; font-size: 13px; color: var(--red);
+  margin-bottom: 10px;
+}
+.gate-btn {
+  width: 100%; background: var(--gold); color: #0A1628;
+  border: none; border-radius: var(--radius-sm);
+  padding: 15px; font-size: 15px; font-weight: 700;
+  min-height: 52px; transition: opacity 0.2s;
+}
+.gate-btn:active { opacity: 0.85; }
+.gate-note {
+  background: var(--gold-dim); border: 1px solid var(--gold-bdr);
+  border-radius: var(--radius-sm); padding: 12px 14px;
+  width: 100%; max-width: 360px; text-align: center;
+}
+.gate-note p { font-size: 12px; color: var(--gold2); line-height: 1.6; }
+
+/* ── HEADER ── */
+.app-header {
+  height: var(--header-h); background: var(--bg2);
+  border-bottom: 1px solid var(--border);
+  display: flex; align-items: center;
+  padding: 0 16px; gap: 12px; flex-shrink: 0;
+  position: relative; z-index: 50;
+}
+.header-logo { font-size: 22px; }
+.header-title {
+  flex: 1; font-family: var(--serif);
+  font-size: 17px; font-weight: 700; color: var(--white);
+}
+.header-prog-wrap { display: flex; align-items: center; gap: 8px; }
+.header-pct { font-size: 13px; font-weight: 700; color: var(--gold); }
+.header-bar-bg { width: 56px; height: 5px; background: var(--border); border-radius: 3px; overflow: hidden; }
+.header-bar { height: 100%; background: var(--gold); border-radius: 3px; transition: width 0.5s ease; width: 0%; }
+
+/* ── BOTTOM NAV ── */
+.bottom-nav {
+  height: var(--nav-h); background: var(--bg2);
+  border-top: 1px solid var(--border);
+  display: flex; align-items: center;
+  flex-shrink: 0; position: relative; z-index: 50;
+  padding-bottom: env(safe-area-inset-bottom, 0);
+}
+.nav-btn {
+  flex: 1; height: 100%; display: flex; flex-direction: column;
+  align-items: center; justify-content: center; gap: 4px;
+  background: none; border: none; color: var(--muted);
+  font-size: 11px; font-weight: 500; transition: color 0.15s;
+  position: relative;
+}
+.nav-btn.active { color: var(--gold); }
+.nav-btn.active::before {
+  content: ''; position: absolute; top: 0; left: 20%; right: 20%;
+  height: 2px; background: var(--gold); border-radius: 0 0 2px 2px;
+}
+.nav-icon { font-size: 20px; line-height: 1; }
+.nav-badge {
+  position: absolute; top: 8px; right: calc(50% - 18px);
+  background: var(--red); color: white;
+  font-size: 9px; font-weight: 700;
+  min-width: 16px; height: 16px; border-radius: 8px;
+  display: flex; align-items: center; justify-content: center;
+  padding: 0 4px;
+}
+
+/* ── PAGES ── */
+.pages-wrap {
+  flex: 1; overflow: hidden; position: relative;
+}
+.page {
+  position: absolute; inset: 0;
+  overflow-y: auto; overflow-x: hidden;
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior-y: contain;
+  display: none;
+  padding: 16px 14px calc(16px + env(safe-area-inset-bottom, 0));
+}
+.page.active { display: block; }
+.page::-webkit-scrollbar { display: none; }
+
+/* ── TYPOGRAPHY ── */
+.page-title {
+  font-family: var(--serif); font-size: 22px; font-weight: 900;
+  color: var(--white); margin-bottom: 4px;
+}
+.page-sub { font-size: 13px; color: var(--muted); line-height: 1.6; margin-bottom: 18px; }
+.section-label {
+  font-size: 10px; font-weight: 600; letter-spacing: 1.2px;
+  text-transform: uppercase; color: var(--muted); margin: 18px 0 10px;
+}
+
+/* ── CARDS ── */
+.card {
+  background: var(--card); border: 1px solid var(--border);
+  border-radius: var(--radius); padding: 16px; margin-bottom: 12px;
+}
+.card-gold { border-color: var(--gold-bdr); }
+
+/* ── DASHBOARD ── */
+.greeting-name {
+  font-family: var(--serif); font-size: 24px; font-weight: 900;
+  color: var(--white); line-height: 1.2; margin-bottom: 4px;
+}
+.greeting-sub { font-size: 13px; color: var(--muted); margin-bottom: 18px; }
+
+.progress-hero {
+  background: linear-gradient(135deg, var(--card) 0%, var(--card2) 100%);
+  border: 1px solid var(--gold-bdr);
+  border-radius: var(--radius); padding: 20px; margin-bottom: 12px;
+  position: relative; overflow: hidden;
+}
+.progress-hero::after {
+  content: ''; position: absolute;
+  top: -40px; right: -40px; width: 140px; height: 140px;
+  background: radial-gradient(circle, rgba(201,160,50,0.12) 0%, transparent 70%);
+  border-radius: 50%; pointer-events: none;
+}
+.ph-row { display: flex; align-items: center; gap: 20px; }
+.ph-ring { position: relative; width: 78px; height: 78px; flex-shrink: 0; }
+.ph-ring svg { transform: rotate(-90deg); }
+.ph-ring-bg { fill: none; stroke: rgba(255,255,255,0.07); stroke-width: 7; }
+.ph-ring-fill { fill: none; stroke: var(--gold); stroke-width: 7; stroke-linecap: round; transition: stroke-dashoffset 0.7s ease; }
+.ph-center {
+  position: absolute; inset: 0;
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+}
+.ph-pct { font-family: var(--serif); font-size: 20px; font-weight: 900; color: var(--gold); line-height: 1; }
+.ph-label { font-size: 9px; color: var(--muted); letter-spacing: 0.5px; }
+.ph-meta { flex: 1; }
+.ph-title { font-size: 15px; font-weight: 600; color: var(--white); margin-bottom: 4px; }
+.ph-sub { font-size: 12px; color: var(--muted); line-height: 1.5; margin-bottom: 10px; }
+.ph-dots { display: flex; gap: 5px; flex-wrap: wrap; }
+.ph-dot {
+  width: 26px; height: 8px; border-radius: 4px;
+  background: rgba(255,255,255,0.07); transition: background 0.3s;
+}
+.ph-dot.done { background: var(--green); }
+.ph-dot.partial { background: var(--gold); }
+
+.stats-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 12px; }
+.stat-card {
+  background: var(--card); border: 1px solid var(--border);
+  border-radius: var(--radius-sm); padding: 14px; text-align: center;
+}
+.stat-n { font-family: var(--serif); font-size: 30px; font-weight: 700; color: var(--white); display: block; line-height: 1; }
+.stat-n.gold { color: var(--gold); }
+.stat-n.green { color: var(--green); }
+.stat-l { font-size: 10px; color: var(--muted); margin-top: 4px; text-transform: uppercase; letter-spacing: 1px; }
+
+.quote-card {
+  background: var(--gold-dim); border: 1px solid var(--gold-bdr);
+  border-radius: var(--radius); padding: 16px 18px; margin-bottom: 12px;
+  position: relative;
+}
+.quote-mark { font-family: var(--serif); font-size: 48px; color: rgba(201,160,50,0.2); line-height: 0.6; display: block; margin-bottom: 6px; }
+.quote-text { font-family: var(--serif); font-size: 14px; color: var(--text); font-style: italic; line-height: 1.7; }
+.quote-author { font-size: 11px; color: var(--gold); margin-top: 10px; font-weight: 600; letter-spacing: 0.5px; }
+
+.quick-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.quick-btn {
+  background: var(--card); border: 1px solid var(--border);
+  border-radius: var(--radius-sm); padding: 14px 12px;
+  text-align: left; display: flex; flex-direction: column; gap: 6px;
+  transition: border-color 0.15s, background 0.15s;
+}
+.quick-btn:active { background: var(--card2); border-color: var(--gold-bdr); }
+.quick-icon { font-size: 22px; }
+.quick-title { font-size: 13px; font-weight: 600; color: var(--white); }
+.quick-sub { font-size: 11px; color: var(--muted); }
+
+.timeline-card {
+  background: var(--card); border: 1px solid var(--border);
+  border-radius: var(--radius); padding: 16px; margin-bottom: 12px;
+}
+.tl-label { font-size: 11px; color: var(--muted); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 12px; font-weight: 600; }
+.tl-date-input {
+  width: 100%; background: var(--bg2); border: 1.5px solid var(--border);
+  border-radius: var(--radius-sm); padding: 12px 14px;
+  font-size: 15px; color: var(--white); outline: none;
+  margin-bottom: 14px; -webkit-appearance: none; transition: border-color 0.2s;
+}
+.tl-date-input:focus { border-color: var(--gold); }
+.tl-nums { display: grid; grid-template-columns: repeat(3,1fr); gap: 8px; }
+.tl-unit { background: var(--bg2); border-radius: var(--radius-sm); padding: 12px; text-align: center; }
+.tl-n { font-family: var(--serif); font-size: 26px; font-weight: 700; color: var(--gold); display: block; line-height: 1; }
+.tl-l { font-size: 9px; color: var(--muted); text-transform: uppercase; letter-spacing: 1px; margin-top: 4px; }
+.tl-msg { font-size: 12px; color: var(--muted); margin-top: 12px; line-height: 1.6; text-align: center; font-style: italic; }
+
+/* ── CHECKLIST ── */
+.cl-stage {
+  background: var(--card); border: 1px solid var(--border);
+  border-radius: var(--radius); margin-bottom: 10px; overflow: hidden;
+}
+.cl-stage-hdr {
+  display: flex; align-items: center; gap: 12px;
+  padding: 14px 16px; width: 100%; background: none; border: none;
+  text-align: left; color: var(--text);
+}
+.cl-stage-hdr:active { background: rgba(255,255,255,0.02); }
+.cl-num {
+  width: 34px; height: 34px; border-radius: 9px; flex-shrink: 0;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 13px; font-weight: 700;
+  background: var(--bg2); color: var(--muted); border: 1.5px solid var(--border);
+  transition: all 0.25s;
+}
+.cl-num.done { background: var(--green-bg); color: var(--green); border-color: var(--green-bdr); }
+.cl-num.partial { background: var(--gold-dim); color: var(--gold); border-color: var(--gold-bdr); }
+.cl-stage-info { flex: 1; min-width: 0; }
+.cl-stage-name { font-size: 14px; font-weight: 600; color: var(--white); margin-bottom: 2px; line-height: 1.3; }
+.cl-stage-count { font-size: 11px; color: var(--muted); }
+.cl-stage-count.done { color: var(--green); }
+.cl-stage-count.partial { color: var(--gold); }
+.cl-chev { color: var(--muted); font-size: 16px; flex-shrink: 0; transition: transform 0.25s; }
+.cl-stage.open .cl-chev { transform: rotate(90deg); }
+
+.cl-body { display: none; border-top: 1px solid var(--border); }
+.cl-stage.open .cl-body { display: block; }
+
+.cl-complete-bar {
+  display: none; background: var(--green-bg); border-bottom: 1px solid var(--green-bdr);
+  padding: 10px 16px; text-align: center;
+}
+.cl-complete-bar.show { display: block; }
+.cl-complete-bar h4 { font-size: 13px; font-weight: 600; color: var(--green); }
+.cl-complete-bar p { font-size: 11px; color: rgba(46,204,130,0.7); margin-top: 2px; }
+
+.cl-item {
+  display: flex; align-items: flex-start; gap: 14px;
+  padding: 13px 16px; border-bottom: 1px solid rgba(255,255,255,0.04);
+  cursor: pointer; user-select: none; -webkit-user-select: none;
+  transition: background 0.1s;
+}
+.cl-item:last-of-type { border-bottom: none; }
+.cl-item:active { background: rgba(255,255,255,0.02); }
+.cl-item.ticked { background: rgba(46,204,130,0.04); }
+
+.cl-box {
+  width: 24px; height: 24px; min-width: 24px; border-radius: 7px;
+  border: 2px solid var(--border); background: var(--bg2);
+  display: flex; align-items: center; justify-content: center;
+  margin-top: 1px; transition: all 0.2s; flex-shrink: 0;
+}
+.cl-item.ticked .cl-box { background: var(--green); border-color: var(--green); }
+.cl-tick { display: none; color: white; font-size: 13px; font-weight: 700; }
+.cl-item.ticked .cl-tick { display: block; }
+.cl-item-text { font-size: 14px; color: var(--text); line-height: 1.55; flex: 1; }
+.cl-item.ticked .cl-item-text { color: rgba(46,204,130,0.6); text-decoration: line-through; text-decoration-color: rgba(46,204,130,0.3); }
+
+.tag-wait {
+  display: inline-flex; align-items: center; gap: 4px;
+  background: var(--amber-bg); border: 1px solid rgba(245,166,35,0.25);
+  border-radius: 5px; padding: 2px 7px; font-size: 10px; color: var(--amber);
+  font-weight: 600; margin-top: 4px;
+}
+.tag-now {
+  display: inline-flex; align-items: center; gap: 4px;
+  background: var(--green-bg); border: 1px solid var(--green-bdr);
+  border-radius: 5px; padding: 2px 7px; font-size: 10px; color: var(--green);
+  font-weight: 600; margin-top: 4px;
+}
+
+.cl-stage-note-wrap { padding: 10px 16px 14px; border-top: 1px solid rgba(255,255,255,0.04); }
+.cl-stage-note-label { font-size: 10px; color: var(--muted); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 6px; font-weight: 600; }
+.cl-stage-note {
+  width: 100%; background: var(--bg2); border: 1px solid var(--border);
+  border-radius: var(--radius-sm); padding: 10px 12px;
+  font-size: 14px; color: var(--text); resize: vertical; min-height: 60px;
+  outline: none; transition: border-color 0.2s; line-height: 1.5;
+}
+.cl-stage-note:focus { border-color: var(--gold); }
+
+/* ── COMPANY TRACKER ── */
+.comp-card {
+  background: var(--card); border: 1px solid var(--border);
+  border-radius: var(--radius); margin-bottom: 10px; overflow: hidden;
+}
+.comp-hdr {
+  display: flex; align-items: center; gap: 10px;
+  padding: 13px 16px; border-bottom: 1px solid var(--border);
+}
+.comp-name {
+  flex: 1; background: transparent; border: none; outline: none;
+  font-size: 15px; font-weight: 600; color: var(--white);
+}
+.comp-name::placeholder { color: var(--muted); font-weight: 400; font-size: 14px; }
+.status-badge { padding: 4px 10px; border-radius: 8px; font-size: 11px; font-weight: 600; white-space: nowrap; }
+.sb-none    { background: var(--bg2); color: var(--muted); }
+.sb-applied { background: var(--blue-bg); color: var(--blue); }
+.sb-inter   { background: var(--amber-bg); color: var(--amber); }
+.sb-offered { background: var(--green-bg); color: var(--green); }
+.sb-reject  { background: var(--red-bg); color: var(--red); }
+.comp-del {
+  width: 28px; height: 28px; border-radius: 7px;
+  background: var(--red-bg); border: none; color: var(--red);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 13px; flex-shrink: 0;
+}
+.comp-grid { display: grid; grid-template-columns: 1fr 1fr; }
+.comp-field { padding: 10px 16px; border-bottom: 1px solid rgba(255,255,255,0.04); border-right: 1px solid rgba(255,255,255,0.04); }
+.comp-field:nth-child(even) { border-right: none; }
+.comp-field-label { font-size: 10px; color: var(--muted); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 4px; font-weight: 600; }
+.comp-field input, .comp-field select {
+  background: transparent; border: none; outline: none;
+  font-size: 13px; color: var(--text); width: 100%; -webkit-appearance: none;
+}
+.comp-notes-row { padding: 10px 16px; display: flex; align-items: center; gap: 8px; }
+.comp-notes-row span { font-size: 11px; color: var(--muted); flex-shrink: 0; }
+.comp-notes-row input { background: transparent; border: none; outline: none; font-size: 13px; color: var(--muted); width: 100%; }
+.add-btn {
+  width: 100%; background: var(--gold-dim); border: 1.5px dashed var(--gold-bdr);
+  border-radius: var(--radius); padding: 15px; font-size: 14px;
+  font-weight: 600; color: var(--gold); margin-top: 4px;
+  transition: background 0.15s;
+}
+.add-btn:active { background: rgba(201,160,50,0.2); }
+
+/* ── DOCUMENTS ── */
+.doc-group-lbl { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 1.5px; margin: 16px 0 8px; }
+.doc-group-lbl.green { color: var(--green); }
+.doc-group-lbl.amber { color: var(--amber); }
+.doc-card-wrap { background: var(--card); border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden; margin-bottom: 10px; }
+.doc-row { display: flex; align-items: center; gap: 12px; padding: 13px 16px; border-bottom: 1px solid rgba(255,255,255,0.04); }
+.doc-row:last-child { border-bottom: none; }
+.doc-icon { width: 34px; height: 34px; border-radius: 9px; display: flex; align-items: center; justify-content: center; font-size: 15px; flex-shrink: 0; }
+.doc-icon.green { background: var(--green-bg); }
+.doc-icon.amber { background: var(--amber-bg); }
+.doc-info { flex: 1; min-width: 0; }
+.doc-name { font-size: 13px; font-weight: 600; color: var(--white); }
+.doc-note { font-size: 11px; color: var(--muted); margin-top: 2px; line-height: 1.4; }
+.doc-sel {
+  background: var(--bg2); border: 1px solid var(--border); border-radius: 8px;
+  padding: 6px 10px; font-size: 11px; color: var(--text);
+  outline: none; -webkit-appearance: none; cursor: pointer; min-width: 90px;
+}
+
+/* ── BUDGET ── */
+.budget-currency-wrap { background: var(--card); border: 1px solid var(--border); border-radius: var(--radius); padding: 16px; margin-bottom: 12px; }
+.budget-lbl { font-size: 10px; color: var(--muted); text-transform: uppercase; letter-spacing: 1px; font-weight: 600; margin-bottom: 8px; }
+.budget-sel {
+  width: 100%; background: var(--bg2); border: 1.5px solid var(--border);
+  border-radius: var(--radius-sm); padding: 12px 14px;
+  font-size: 15px; color: var(--text); outline: none; -webkit-appearance: none;
+  margin-bottom: 10px; transition: border-color 0.2s;
+}
+.budget-sel:focus { border-color: var(--gold); }
+.budget-rate-row { display: flex; gap: 8px; }
+.budget-rate-input {
+  flex: 1; background: var(--bg2); border: 1.5px solid var(--border);
+  border-radius: var(--radius-sm); padding: 11px 12px;
+  font-size: 16px; color: var(--white); outline: none; -webkit-appearance: none;
+  transition: border-color 0.2s;
+}
+.budget-rate-input:focus { border-color: var(--gold); }
+.budget-check-btn {
+  background: var(--gold-dim); border: 1px solid var(--gold-bdr);
+  border-radius: var(--radius-sm); padding: 11px 14px;
+  font-size: 12px; color: var(--gold); white-space: nowrap;
+}
+.budget-rate-hint { font-size: 11px; color: var(--muted); margin-top: 6px; line-height: 1.5; }
+
+.budget-inputs-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 12px; }
+.budget-field { background: var(--card); border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 14px; }
+.budget-field-label { font-size: 10px; color: var(--muted); text-transform: uppercase; letter-spacing: 1px; font-weight: 600; margin-bottom: 6px; }
+.budget-big-input {
+  background: transparent; border: none; outline: none;
+  font-family: var(--serif); font-size: 22px; font-weight: 700;
+  color: var(--white); width: 100%; -webkit-appearance: none;
+}
+.budget-big-input::placeholder { color: var(--border); font-size: 18px; }
+
+.budget-result {
+  background: var(--card); border: 1px solid var(--gold-bdr);
+  border-radius: var(--radius); padding: 22px; text-align: center; margin-bottom: 12px;
+}
+.budget-result-label { font-size: 11px; color: var(--muted); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 10px; font-weight: 600; }
+.budget-big-num { font-family: var(--serif); font-size: 52px; font-weight: 900; color: var(--gold); display: block; line-height: 1; }
+.budget-result-msg { font-size: 13px; color: var(--muted); margin-top: 10px; line-height: 1.6; }
+
+.budget-bar-wrap { background: var(--card); border: 1px solid var(--border); border-radius: var(--radius); padding: 16px; margin-bottom: 12px; }
+.budget-bar-track { height: 12px; background: var(--bg2); border-radius: 6px; overflow: hidden; margin: 8px 0 4px; }
+.budget-bar-fill { height: 100%; background: linear-gradient(90deg, var(--gold), var(--gold2)); border-radius: 6px; transition: width 0.6s ease; width: 0%; }
+.budget-bar-labels { display: flex; justify-content: space-between; font-size: 11px; color: var(--muted); }
+
+.converter-wrap { background: var(--card); border: 1px solid var(--border); border-radius: var(--radius); padding: 16px; margin-bottom: 12px; }
+.conv-grid { display: grid; grid-template-columns: 1fr 28px 1fr; gap: 8px; align-items: end; margin-bottom: 8px; }
+.conv-input {
+  width: 100%; background: var(--bg2); border: 1.5px solid var(--border);
+  border-radius: var(--radius-sm); padding: 11px 12px;
+  font-size: 16px; color: var(--white); font-weight: 600; outline: none; -webkit-appearance: none;
+  margin-bottom: 6px; transition: border-color 0.2s;
+}
+.conv-input:focus { border-color: var(--gold); }
+.conv-sel {
+  width: 100%; background: var(--bg2); border: 1px solid var(--border);
+  border-radius: 8px; padding: 9px 10px; font-size: 13px; color: var(--text);
+  outline: none; -webkit-appearance: none;
+}
+.conv-arrow { text-align: center; color: var(--muted); font-size: 20px; padding-bottom: 8px; }
+.conv-result {
+  background: var(--bg2); border: 1.5px solid var(--gold-bdr);
+  border-radius: var(--radius-sm); padding: 11px 12px;
+  font-size: 16px; color: var(--gold); font-weight: 700;
+  min-height: 44px; display: flex; align-items: center; margin-bottom: 6px;
+}
+.conv-info { font-size: 11px; color: var(--muted); text-align: center; margin-top: 4px; line-height: 1.5; }
+
+/* ── RESOURCES ── */
+.res-group-title { font-size: 11px; font-weight: 700; color: var(--muted); text-transform: uppercase; letter-spacing: 1.5px; padding: 14px 0 8px; }
+.res-group-card { background: var(--card); border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden; margin-bottom: 10px; }
+.res-link { display: flex; align-items: center; gap: 12px; padding: 14px 16px; border-bottom: 1px solid rgba(255,255,255,0.04); transition: background 0.1s; }
+.res-link:last-child { border-bottom: none; }
+.res-link:active { background: rgba(255,255,255,0.03); }
+.res-ic { width: 36px; height: 36px; border-radius: 10px; background: var(--bg2); border: 1px solid var(--border); display: flex; align-items: center; justify-content: center; font-size: 11px; color: var(--gold); font-weight: 700; flex-shrink: 0; }
+.res-info { flex: 1; }
+.res-info h4 { font-size: 13px; font-weight: 600; color: var(--white); margin-bottom: 1px; }
+.res-info p { font-size: 11px; color: var(--muted); }
+.res-arr { color: var(--muted); font-size: 14px; }
+
+/* ── NOTES ── */
+.notes-ta {
+  width: 100%; min-height: 200px; background: var(--card);
+  border: 1px solid var(--border); border-radius: var(--radius);
+  padding: 16px; font-size: 15px; color: var(--text);
+  resize: vertical; outline: none; line-height: 1.7;
+  margin-bottom: 12px; transition: border-color 0.2s;
+}
+.notes-ta:focus { border-color: var(--gold); }
+.notes-ta::placeholder { color: var(--muted); }
+
+/* ── BUTTONS ── */
+.btn { display: inline-flex; align-items: center; justify-content: center; gap: 7px; padding: 13px 20px; border-radius: var(--radius-sm); font-size: 14px; font-weight: 600; border: none; min-height: 48px; transition: opacity 0.2s; }
+.btn:active { opacity: 0.8; }
+.btn-gold { background: var(--gold); color: #0A1628; }
+.btn-outline { background: transparent; color: var(--text); border: 1px solid var(--border); }
+.btn-green { background: var(--green-bg); color: var(--green); border: 1px solid var(--green-bdr); }
+.btn-red { background: var(--red-bg); color: var(--red); border: 1px solid rgba(255,92,92,0.25); }
+.btn-full { width: 100%; }
+
+/* ── INFO BOXES ── */
+.info { border-radius: var(--radius-sm); padding: 11px 14px; font-size: 13px; line-height: 1.6; margin-bottom: 10px; }
+.info.amber { background: var(--amber-bg); border: 1px solid rgba(245,166,35,0.22); color: var(--amber); }
+.info.green { background: var(--green-bg); border: 1px solid var(--green-bdr); color: var(--green); }
+.info.blue  { background: var(--blue-bg);  border: 1px solid rgba(74,158,255,0.22); color: var(--blue); }
+.info.gold  { background: var(--gold-dim); border: 1px solid var(--gold-bdr); color: var(--gold2); }
+
+/* ── BACKUP ── */
+.backup-card { background: var(--gold-dim); border: 1px solid var(--gold-bdr); border-radius: var(--radius); padding: 18px; margin-bottom: 14px; }
+.backup-card h4 { font-size: 14px; font-weight: 600; color: var(--gold2); margin-bottom: 6px; }
+.backup-card p { font-size: 12px; color: var(--muted); line-height: 1.6; margin-bottom: 14px; }
+.btn-row { display: flex; gap: 10px; flex-wrap: wrap; }
+
+/* ── SAVED INDICATOR ── */
+.saved-pill { display: none; background: var(--green-bg); color: var(--green); border: 1px solid var(--green-bdr); border-radius: 20px; padding: 4px 12px; font-size: 12px; font-weight: 600; }
+.saved-pill.show { display: inline-flex; align-items: center; gap: 5px; }
+
+/* ── TOAST ── */
+.toast {
+  position: fixed; bottom: calc(var(--nav-h) + 12px); left: 50%;
+  transform: translateX(-50%) translateY(calc(100% + var(--nav-h) + 20px));
+  background: var(--card2); border: 1px solid var(--gold-bdr);
+  border-radius: var(--radius); padding: 14px 18px;
+  max-width: 320px; width: calc(100% - 28px); z-index: 800;
+  text-align: center; transition: transform 0.4s cubic-bezier(0.34,1.56,0.64,1);
+  box-shadow: 0 8px 32px rgba(0,0,0,0.4);
+}
+.toast.show { transform: translateX(-50%) translateY(0); }
+.toast-emoji { font-size: 26px; display: block; margin-bottom: 6px; }
+.toast-title { font-size: 14px; font-weight: 700; color: var(--gold); margin-bottom: 4px; }
+.toast-msg { font-size: 12px; color: var(--muted); line-height: 1.6; margin-bottom: 12px; }
+.toast-close { background: var(--gold); color: #0A1628; border: none; border-radius: 8px; padding: 8px 20px; font-size: 13px; font-weight: 700; cursor: pointer; }
+
+/* ── LIGHT MODE ── */
+body.light {
+  --bg: #f0f3f8; --bg2: #e4e9f2; --card: #ffffff; --card2: #f5f7fc;
+  --text: #1a2240; --muted: #6b7a99; --border: rgba(0,0,0,0.07);
+  --gold: #a8711a; --gold2: #c48820; --gold-dim: rgba(168,113,26,0.08); --gold-bdr: rgba(168,113,26,0.2);
+  --green: #1a7a4a; --green-bg: rgba(26,122,74,0.08); --green-bdr: rgba(26,122,74,0.22);
+  --red: #c0392b; --red-bg: rgba(192,57,43,0.08); --amber: #9a6200; --amber-bg: rgba(154,98,0,0.08);
+  --blue: #1a5fa8; --blue-bg: rgba(26,95,168,0.08);
+}
+
+/* ── RESPONSIVE ── */
+@media(min-width:640px) {
+  .stats-grid { grid-template-columns: repeat(4,1fr); }
+  .quick-grid { grid-template-columns: repeat(4,1fr); }
+  .budget-inputs-grid { grid-template-columns: repeat(4,1fr); }
+}
+@media print {
+  #gate, .app-header, .bottom-nav { display: none !important; }
+  .page { display: block !important; position: static !important; overflow: visible !important; }
+}
+</style>
+</head>
+<body>
+
+<!-- ══════════ GATE ══════════ -->
+<div id="gate">
+  <div class="gate-logo">🌏</div>
+  <div class="gate-title">Opportunity Planet</div>
+  <p class="gate-sub">Japan ALT Journey Tracker</p>
+
+  <div class="gate-card">
+    <div class="gate-card-title">Enter your access password</div>
+    <div class="gate-card-body">This was included in your purchase confirmation email from Selar. Enter it below to access your tracker.</div>
+    <input class="gate-input" type="password" id="gate-pwd" placeholder="Enter password" autocomplete="off" onkeydown="if(event.key==='Enter')checkGate()">
+    <div class="gate-err" id="gate-err">Incorrect password. Check your purchase email from Selar or contact opportunityplanet.info@gmail.com</div>
+    <button class="gate-btn" onclick="checkGate()">Enter Tracker →</button>
+  </div>
+
+  <div class="gate-note">
+    <p>🔒 No password? Email <strong style="color:var(--gold)">opportunityplanet.info@gmail.com</strong><br>
+    Your progress saves automatically on this device.</p>
+  </div>
+</div>
+
+<!-- ══════════ APP SHELL ══════════ -->
+<div id="app-shell">
+
+  <!-- Header -->
+  <header class="app-header">
+    <span class="header-logo">🌏</span>
+    <span class="header-title" id="hdr-title">Dashboard</span>
+    <div class="header-prog-wrap">
+      <div class="header-bar-bg"><div class="header-bar" id="hdr-bar"></div></div>
+      <span class="header-pct" id="hdr-pct">0%</span>
+    </div>
+    <button onclick="toggleTheme()" id="theme-btn" style="width:36px;height:36px;border-radius:9px;background:var(--card);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0;">🌙</button>
+  </header>
+
+  <!-- Pages -->
+  <div class="pages-wrap">
+
+    <!-- DASHBOARD -->
+    <div class="page active" id="pg-home">
+      <div class="greeting-name" id="greet-name">Good morning 👋</div>
+      <p class="greeting-sub" id="greet-sub">Your Japan journey continues today.</p>
+
+      <div class="progress-hero">
+        <div class="ph-row">
+          <div class="ph-ring">
+            <svg width="78" height="78" viewBox="0 0 78 78">
+              <circle class="ph-ring-bg" cx="39" cy="39" r="32"/>
+              <circle class="ph-ring-fill" id="ring" cx="39" cy="39" r="32" stroke-dasharray="201" stroke-dashoffset="201"/>
+            </svg>
+            <div class="ph-center">
+              <span class="ph-pct" id="ring-pct">0%</span>
+              <span class="ph-label">done</span>
+            </div>
+          </div>
+          <div class="ph-meta">
+            <div class="ph-title" id="ph-title">Stage 1 of 8</div>
+            <div class="ph-sub" id="ph-sub">You're just getting started. Every big journey begins with a single step.</div>
+            <div class="ph-dots" id="ph-dots"></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="stats-grid">
+        <div class="stat-card"><span class="stat-n green" id="s-done">0</span><div class="stat-l">Done</div></div>
+        <div class="stat-card"><span class="stat-n" id="s-left">0</span><div class="stat-l">Remaining</div></div>
+        <div class="stat-card"><span class="stat-n gold" id="s-comp">0</span><div class="stat-l">Companies</div></div>
+        <div class="stat-card"><span class="stat-n gold" id="s-docs">0</span><div class="stat-l">Docs Ready</div></div>
+      </div>
+
+      <div class="quote-card">
+        <span class="quote-mark">"</span>
+        <div class="quote-text" id="quote-text">Loading...</div>
+        <div class="quote-author" id="quote-author"></div>
+      </div>
+
+      <div class="timeline-card">
+        <div class="tl-label">⏱ Your Journey Timeline</div>
+        <input type="date" class="tl-date-input" id="tl-date" onchange="updateTimeline()">
+        <div class="tl-nums">
+          <div class="tl-unit"><span class="tl-n" id="tl-d">--</span><div class="tl-l">Days</div></div>
+          <div class="tl-unit"><span class="tl-n" id="tl-w">--</span><div class="tl-l">Weeks</div></div>
+          <div class="tl-unit"><span class="tl-n" id="tl-m">--</span><div class="tl-l">Months</div></div>
+        </div>
+        <p class="tl-msg" id="tl-msg">Enter your start date to track how long you have been on this journey.</p>
+      </div>
+
+      <div class="section-label">Quick Actions</div>
+      <div class="quick-grid">
+        <button class="quick-btn" onclick="goPage('checklist')"><span class="quick-icon">☑️</span><div class="quick-title">Checklist</div><div class="quick-sub">Tick your steps</div></button>
+        <button class="quick-btn" onclick="goPage('companies')"><span class="quick-icon">🏢</span><div class="quick-title">Companies</div><div class="quick-sub">Track applications</div></button>
+        <button class="quick-btn" onclick="goPage('budget')"><span class="quick-icon">💰</span><div class="quick-title">Budget</div><div class="quick-sub">Track savings</div></button>
+        <button class="quick-btn" onclick="goPage('notes')"><span class="quick-icon">📝</span><div class="quick-title">Notes</div><div class="quick-sub">Private journal</div></button>
+      </div>
+    </div>
+
+    <!-- CHECKLIST -->
+    <div class="page" id="pg-checklist">
+      <div class="page-title">Your 8-Stage Journey</div>
+      <p class="page-sub">Tap a stage to open it. Tick each item as you complete it. Progress saves automatically.</p>
+      <div id="cl-container"></div>
+    </div>
+
+    <!-- COMPANIES -->
+    <div class="page" id="pg-companies">
+      <div class="page-title">Company Tracker</div>
+      <p class="page-sub">Track every company you apply to. Apply to at least 3 at the same time — do not wait for replies.</p>
+      <div class="info blue">🔵 Apply to multiple companies simultaneously. Silence from one company does not mean rejection — keep applying.</div>
+      <div id="comp-container"></div>
+      <button class="add-btn" onclick="addCompany()">+ Add Company</button>
+    </div>
+
+    <!-- DOCUMENTS -->
+    <div class="page" id="pg-documents">
+      <div class="page-title">Document Tracker</div>
+      <p class="page-sub">Know exactly which documents to prepare now and which to wait on.</p>
+      <div class="info amber">⏳ Do NOT apply for police clearance, health certificate, proof of 12 years education or bank statement until the company requests them — they have expiry dates.</div>
+      <div class="info green">✓ Prepare your passport, degree, transcript, photos, CV and cover letter now — no expiry issues.</div>
+      <div id="doc-container"></div>
+    </div>
+
+    <!-- BUDGET -->
+    <div class="page" id="pg-budget">
+      <div class="page-title">Budget Planner</div>
+      <p class="page-sub">Track your savings and know exactly when you will be ready for Japan.</p>
+
+      <div class="budget-currency-wrap">
+        <div class="budget-lbl">Step 1 — Your Currency</div>
+        <select class="budget-sel" id="b-cur" onchange="onCurChange()">
+          <option value="USD">🇺🇸 USD — US Dollar</option>
+          <option value="NGN">🇳🇬 NGN — Nigerian Naira</option>
+          <option value="GHS">🇬🇭 GHS — Ghanaian Cedi</option>
+          <option value="KES">🇰🇪 KES — Kenyan Shilling</option>
+          <option value="ZAR">🇿🇦 ZAR — South African Rand</option>
+          <option value="GBP">🇬🇧 GBP — British Pound</option>
+          <option value="EUR">🇪🇺 EUR — Euro</option>
+          <option value="JPY">🇯🇵 JPY — Japanese Yen</option>
+        </select>
+        <div id="b-rate-row" style="display:none">
+          <div class="budget-lbl">Exchange rate: 1 USD = how much <span id="b-cur-label">NGN</span>?</div>
+          <div class="budget-rate-row">
+            <input type="number" class="budget-rate-input" id="b-rate" placeholder="e.g. 1600" oninput="calcBudget()">
+            <button class="budget-check-btn" onclick="openRate()">Check rate 🔍</button>
+          </div>
+          <div class="budget-rate-hint" id="b-rate-hint"></div>
+        </div>
+        <div id="b-usd-msg" style="font-size:12px;color:var(--green);margin-top:4px;">Using USD — enter amounts in US Dollars below.</div>
+      </div>
+
+      <div class="budget-lbl" style="padding:0 2px">Step 2 — Enter Your Savings (<span id="b-sym-label">USD</span>)</div>
+      <div class="budget-inputs-grid">
+        <div class="budget-field"><div class="budget-field-label">I currently have</div><input class="budget-big-input" type="number" id="b-have" placeholder="0" oninput="calcBudget()" min="0"></div>
+        <div class="budget-field"><div class="budget-field-label">I save per month</div><input class="budget-big-input" type="number" id="b-save" placeholder="0" oninput="calcBudget()" min="0"></div>
+        <div class="budget-field"><div class="budget-field-label">My savings target</div><input class="budget-big-input" type="number" id="b-target" placeholder="0" oninput="calcBudget()" min="0"></div>
+        <div class="budget-field"><div class="budget-field-label">ALT salary (¥/month)</div><input class="budget-big-input" type="number" id="b-sal" placeholder="200000" oninput="calcBudget()" min="0"></div>
+      </div>
+      <div class="info blue" style="margin-bottom:12px;">💡 Most ALT companies recommend having $3,000–$6,000 saved before arrival.</div>
+
+      <div id="b-result" style="display:none">
+        <div class="budget-result">
+          <div class="budget-result-label">Months Until Your Target</div>
+          <span class="budget-big-num" id="b-months">--</span>
+          <p class="budget-result-msg" id="b-msg"></p>
+          <p id="b-equiv" style="font-size:12px;color:var(--gold);margin-top:6px;"></p>
+        </div>
+        <div class="budget-bar-wrap">
+          <div class="budget-lbl">Savings Progress</div>
+          <div style="display:flex;justify-content:space-between;align-items:center;">
+            <span style="font-size:13px;color:var(--text);">Saved so far</span>
+            <span id="b-bar-pct" style="font-size:14px;font-weight:700;color:var(--gold);">0%</span>
+          </div>
+          <div class="budget-bar-track"><div class="budget-bar-fill" id="b-bar"></div></div>
+          <div class="budget-bar-labels"><span>Now</span><span id="b-target-lbl" style="color:var(--green);">Target ✓</span></div>
+        </div>
+      </div>
+
+      <div class="section-label">Quick Currency Converter</div>
+      <div class="converter-wrap">
+        <div class="conv-grid">
+          <div>
+            <input type="number" class="conv-input" id="cv-amount" placeholder="Amount" oninput="doConvert()">
+            <select class="conv-sel" id="cv-from" onchange="doConvert()">
+              <option value="NGN">🇳🇬 NGN</option><option value="GHS">🇬🇭 GHS</option>
+              <option value="KES">🇰🇪 KES</option><option value="ZAR">🇿🇦 ZAR</option>
+              <option value="GBP">🇬🇧 GBP</option><option value="EUR">🇪🇺 EUR</option>
+              <option value="USD">🇺🇸 USD</option><option value="JPY">🇯🇵 JPY</option>
+            </select>
+          </div>
+          <div class="conv-arrow">⇄</div>
+          <div>
+            <div class="conv-result" id="cv-result">--</div>
+            <select class="conv-sel" id="cv-to" onchange="doConvert()">
+              <option value="USD">🇺🇸 USD</option><option value="JPY">🇯🇵 JPY</option>
+              <option value="NGN">🇳🇬 NGN</option><option value="GHS">🇬🇭 GHS</option>
+              <option value="GBP">🇬🇧 GBP</option><option value="EUR">🇪🇺 EUR</option>
+              <option value="ZAR">🇿🇦 ZAR</option><option value="KES">🇰🇪 KES</option>
+            </select>
+          </div>
+        </div>
+        <div class="conv-info" id="cv-info">Enter your exchange rate above for accurate conversions.</div>
+      </div>
+      <div class="info green">Use Wise or Remitly for transfers — fees are much lower than traditional banks.</div>
+      <div class="info green" style="margin-top:8px;">Name a savings account "Japan Fund" — seeing it keeps you motivated every transfer.</div>
+    </div>
+
+    <!-- RESOURCES -->
+    <div class="page" id="pg-resources">
+      <div class="page-title">Resources & Links</div>
+      <p class="page-sub">Everything you need, curated and ready to tap.</p>
+
+      <div class="res-group-title">ALT Job Boards</div>
+      <div class="res-group-card">
+        <a class="res-link" href="https://jobs.gaijinpot.com" target="_blank" rel="noopener"><div class="res-ic">GP</div><div class="res-info"><h4>GaijinPot Jobs</h4><p>Most popular board for ALT jobs</p></div><span class="res-arr">↗</span></a>
+        <a class="res-link" href="https://jobsinjapan.com" target="_blank" rel="noopener"><div class="res-ic">JJ</div><div class="res-info"><h4>Jobs in Japan</h4><p>Wide range of teaching positions</p></div><span class="res-arr">↗</span></a>
+        <a class="res-link" href="https://jp.indeed.com/?lang=en" target="_blank" rel="noopener"><div class="res-ic">IN</div><div class="res-info"><h4>Indeed Japan</h4><p>Search in English for ALT roles</p></div><span class="res-arr">↗</span></a>
+      </div>
+
+      <div class="res-group-title">ALT Dispatch Companies</div>
+      <div class="res-group-card">
+        <a class="res-link" href="https://interacnetwork.com" target="_blank" rel="noopener"><div class="res-ic">IN</div><div class="res-info"><h4>Interac</h4><p>Largest ALT dispatch company in Japan</p></div><span class="res-arr">↗</span></a>
+        <a class="res-link" href="https://www.borderlink.co.jp/en/" target="_blank" rel="noopener"><div class="res-ic">BL</div><div class="res-info"><h4>Borderlink</h4><p>Major ALT employer nationwide</p></div><span class="res-arr">↗</span></a>
+        <a class="res-link" href="https://www.altiacentral.com" target="_blank" rel="noopener"><div class="res-ic">AC</div><div class="res-info"><h4>Altia Central</h4><p>Well established dispatch company</p></div><span class="res-arr">↗</span></a>
+        <a class="res-link" href="https://www.joytalk.biz/" target="_blank" rel="noopener"><div class="res-ic">JT</div><div class="res-info"><h4>Joy Talk</h4><p>Growing ALT company</p></div><span class="res-arr">↗</span></a>
+        <a class="res-link" href="https://www.westgatejapan.com/" target="_blank" rel="noopener"><div class="res-ic">WG</div><div class="res-info"><h4>Westgate Corporation</h4><p>Reputable ALT placement</p></div><span class="res-arr">↗</span></a>
+      </div>
+
+      <div class="res-group-title">Free TEFL Certificates — Add to Your CV Now</div>
+      <div class="res-group-card">
+        <a class="res-link" href="https://teacherrecord.com/tefl-certificate" target="_blank" rel="noopener"><div class="res-ic">TR</div><div class="res-info"><h4>TeacherRecord</h4><p>Free TEFL certificate — instant</p></div><span class="res-arr">↗</span></a>
+        <a class="res-link" href="https://alison.com/courses?query=tefl" target="_blank" rel="noopener"><div class="res-ic">AL</div><div class="res-info"><h4>Alison</h4><p>Free online TEFL courses</p></div><span class="res-arr">↗</span></a>
+      </div>
+
+      <div class="res-group-title">Opportunity Planet</div>
+      <div class="res-group-card">
+        <a class="res-link" href="https://selar.com/m/opportunityplanet" target="_blank" rel="noopener"><div class="res-ic">OP</div><div class="res-info"><h4>Full ALT Relocation Guide</h4><p>Complete step-by-step ebook</p></div><span class="res-arr">↗</span></a>
+        <a class="res-link" href="mailto:opportunityplanet.info@gmail.com"><div class="res-ic">CV</div><div class="res-info"><h4>Professional CV Writing</h4><p>Let Mercy write your ALT CV — email her</p></div><span class="res-arr">↗</span></a>
+        <a class="res-link" href="mailto:opportunityplanet.info@gmail.com"><div class="res-ic">@</div><div class="res-info"><h4>Email Mercy</h4><p>opportunityplanet.info@gmail.com</p></div><span class="res-arr">↗</span></a>
+      </div>
+    </div>
+
+    <!-- NOTES + BACKUP -->
+    <div class="page" id="pg-notes">
+      <div class="page-title">My Notes</div>
+      <p class="page-sub">Your private space — write anything about your journey here.</p>
+      <textarea class="notes-ta" id="notes-ta" placeholder="Questions, reminders, goals, fears, ideas. Completely private."></textarea>
+      <div style="display:flex;align-items:center;gap:10px;margin-bottom:24px;">
+        <button class="btn btn-gold" onclick="saveNotes()">Save Notes</button>
+        <span class="saved-pill" id="notes-saved">✓ Saved</span>
+      </div>
+
+      <div class="page-title" style="font-size:18px;margin-bottom:4px;">Backup & Restore</div>
+      <p class="page-sub">Protect your progress. Download a backup regularly and save it to Google Drive or WhatsApp Saved Messages.</p>
+      <div class="backup-card">
+        <h4>🔒 Never Lose Your Progress</h4>
+        <p>If you switch phones or clear your browser, restore from your backup file to continue exactly where you left off.</p>
+        <div class="btn-row">
+          <button class="btn btn-gold" onclick="downloadBackup()">⬇ Download Backup</button>
+          <button class="btn btn-outline" onclick="document.getElementById('restore-file').click()">⬆ Restore</button>
+          <input type="file" id="restore-file" accept=".json" style="display:none" onchange="restoreBackup(this)">
+        </div>
+      </div>
+      <button class="btn btn-outline btn-full" onclick="window.print()" style="margin-bottom:10px;">📄 Print / Export as PDF</button>
+      <button class="btn btn-red btn-full" onclick="confirmReset()">↺ Reset All Progress</button>
+    </div>
+
+  </div><!-- pages-wrap -->
+
+  <!-- Bottom Nav -->
+  <nav class="bottom-nav">
+    <button class="nav-btn active" id="nb-home" onclick="goPage('home')">
+      <span class="nav-icon">🏠</span>Home
+    </button>
+    <button class="nav-btn" id="nb-checklist" onclick="goPage('checklist')">
+      <span class="nav-icon">☑️</span>Checklist
+      <span class="nav-badge" id="nb-badge" style="display:none">0</span>
+    </button>
+    <button class="nav-btn" id="nb-companies" onclick="goPage('companies')">
+      <span class="nav-icon">🏢</span>Track
+    </button>
+    <button class="nav-btn" id="nb-documents" onclick="goPage('documents')">
+      <span class="nav-icon">📄</span>Docs
+    </button>
+    <button class="nav-btn" id="nb-more" onclick="goPage('more')">
+      <span class="nav-icon">⋯</span>More
+    </button>
+  </nav>
+
+</div><!-- app-shell -->
+
+<!-- Toast -->
+<div class="toast" id="toast">
+  <span class="toast-emoji" id="t-emoji">🎉</span>
+  <div class="toast-title" id="t-title"></div>
+  <div class="toast-msg" id="t-msg"></div>
+  <button class="toast-close" onclick="closeToast()">Keep going! →</button>
+</div>
+
+<canvas id="share-canvas" width="800" height="800" style="display:none"></canvas>
+
+<script>
+/* ══════════════════════════════════
+   GATE
+══════════════════════════════════ */
+const PASSWORDS = ['JAPAN2026','ALTJAPAN2026','OPPORTUNITYPLANET'];
+
+function checkGate() {
+  const val = (document.getElementById('gate-pwd').value || '').trim().toUpperCase();
+  const err = document.getElementById('gate-err');
+  if (PASSWORDS.includes(val)) {
+    err.style.display = 'none';
+    try { localStorage.setItem('op_auth', '1'); } catch(e) {}
+    document.getElementById('gate').classList.add('hidden');
+    initApp();
+  } else {
+    err.style.display = 'block';
+    document.getElementById('gate-pwd').value = '';
+    document.getElementById('gate-pwd').focus();
+  }
+}
+
+document.getElementById('gate-pwd').addEventListener('keydown', e => { if(e.key==='Enter') checkGate(); });
+
+/* ══════════════════════════════════
+   DATA
+══════════════════════════════════ */
+const STAGES = [
+  { id:1, title:'Stage 1 — Research & Preparation', emoji:'🔍',
+    msg:'Stage 1 complete! You understand what you are getting into. Most people never research this thoroughly. You are already ahead.',
+    items:[
+      { t:'I understand what an ALT job involves day to day' },
+      { t:'I have confirmed I meet the basic eligibility requirements' },
+      { t:'I hold a Bachelor\'s degree in any field' },
+      { t:'I speak clear, natural English' },
+      { t:'I have researched at least three ALT dispatch companies' },
+      { t:'I know the two main hiring seasons: Oct–Jan and Apr–Jun' },
+      { t:'I understand the salary range and basic cost of living in Japan' },
+      { t:'I have read the full Opportunity Planet ALT guide' },
+    ]
+  },
+  { id:2, title:'Stage 2 — Documents to Prepare Now', emoji:'📄',
+    msg:'Documents ready! You are more prepared than most applicants. This stage trips people up — you cleared it.',
+    items:[
+      { t:'International passport — valid for at least 18 months', tag:'now' },
+      { t:'Bachelor\'s degree certificate — get a certified copy ready', tag:'now' },
+      { t:'Official university transcript — request from your university now', tag:'now' },
+      { t:'Passport photographs — professional and recent', tag:'now' },
+      { t:'Professional CV tailored specifically for ALT applications', tag:'now' },
+      { t:'Cover letter written for ALT roles', tag:'now' },
+      { t:'Police clearance certificate — WAIT until company requests it', tag:'wait' },
+      { t:'Health certificate — WAIT until company requests it', tag:'wait' },
+      { t:'Proof of 12 years secondary education — WAIT for company\'s required format', tag:'wait' },
+      { t:'Bank statement — WAIT until company confirms required amount', tag:'wait' },
+    ]
+  },
+  { id:3, title:'Stage 3 — The Application', emoji:'🚀',
+    msg:'Applications submitted! You are officially in the running. This is the moment most people put off forever. Not you.',
+    items:[
+      { t:'I have created profiles on ALT job boards — GaijinPot, Jobs in Japan' },
+      { t:'I have applied to at least 3 ALT companies simultaneously' },
+      { t:'I submitted a tailored CV and cover letter to each company' },
+      { t:'I have added a free TEFL certificate to my CV from TeacherRecord or Alison' },
+      { t:'I have followed up on my applications after 2 weeks of silence' },
+    ]
+  },
+  { id:4, title:'Stage 4 — Interview Preparation', emoji:'🎤',
+    msg:'Interview ready! Preparation is confidence. You have done the work. Walk in knowing you deserve to be there.',
+    items:[
+      { t:'I have practised my self-introduction clearly and confidently' },
+      { t:'I can answer: "Why do you want to teach in Japan?"' },
+      { t:'I can answer: "How would you handle a challenging class?"' },
+      { t:'I can answer: "Do you speak Japanese?" (No is absolutely fine)' },
+      { t:'I have planned and practised a 5-minute demo lesson' },
+      { t:'I have researched the company I am interviewing with' },
+      { t:'I have tested my internet and camera for online interviews' },
+      { t:'I have chosen professional attire — conservative and neat' },
+    ]
+  },
+  { id:5, title:'Stage 5 — After the Job Offer', emoji:'🎯',
+    msg:'Job offer secured! Now collect the documents the company has requested. You are past the hardest part.',
+    items:[
+      { t:'I have received and reviewed my employment contract carefully' },
+      { t:'I have confirmed exactly which documents the company needs' },
+      { t:'I have applied for my police clearance — company has now requested it', tag:'wait' },
+      { t:'I have completed my health certificate — company has now requested it', tag:'wait' },
+      { t:'I have obtained proof of 12 years secondary education in company format', tag:'wait' },
+      { t:'I have prepared my bank statement with the amount confirmed by the company', tag:'wait' },
+      { t:'I have submitted all required post-offer documents to the company' },
+      { t:'My company has begun the Certificate of Eligibility (COE) application' },
+      { t:'I understand the COE takes 4 to 12 weeks to process' },
+      { t:'I have received my COE from my company' },
+    ]
+  },
+  { id:6, title:'Stage 6 — Visa Application', emoji:'🛂',
+    msg:'Visa in hand! Japan is no longer a dream. It is confirmed. You did what most people only talk about doing.',
+    items:[
+      { t:'I have visited the Japanese embassy or consulate in my country' },
+      { t:'I have submitted my passport, COE, visa application form and photographs' },
+      { t:'I have paid the visa application fee' },
+      { t:'I have received my work visa' },
+      { t:'I have confirmed my flight and travel dates with my company' },
+    ]
+  },
+  { id:7, title:'Stage 7 — Before You Travel', emoji:'🧳',
+    msg:'Everything ready! Your life changes in days. You earned every single bit of this. Japan is waiting.',
+    items:[
+      { t:'I have booked my flight to Japan' },
+      { t:'I have informed my company of my arrival date and time' },
+      { t:'I have packed original documents — passport, COE, degree certificate, contract' },
+      { t:'I have arranged Japanese yen for my first days' },
+      { t:'I have downloaded Google Translate, Google Maps and Hyperdia' },
+      { t:'I have researched basic Japanese workplace etiquette and culture' },
+      { t:'I have saved my company emergency contact details' },
+    ]
+  },
+  { id:8, title:'Stage 8 — Arrival in Japan 🇯🇵', emoji:'🎌',
+    msg:'YOU DID IT. You are in Japan. From where you started to here — this is extraordinary. Opportunity Planet is proud of you.',
+    items:[
+      { t:'I have collected my residence card at the airport' },
+      { t:'I have registered at my local city hall within 14 days of arrival' },
+      { t:'I have joined the national health insurance system' },
+      { t:'I have enrolled in the pension system' },
+      { t:'I have opened a Japanese bank account for my salary' },
+      { t:'I have attended my company orientation and training' },
+      { t:'I have met my school principal and teaching colleagues' },
+    ]
+  }
+];
+
+const DOCS = [
+  { name:'International passport', tag:'now', note:'Valid 18+ months. Prepare now.', statuses:['Not started','In progress','Ready'] },
+  { name:'Bachelor\'s degree certificate', tag:'now', note:'Get a certified copy now.', statuses:['Not started','In progress','Ready'] },
+  { name:'University transcript', tag:'now', note:'Request from your university now.', statuses:['Not started','In progress','Ready'] },
+  { name:'Passport photographs', tag:'now', note:'Professional headshots.', statuses:['Not started','In progress','Ready'] },
+  { name:'Professional CV (ALT-tailored)', tag:'now', note:'Tailor specifically for ALT roles.', statuses:['Not started','In progress','Ready'] },
+  { name:'Cover letter for ALT roles', tag:'now', note:'Personalise for each company.', statuses:['Not started','In progress','Ready'] },
+  { name:'Police clearance certificate', tag:'wait', note:'Apply ONLY after company requests. Has expiry date.', statuses:['Not requested','Company requested','In progress','Obtained'] },
+  { name:'Health certificate', tag:'wait', note:'Apply ONLY after company requests. Has expiry date.', statuses:['Not requested','Company requested','In progress','Obtained'] },
+  { name:'Proof of 12 years secondary education', tag:'wait', note:'Wait for company to provide their required format.', statuses:['Not requested','Format received','In progress','Obtained'] },
+  { name:'Bank statement (proof of funds)', tag:'wait', note:'Wait for company to confirm exact amount required.', statuses:['Not requested','Amount confirmed','In progress','Ready'] },
+  { name:'Employment contract', tag:'wait', note:'Provided by company after job offer.', statuses:['Not yet received','Received','Signed'] },
+  { name:'Completed visa application form', tag:'wait', note:'Only needed after COE is received.', statuses:['Not yet needed','In progress','Submitted'] },
+];
+
+const QUOTES = [
+  { q:'After fleeing a war, losing my mother, and raising three children alone — I still received three job offers. The path is real. Keep going.', a:'Mercy, Opportunity Planet' },
+  { q:'Japan is not waiting for a perfect candidate. It is waiting for a prepared one.', a:'Opportunity Planet' },
+  { q:'Fall seven times, stand up eight.', a:'Japanese Proverb' },
+  { q:'The journey of a thousand miles begins with a single step.', a:'Lao Tzu' },
+  { q:'Every document you gather is one step closer to your new life in Japan.', a:'Opportunity Planet' },
+  { q:'Silence from companies does not mean rejection. It means processing.', a:'Opportunity Planet' },
+  { q:'You do not need to be fearless. You just need to be more tired of where you are than afraid of where you are going.', a:'Opportunity Planet' },
+  { q:'Your degree. Your English. Your story. They are enough. Apply.', a:'Opportunity Planet' },
+  { q:'Someone in Japan is waiting for a teacher exactly like you.', a:'Opportunity Planet' },
+  { q:'An ALT job in Japan is not luck. It is preparation meeting opportunity.', a:'Opportunity Planet' },
+  { q:'Africa produced you. Japan is just your next chapter.', a:'Opportunity Planet' },
+  { q:'A year from now you may wish you had started today.', a:'Karen Lamb' },
+  { q:'It always seems impossible until it is done.', a:'Nelson Mandela' },
+  { q:'You survived harder things than a visa application. Keep going.', a:'Opportunity Planet' },
+  { q:'The company that says yes to you is already out there. Keep applying.', a:'Opportunity Planet' },
+];
+
+const STAGE_MSGS = [
+  'Just getting started. Every journey begins with one step.',
+  'Strong research foundation. Keep building.',
+  'Documents in order — you are ahead of most.',
+  'Applications out. Now be patient and persistent.',
+  'Interview ready. Preparation is confidence.',
+  'Offer secured. Collect your documents.',
+  'Visa in hand. Japan is confirmed.',
+  'Almost there. One final push.',
+  'Japan journey complete! 🎌'
+];
+
+const DEFAULT_RATES = { USD:1, NGN:1600, GHS:15.5, KES:130, ZAR:18.5, GBP:0.79, EUR:0.92, JPY:150 };
+const SYMS = { USD:'$', NGN:'₦', GHS:'₵', KES:'KSh', ZAR:'R', GBP:'£', EUR:'€', JPY:'¥' };
+
+/* ══════════════════════════════════
+   STATE
+══════════════════════════════════ */
+let checked = {};
+let compData = [];
+let docData  = {};
+let stageNotes = {};
+let startDate = '';
+let totalItems = 0;
+
+function save(k,v) { try { localStorage.setItem('op_'+k, JSON.stringify(v)); } catch(e){} }
+function load(k,def) { try { const v=localStorage.getItem('op_'+k); return v!==null?JSON.parse(v):def; } catch(e){ return def; } }
+function saveAll() { save('c',checked); save('co',compData); save('d',docData); save('sn',stageNotes); }
+
+function loadAll() {
+  checked    = load('c',{});
+  compData   = load('co',[]);
+  docData    = load('d',{});
+  stageNotes = load('sn',{});
+  startDate  = load('sd','');
+}
+
+/* ══════════════════════════════════
+   NAVIGATION
+══════════════════════════════════ */
+const PAGE_TITLES = {
+  home:'Dashboard', checklist:'Your Journey', companies:'Company Tracker',
+  documents:'Document Tracker', budget:'Budget Planner',
+  resources:'Resources & Links', notes:'Notes & Backup', more:'More'
+};
+
+const NAV_MAP = {
+  home:'nb-home', checklist:'nb-checklist', companies:'nb-companies',
+  documents:'nb-documents', budget:'nb-more', resources:'nb-more', notes:'nb-more'
+};
+
+let currentPage = 'home';
+
+function goPage(id) {
+  // Map 'more' taps to notes page
+  if (id === 'more') id = 'notes';
+
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+
+  const pg = document.getElementById('pg-' + id);
+  if (pg) { pg.classList.add('active'); pg.scrollTop = 0; }
+
+  const nb = document.getElementById(NAV_MAP[id] || 'nb-home');
+  if (nb) nb.classList.add('active');
+
+  const titleEl = document.getElementById('hdr-title');
+  if (titleEl) titleEl.textContent = PAGE_TITLES[id] || 'Tracker';
+
+  currentPage = id;
+}
+
+/* ══════════════════════════════════
+   PROGRESS
+══════════════════════════════════ */
+function updateProgress() {
+  const done = Object.values(checked).filter(Boolean).length;
+  const pct  = totalItems > 0 ? Math.round((done / totalItems) * 100) : 0;
+  const circumference = 201;
+
+  // Header
+  document.getElementById('hdr-bar').style.width = pct + '%';
+  document.getElementById('hdr-pct').textContent = pct + '%';
+
+  // Ring
+  const offset = circumference - (pct / 100) * circumference;
+  document.getElementById('ring').style.strokeDashoffset = offset;
+  document.getElementById('ring-pct').textContent = pct + '%';
+
+  // Stats
+  document.getElementById('s-done').textContent = done;
+  document.getElementById('s-left').textContent = totalItems - done;
+
+  // Stage dots
+  const dotsEl = document.getElementById('ph-dots');
+  if (dotsEl) {
+    dotsEl.innerHTML = '';
+    STAGES.forEach((s, si) => {
+      const stageDone = s.items.filter((_, ii) => checked[si+'-'+ii]).length;
+      const dot = document.createElement('div');
+      dot.className = 'ph-dot' + (stageDone === s.items.length ? ' done' : stageDone > 0 ? ' partial' : '');
+      dotsEl.appendChild(dot);
+    });
+  }
+
+  // Subtitle
+  const stagesComplete = STAGES.filter((s, si) => s.items.every((_, ii) => checked[si+'-'+ii])).length;
+  document.getElementById('ph-title').textContent = 'Stage ' + Math.min(stagesComplete+1, 8) + ' of 8';
+  document.getElementById('ph-sub').textContent = STAGE_MSGS[Math.min(stagesComplete, 8)];
+
+  // Badge
+  const remaining = totalItems - done;
+  const badge = document.getElementById('nb-badge');
+  if (badge) {
+    badge.style.display = remaining > 0 ? 'flex' : 'none';
+    badge.textContent = remaining > 99 ? '99+' : remaining;
+  }
+
+  // Stage counts
+  STAGES.forEach((s, si) => {
+    const sdone = s.items.filter((_, ii) => checked[si+'-'+ii]).length;
+    const countEl = document.getElementById('cl-count-'+si);
+    const numEl   = document.getElementById('cl-num-'+si);
+    const celEl   = document.getElementById('cl-cel-'+si);
+    if (countEl) {
+      countEl.textContent = sdone + '/' + s.items.length;
+      countEl.className = 'cl-stage-count' + (sdone===s.items.length?' done':sdone>0?' partial':'');
+    }
+    if (numEl) {
+      numEl.className = 'cl-num' + (sdone===s.items.length?' done':sdone>0?' partial':'');
+      numEl.textContent = sdone===s.items.length ? '✓' : s.id;
+    }
+    if (celEl) celEl.className = 'cl-complete-bar' + (sdone===s.items.length?' show':'');
+  });
+
+  updateDocStats();
+}
+
+/* ══════════════════════════════════
+   CHECKLIST
+══════════════════════════════════ */
+function buildChecklist() {
+  const con = document.getElementById('cl-container');
+  con.innerHTML = '';
+  totalItems = 0;
+
+  STAGES.forEach((stage, si) => {
+    totalItems += stage.items.length;
+
+    const card = document.createElement('div');
+    card.className = 'cl-stage';
+    card.id = 'cl-stage-' + si;
+
+    // Header button
+    const hdr = document.createElement('button');
+    hdr.className = 'cl-stage-hdr';
+
+    const num = document.createElement('div');
+    num.className = 'cl-num'; num.id = 'cl-num-'+si;
+    num.textContent = stage.id;
+
+    const info = document.createElement('div');
+    info.className = 'cl-stage-info';
+    info.innerHTML = `<div class="cl-stage-name">${stage.emoji} ${stage.title}</div>
+      <div class="cl-stage-count" id="cl-count-${si}">0/${stage.items.length}</div>`;
+
+    const chev = document.createElement('span');
+    chev.className = 'cl-chev'; chev.textContent = '›';
+
+    hdr.appendChild(num); hdr.appendChild(info); hdr.appendChild(chev);
+
+    // Toggle open/close
+    let _ts=0,_ty=0,_mv=false;
+    hdr.addEventListener('pointerdown',e=>{_ts=Date.now();_ty=e.clientY;_mv=false;});
+    hdr.addEventListener('pointermove',e=>{if(Math.abs(e.clientY-_ty)>8)_mv=true;});
+    hdr.addEventListener('pointerup',e=>{
+      if(!_mv && Date.now()-_ts<400) card.classList.toggle('open');
+    });
+
+    // Body
+    const body = document.createElement('div');
+    body.className = 'cl-body';
+
+    // Completion bar
+    const cel = document.createElement('div');
+    cel.className = 'cl-complete-bar'; cel.id = 'cl-cel-'+si;
+    cel.innerHTML = `<h4>Stage ${stage.id} Complete! 🎉</h4><p>${stage.msg}</p>`;
+    body.appendChild(cel);
+
+    // Items
+    stage.items.forEach((item, ii) => {
+      const key = si+'-'+ii;
+      const row = document.createElement('div');
+      row.className = 'cl-item' + (checked[key]?' ticked':'');
+
+      let tagHtml = '';
+      if (item.tag==='wait') tagHtml = '<br><span class="tag-wait">⏳ Wait for company request</span>';
+      else if (item.tag==='now') tagHtml = '<br><span class="tag-now">✓ Prepare now</span>';
+
+      row.innerHTML = `<div class="cl-box"><span class="cl-tick">✓</span></div>
+        <div class="cl-item-text">${item.t}${tagHtml}</div>`;
+
+      let ts=0,ty=0,mv=false;
+      row.addEventListener('pointerdown',e=>{ts=Date.now();ty=e.clientY;mv=false;});
+      row.addEventListener('pointermove',e=>{if(Math.abs(e.clientY-ty)>8)mv=true;});
+      row.addEventListener('pointerup',e=>{
+        if(!mv && Date.now()-ts<400) {
+          const wasDone = STAGES[si].items.every((_,i2)=>checked[si+'-'+i2]);
+          checked[key] = !checked[key];
+          row.classList.toggle('ticked', !!checked[key]);
+          saveAll(); updateProgress();
+          const nowDone = STAGES[si].items.every((_,i2)=>checked[si+'-'+i2]);
+          if (nowDone && !wasDone) {
+            setTimeout(()=>showToast('🎉','Stage '+stage.id+' Complete!',stage.msg),300);
+          }
+        }
+      });
+      body.appendChild(row);
+    });
+
+    // Stage notes
+    const noteWrap = document.createElement('div');
+    noteWrap.className = 'cl-stage-note-wrap';
+    const noteLbl = document.createElement('div');
+    noteLbl.className = 'cl-stage-note-label'; noteLbl.textContent = 'Stage Notes';
+    const noteTA = document.createElement('textarea');
+    noteTA.className = 'cl-stage-note';
+    noteTA.placeholder = 'Add notes for this stage...';
+    noteTA.value = stageNotes[si] || '';
+    noteTA.addEventListener('input', function() {
+      stageNotes[si] = this.value;
+      save('sn', stageNotes);
+    });
+    noteWrap.appendChild(noteLbl); noteWrap.appendChild(noteTA);
+    body.appendChild(noteWrap);
+
+    card.appendChild(hdr); card.appendChild(body);
+    con.appendChild(card);
+  });
+}
+
+/* ══════════════════════════════════
+   COMPANIES
+══════════════════════════════════ */
+function statusClass(s) {
+  if (s==='Applied'||s==='Interview scheduled'||s==='Interviewed') return 'sb-applied';
+  if (s==='Offered') return 'sb-offered';
+  if (s==='Rejected') return 'sb-reject';
+  if (s==='Waiting') return 'sb-applied';
+  return 'sb-none';
+}
+
+function renderCompanies() {
+  const con = document.getElementById('comp-container');
+  con.innerHTML = '';
+  if (compData.length === 0) {
+    con.innerHTML = '<div class="info gold" style="margin-bottom:12px;">No companies added yet. Tap "+ Add Company" below to start tracking your applications.</div>';
+    return;
+  }
+  compData.forEach((c, i) => {
+    const card = document.createElement('div');
+    card.className = 'comp-card';
+    card.innerHTML = `
+      <div class="comp-hdr">
+        <input class="comp-name" type="text" value="${(c.n||'').replace(/"/g,'&quot;')}" placeholder="Company name e.g. Interac, Borderlink..."
+          onchange="compData[${i}].n=this.value;saveAll();updateDocStats();">
+        <span class="status-badge ${statusClass(c.s)}">${c.s||'Not applied'}</span>
+        <button class="comp-del" onclick="removeCompany(${i})">✕</button>
+      </div>
+      <div class="comp-grid">
+        <div class="comp-field">
+          <div class="comp-field-label">Date Applied</div>
+          <input type="date" value="${c.a||''}" onchange="compData[${i}].a=this.value;saveAll();" style="background:transparent;border:none;outline:none;font-size:13px;color:var(--text);width:100%;-webkit-appearance:none;">
+        </div>
+        <div class="comp-field">
+          <div class="comp-field-label">Interview Date</div>
+          <input type="date" value="${c.iv||''}" onchange="compData[${i}].iv=this.value;saveAll();" style="background:transparent;border:none;outline:none;font-size:13px;color:var(--text);width:100%;-webkit-appearance:none;">
+        </div>
+        <div class="comp-field">
+          <div class="comp-field-label">Status</div>
+          <select onchange="compData[${i}].s=this.value;saveAll();renderCompanies();" style="background:transparent;border:none;outline:none;font-size:13px;color:var(--text);width:100%;-webkit-appearance:none;">
+            ${['Not applied','Applied','Interview scheduled','Interviewed','Waiting','Offered','Rejected'].map(s=>`<option${c.s===s?' selected':''}>${s}</option>`).join('')}
+          </select>
+        </div>
+        <div class="comp-field">
+          <div class="comp-field-label">Offer Received</div>
+          <select onchange="compData[${i}].o=this.value;saveAll();" style="background:transparent;border:none;outline:none;font-size:13px;color:var(--text);width:100%;-webkit-appearance:none;">
+            ${['No','Yes','Pending'].map(s=>`<option${c.o===s?' selected':''}>${s}</option>`).join('')}
+          </select>
+        </div>
+      </div>
+      <div class="comp-notes-row">
+        <span>Notes:</span>
+        <input type="text" value="${(c.notes||'').replace(/"/g,'&quot;')}" placeholder="Any notes about this application..."
+          onchange="compData[${i}].notes=this.value;saveAll();" style="background:transparent;border:none;outline:none;font-size:13px;color:var(--muted);width:100%;">
+      </div>`;
+    con.appendChild(card);
+  });
+}
+
+function addCompany() {
+  compData.push({n:'',a:'',iv:'',s:'Not applied',o:'No',notes:''});
+  saveAll(); renderCompanies(); updateDocStats();
+}
+
+function removeCompany(i) {
+  if (confirm('Remove this company?')) {
+    compData.splice(i,1); saveAll(); renderCompanies(); updateDocStats();
+  }
+}
+
+/* ══════════════════════════════════
+   DOCUMENTS
+══════════════════════════════════ */
+function buildDocs() {
+  const con = document.getElementById('doc-container');
+  con.innerHTML = '';
+
+  const nowDocs  = DOCS.filter(d=>d.tag==='now');
+  const waitDocs = DOCS.filter(d=>d.tag==='wait');
+
+  const nlbl = document.createElement('div');
+  nlbl.className = 'doc-group-lbl green'; nlbl.textContent = '✓ Prepare Now';
+  con.appendChild(nlbl);
+
+  const ncard = document.createElement('div');
+  ncard.className = 'doc-card-wrap';
+  nowDocs.forEach(doc => { ncard.appendChild(makeDocRow(doc, 'green')); });
+  con.appendChild(ncard);
+
+  const wlbl = document.createElement('div');
+  wlbl.className = 'doc-group-lbl amber'; wlbl.textContent = '⏳ Wait for Company Request';
+  con.appendChild(wlbl);
+
+  const wcard = document.createElement('div');
+  wcard.className = 'doc-card-wrap';
+  waitDocs.forEach(doc => { wcard.appendChild(makeDocRow(doc, 'amber')); });
+  con.appendChild(wcard);
+}
+
+function makeDocRow(doc, color) {
+  const idx = DOCS.indexOf(doc);
+  const d = docData[idx] || {};
+  const row = document.createElement('div');
+  row.className = 'doc-row';
+  row.innerHTML = `
+    <div class="doc-icon ${color}">${color==='green'?'📄':'⏱'}</div>
+    <div class="doc-info">
+      <div class="doc-name">${doc.name}</div>
+      <div class="doc-note">${doc.note}</div>
+    </div>
+    <select class="doc-sel" onchange="if(!docData[${idx}])docData[${idx}]={};docData[${idx}].s=this.value;saveAll();updateDocStats();">
+      ${doc.statuses.map(s=>`<option${d.s===s?' selected':''}>${s}</option>`).join('')}
+    </select>`;
+  return row;
+}
+
+function updateDocStats() {
+  const dr = Object.values(docData).filter(d=>d&&(d.s==='Ready'||d.s==='Obtained'||d.s==='Signed')).length;
+  document.getElementById('s-docs').textContent = dr;
+  const ap = compData.filter(c=>c.a&&c.a!=='').length;
+  document.getElementById('s-comp').textContent = ap;
+}
+
+/* ══════════════════════════════════
+   BUDGET
+══════════════════════════════════ */
+function getCur() { return document.getElementById('b-cur').value; }
+function getRate() {
+  const c = getCur();
+  if (c==='USD') return 1;
+  const r = parseFloat(document.getElementById('b-rate').value)||0;
+  return r>0 ? r : (DEFAULT_RATES[c]||1);
+}
+function getSym() { return SYMS[getCur()]||getCur(); }
+function toUSD(v) { return v/getRate(); }
+function toLocal(usd) { return usd*getRate(); }
+function fmtL(usd) { return getSym()+Math.round(toLocal(usd)).toLocaleString(); }
+function fmtU(usd) { return '$'+Math.round(usd).toLocaleString(); }
+
+function onCurChange() {
+  const c = getCur();
+  const rr = document.getElementById('b-rate-row');
+  const um = document.getElementById('b-usd-msg');
+  const cl = document.getElementById('b-cur-label');
+  const sl = document.getElementById('b-sym-label');
+  if (c==='USD') { rr.style.display='none'; um.style.display='block'; }
+  else {
+    rr.style.display='block'; um.style.display='none';
+    if (cl) cl.textContent = c;
+    if (sl) sl.textContent = c;
+    const rateEl = document.getElementById('b-rate');
+    if (rateEl && !rateEl.value) rateEl.value = DEFAULT_RATES[c]||'';
+    const hint = document.getElementById('b-rate-hint');
+    if (hint) hint.textContent = `Approximate: 1 USD ≈ ${DEFAULT_RATES[c]} ${c}. Tap "Check rate" for today's live rate.`;
+  }
+  ['b-have','b-save','b-target'].forEach(id=>{ const el=document.getElementById(id); if(el) el.value=''; });
+  document.getElementById('b-result').style.display = 'none';
+}
+
+function openRate() {
+  window.open('https://www.google.com/search?q=1+USD+to+'+getCur(),'_blank');
+}
+
+function calcBudget() {
+  const haveRaw   = parseFloat(document.getElementById('b-have').value)||0;
+  const saveRaw   = parseFloat(document.getElementById('b-save').value)||0;
+  const targetRaw = parseFloat(document.getElementById('b-target').value)||0;
+  if (!targetRaw) return;
+
+  const haveUSD   = toUSD(haveRaw);
+  const saveUSD   = toUSD(saveRaw);
+  const targetUSD = toUSD(targetRaw);
+
+  const res = document.getElementById('b-result');
+  res.style.display = 'block';
+
+  const pct = Math.min(100, Math.round((haveUSD/targetUSD)*100));
+  document.getElementById('b-bar').style.width = pct+'%';
+  document.getElementById('b-bar-pct').textContent = pct+'%';
+  document.getElementById('b-target-lbl').textContent = fmtL(targetUSD)+' ✓';
+
+  const mEl = document.getElementById('b-months');
+  const msgEl = document.getElementById('b-msg');
+  const eqEl = document.getElementById('b-equiv');
+
+  if (haveUSD >= targetUSD) {
+    mEl.textContent = '🎉';
+    msgEl.textContent = 'You have reached your savings target! You are financially ready to move to Japan.';
+    if (eqEl) eqEl.textContent = '';
+  } else if (!saveUSD) {
+    mEl.textContent = '?';
+    msgEl.textContent = 'Enter how much you save per month to see your timeline.';
+    if (eqEl) eqEl.textContent = '';
+  } else {
+    const months = Math.ceil((targetUSD-haveUSD)/saveUSD);
+    mEl.textContent = months;
+    const cur = getCur();
+    if (cur==='USD') {
+      msgEl.textContent = `Save ${fmtU(saveUSD)} per month and reach your ${fmtU(targetUSD)} target in ${months} month${months===1?'':'s'}.`;
+    } else {
+      msgEl.textContent = `Save ${getSym()}${Math.round(saveRaw).toLocaleString()} per month and reach your target in ${months} month${months===1?'':'s'}.`;
+      if (eqEl) eqEl.textContent = `Your target: ${fmtL(targetUSD)} ≈ ${fmtU(targetUSD)}`;
+    }
+  }
+}
+
+function doConvert() {
+  const amt  = parseFloat(document.getElementById('cv-amount').value)||0;
+  const from = document.getElementById('cv-from').value;
+  const to   = document.getElementById('cv-to').value;
+  const res  = document.getElementById('cv-result');
+  const info = document.getElementById('cv-info');
+  if (!amt) { res.textContent='--'; return; }
+  const userRate = parseFloat(document.getElementById('b-rate')?document.getElementById('b-rate').value:0)||0;
+  const fromRate = (userRate>0 && from===getCur()) ? userRate : (DEFAULT_RATES[from]||1);
+  const toRate   = (userRate>0 && to===getCur())   ? userRate : (DEFAULT_RATES[to]||1);
+  const converted = (amt/fromRate)*toRate;
+  const sym = SYMS[to]||to;
+  res.textContent = sym+converted.toLocaleString(undefined,{maximumFractionDigits:2});
+  if (info) info.textContent = '1 '+from+' = '+(toRate/fromRate).toFixed(4)+' '+to;
+}
+
+/* ══════════════════════════════════
+   TIMELINE
+══════════════════════════════════ */
+function updateTimeline() {
+  const val = document.getElementById('tl-date').value;
+  if (!val) return;
+  startDate = val;
+  save('sd', val);
+  const diff = Math.floor((new Date()-new Date(val))/86400000);
+  if (diff<0) {
+    ['tl-d','tl-w','tl-m'].forEach(id=>{const el=document.getElementById(id);if(el)el.textContent='0';});
+    document.getElementById('tl-msg').textContent = 'Your journey begins the moment you take your first step.';
+    return;
+  }
+  document.getElementById('tl-d').textContent = diff;
+  document.getElementById('tl-w').textContent = Math.floor(diff/7);
+  document.getElementById('tl-m').textContent = Math.floor(diff/30);
+  const rem = 180-diff;
+  const msg = document.getElementById('tl-msg');
+  if (msg) {
+    msg.textContent = rem>0
+      ? `${diff} days into your journey. Keep going — Japan could be ${Math.ceil(rem/30)} month${Math.ceil(rem/30)===1?'':'s'} away.`
+      : `You have been on this journey for ${Math.floor(diff/30)} months. Japan is waiting.`;
+  }
+}
+
+/* ══════════════════════════════════
+   NOTES
+══════════════════════════════════ */
+function saveNotes() {
+  const ta = document.getElementById('notes-ta');
+  if (ta) save('notes', ta.value);
+  const pill = document.getElementById('notes-saved');
+  if (pill) { pill.classList.add('show'); setTimeout(()=>pill.classList.remove('show'),2500); }
+}
+(function() {
+  const ta = document.getElementById('notes-ta');
+  if (ta) ta.addEventListener('input', function() {
+    clearTimeout(this._t);
+    this._t = setTimeout(()=>save('notes',this.value), 800);
+  });
+})();
+
+/* ══════════════════════════════════
+   BACKUP & RESTORE
+══════════════════════════════════ */
+function downloadBackup() {
+  const data = { checked, compData, docData, stageNotes, startDate,
+    notes: load('notes',''), ts: new Date().toISOString(), v:'4.0' };
+  const blob = new Blob([JSON.stringify(data,null,2)],{type:'application/json'});
+  const url  = URL.createObjectURL(blob);
+  const a    = document.createElement('a');
+  a.href=url; a.download='op-tracker-backup-'+new Date().toISOString().split('T')[0]+'.json';
+  document.body.appendChild(a); a.click(); document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+  alert('Backup downloaded! Save it to Google Drive or WhatsApp Saved Messages.');
+}
+
+function restoreBackup(input) {
+  const file = input.files[0]; if(!file) return;
+  const reader = new FileReader();
+  reader.onload = e => {
+    try {
+      const data = JSON.parse(e.target.result);
+      if(data.checked)    { checked=data.checked; save('c',checked); }
+      if(data.compData)   { compData=data.compData; save('co',compData); }
+      if(data.docData)    { docData=data.docData; save('d',docData); }
+      if(data.stageNotes) { stageNotes=data.stageNotes; save('sn',stageNotes); }
+      if(data.startDate)  { startDate=data.startDate; save('sd',startDate); }
+      if(data.notes)      { save('notes',data.notes); }
+      alert('Restored! Reloading now.'); location.reload();
+    } catch(err) { alert('Could not restore. Please use a valid backup file.'); }
+  };
+  reader.readAsText(file);
+}
+
+function confirmReset() {
+  if (confirm('Reset ALL progress? This cannot be undone.')) {
+    ['op_c','op_co','op_d','op_sn','op_sd','op_notes'].forEach(k=>{ try{localStorage.removeItem(k);}catch(e){} });
+    location.reload();
+  }
+}
+
+/* ══════════════════════════════════
+   TOAST
+══════════════════════════════════ */
+let toastTimer;
+function showToast(emoji, title, msg) {
+  document.getElementById('t-emoji').textContent = emoji;
+  document.getElementById('t-title').textContent = title;
+  document.getElementById('t-msg').textContent   = msg;
+  const t = document.getElementById('toast');
+  t.classList.add('show');
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(closeToast, 7000);
+}
+function closeToast() {
+  document.getElementById('toast').classList.remove('show');
+}
+
+/* ══════════════════════════════════
+   DASHBOARD
+══════════════════════════════════ */
+function updateDashboard() {
+  const h = new Date().getHours();
+  const g = h<12?'Good morning':h<17?'Good afternoon':'Good evening';
+  const el = document.getElementById('greet-name');
+  if (el) el.textContent = g + ' 👋';
+
+  // Quote by day
+  const q = QUOTES[new Date().getDate() % QUOTES.length];
+  const qt = document.getElementById('quote-text');
+  const qa = document.getElementById('quote-author');
+  if (qt) qt.textContent = q.q;
+  if (qa) qa.textContent = '— '+q.a;
+
+  // Timeline
+  if (startDate) {
+    const di = document.getElementById('tl-date');
+    if (di) { di.value = startDate; updateTimeline(); }
+  }
+}
+
+/* ══════════════════════════════════
+   THEME
+══════════════════════════════════ */
+function toggleTheme() {
+  const isLight = document.body.classList.toggle('light');
+  const btn = document.getElementById('theme-btn');
+  if (btn) btn.textContent = isLight?'☀️':'🌙';
+  save('theme', isLight?'light':'dark');
+}
+function loadTheme() {
+  if (load('theme','dark')==='light') {
+    document.body.classList.add('light');
+    const btn = document.getElementById('theme-btn');
+    if (btn) btn.textContent = '☀️';
+  }
+}
+
+/* ══════════════════════════════════
+   INIT
+══════════════════════════════════ */
+function initApp() {
+  loadAll();
+  loadTheme();
+  buildChecklist();
+  buildDocs();
+  renderCompanies();
+
+  // Load notes
+  const ta = document.getElementById('notes-ta');
+  if (ta) ta.value = load('notes','');
+
+  updateProgress();
+  updateDashboard();
+
+  // Open first incomplete stage
+  const firstOpen = STAGES.findIndex((s,si)=>!s.items.every((_,ii)=>checked[si+'-'+ii]));
+  if (firstOpen>=0) {
+    const el = document.getElementById('cl-stage-'+firstOpen);
+    if (el) el.classList.add('open');
+  }
+}
+
+/* ══════════════════════════════════
+   STARTUP
+══════════════════════════════════ */
+window.addEventListener('load', ()=>{
+  loadTheme();
+  const authed = localStorage.getItem('op_auth') === '1';
+  if (authed) {
+    document.getElementById('gate').classList.add('hidden');
+    initApp();
+  } else {
+    document.getElementById('gate-pwd').focus();
+  }
+});
+
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', ()=>{
+    navigator.serviceWorker.register('sw.js').catch(()=>{});
+  });
+}
+</script>
+</body>
+</html>
